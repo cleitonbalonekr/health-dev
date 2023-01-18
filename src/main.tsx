@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './presentation/App';
+import { MakeHome } from './presentation/modules/home/home-factory';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <MakeHome />
   </React.StrictMode>
 );
