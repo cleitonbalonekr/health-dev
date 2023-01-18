@@ -21,11 +21,11 @@ describe('Pomodoro', () => {
   it('should starts a pomodoro', () => {
     const pomodoro = makePomodoro();
 
-    pomodoro.start();
+    const endsAt = pomodoro.start();
 
     expect(pomodoro.startsAt).toEqual(expect.any(Date));
     const pomodoroStartsAt = pomodoro.startsAt as Date;
-    expect(pomodoro.endsAt).toEqual(
+    expect(endsAt).toEqual(
       addMinutes(pomodoroStartsAt, pomodoro.timeToFocusInMinutes)
     );
   });

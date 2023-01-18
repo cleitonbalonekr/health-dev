@@ -1,4 +1,5 @@
 import { Replace } from '@/helpers/Replace';
+import { PomodoroExtection } from './errors/PomodoroExtection';
 
 export interface PomodoroProps {
   timeToFocusInMinutes: number;
@@ -23,15 +24,17 @@ export class Pomodoro {
   }
   public start() {
     this.props.startsAt = new Date();
-    this.bookEndsAt();
+    return this.bookEndsAt();
   }
 
   private bookEndsAt() {
-    if (this.startsAt) {
-      const endsAt = new Date(this.startsAt);
-      endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
-      this.props.endsAt = endsAt;
+    if (!this.startsAt) {
+      throw new PomodoroExtection('the starts at is not defined');
     }
+    const endsAt = new Date(this.startsAt);
+    endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
+    this.props.endsAt = endsAt;
+    return endsAt;
   }
 
   public get timeToFocusInMinutes() {
@@ -48,8 +51,5 @@ export class Pomodoro {
   }
   public get startsAt() {
     return this.props.startsAt;
-  }
-  public get endsAt() {
-    return this.props.endsAt;
   }
 }
