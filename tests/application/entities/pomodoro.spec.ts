@@ -1,5 +1,9 @@
-import { Pomodoro } from '@/application/entities/pomodoro';
 import { makePomodoro } from '../factories/pomodoro-factory';
+
+const addMinutes = (date: Date, minutes: number) => {
+  date.setMinutes(date.getMinutes() + minutes);
+  return date;
+};
 
 describe('Pomodoro', () => {
   it('should create a new pomodoro with correct values', () => {
@@ -15,12 +19,14 @@ describe('Pomodoro', () => {
   });
 
   it('should starts a pomodoro', () => {
-    const pomodoro = makePomodoro({
-      timeToFocusInMinutes: 0.1,
-    });
+    const pomodoro = makePomodoro();
 
     pomodoro.start();
 
     expect(pomodoro.startsAt).toEqual(expect.any(Date));
+    const pomodoroStartsAt = pomodoro.startsAt as Date;
+    expect(pomodoro.endsAt).toEqual(
+      addMinutes(pomodoroStartsAt, pomodoro.timeToFocusInMinutes)
+    );
   });
 });

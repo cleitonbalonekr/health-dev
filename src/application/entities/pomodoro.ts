@@ -6,6 +6,7 @@ export interface PomodoroProps {
   isBreakTime: boolean;
   finished: boolean;
   startsAt?: Date;
+  endsAt?: Date;
 }
 
 export class Pomodoro {
@@ -22,6 +23,15 @@ export class Pomodoro {
   }
   public start() {
     this.props.startsAt = new Date();
+    this.bookEndsAt();
+  }
+
+  private bookEndsAt() {
+    if (this.startsAt) {
+      const endsAt = new Date(this.startsAt);
+      endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
+      this.props.endsAt = endsAt;
+    }
   }
 
   public get timeToFocusInMinutes() {
@@ -38,5 +48,8 @@ export class Pomodoro {
   }
   public get startsAt() {
     return this.props.startsAt;
+  }
+  public get endsAt() {
+    return this.props.endsAt;
   }
 }
