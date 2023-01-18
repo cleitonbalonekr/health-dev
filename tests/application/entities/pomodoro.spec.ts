@@ -22,6 +22,5 @@ describe('Pomodoro', () => {
     pomodoro.start();
 
     expect(pomodoro.startsAt).toEqual(expect.any(Date));
-    // console.log(pomodoro.timeToFocusInMinutes);
   });
 });
