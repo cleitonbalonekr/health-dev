@@ -1,5 +1,5 @@
 import { Replace } from '@/helpers/Replace';
-import { PomodoroExtection } from './errors/PomodoroExtection';
+import { PomodoroException } from './errors/pomodoro-exception';
 
 export interface PomodoroProps {
   timeToFocusInMinutes: number;
@@ -29,7 +29,7 @@ export class Pomodoro {
 
   private bookEndsAt() {
     if (!this.startsAt) {
-      throw new PomodoroExtection('the starts at is not defined');
+      throw new PomodoroException('the starts at is not defined');
     }
     const endsAt = new Date(this.startsAt);
     endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
