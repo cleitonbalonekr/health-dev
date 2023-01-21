@@ -13,6 +13,10 @@ export class LocalStoragePomodoroMapper {
   }
   static toPomodoro(raw: any) {
     const jsonRaw = JSON.parse(raw);
-    return new Pomodoro(jsonRaw);
+    return new Pomodoro({
+      ...jsonRaw,
+      startsAt: jsonRaw ? new Date(jsonRaw.startsAt) : undefined,
+      endsAt: jsonRaw ? new Date(jsonRaw.endsAt) : undefined,
+    });
   }
 }
