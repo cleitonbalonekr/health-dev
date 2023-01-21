@@ -1,4 +1,4 @@
-import { makePomodoro } from '../factories/pomodoro-factory';
+import { makePomodoro } from '../application/factories/pomodoro-factory';
 
 const addMinutes = (date: Date, minutes: number) => {
   date.setMinutes(date.getMinutes() + minutes);
