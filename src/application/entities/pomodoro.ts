@@ -52,4 +52,7 @@ export class Pomodoro {
   public get startsAt() {
     return this.props.startsAt;
   }
+  public get endsAt() {
+    return this.props.endsAt;
+  }
 }
