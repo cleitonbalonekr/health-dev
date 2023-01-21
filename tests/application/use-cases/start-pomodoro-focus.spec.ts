@@ -35,7 +35,7 @@ describe('StartPomodoroFocus', () => {
     expect(pomodoroRepository.save).toBeCalledTimes(1);
     expect(pomodoroRepository.save).toBeCalledWith(pomodoro);
   });
-  it.only('should trhows an PomodoroException if already exists a pomodoro in execution', async () => {
+  it('should trhows an PomodoroException if already exists a pomodoro in execution', async () => {
     pomodoroRepository.findOpenPomodoro.mockResolvedValueOnce(
       new Pomodoro(params)
     );
