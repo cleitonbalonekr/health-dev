@@ -1,6 +1,7 @@
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
-
+import { crx } from '@crxjs/vite-plugin';
+import manifest from './public/manifest.json';
 export default defineConfig({
   test: {
     globals: true,
@@ -10,5 +11,5 @@ export default defineConfig({
     environment: 'jsdom',
     exclude: ['**/node_modules/**', '**/dist/**', '**/*.test.ts', 'src'],
   },
-  plugins: [tsconfigPaths()],
+  plugins: [tsconfigPaths(), crx({ manifest })],
 });

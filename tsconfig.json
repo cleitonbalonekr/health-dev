@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals","chrome"],
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
@@ -22,6 +22,6 @@
       "@/tests/*": ["../tests/*"]
     },
   },
-  "include": ["src","tests"],
+  "include": ["src","tests","public"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
