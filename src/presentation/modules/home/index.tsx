@@ -9,13 +9,24 @@ const Home: React.FC<Props> = ({ startPomodoroFocus }: Props) => {
   const [pomodotoSeconds, setPomodoroSeconds] = useState(0);
   const intervalRef = useRef<number | NodeJS.Timer>(0);
 
-  const handlerStartPomodoro = () => {
-    clearInterval(intervalRef.current);
-    const { endsAt } = startPomodoroFocus({
-      breakTimeInMinutes: 5,
-      timeToFocusInMinutes: 25,
-    });
-    updatePomodoroSeconds(endsAt);
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const handlerStartPomodoro = async () => {
+    try {
+      clearInterval(intervalRef.current);
+      const { endsAt } = await startPomodoroFocus({
+        breakTimeInMinutes: 5,
+        timeToFocusInMinutes: 25,
+      });
+      chrome.runtime.sendMessage({ time: '1' }, function (response) {
+        console.log(response);
+      });
+      updatePomodoroSeconds(endsAt);
+    } catch (error: any) {
+      alert('Falha ao iniciar pomodoro' + error.message);
+    }
   };
 
   const updatePomodoroSeconds = (endsAt: Date) => {
@@ -47,7 +58,7 @@ const Home: React.FC<Props> = ({ startPomodoroFocus }: Props) => {
       <h1>
         {getFormattedMinutes()}:{getFormattedSeconds()}
       </h1>
-      <button onClick={handlerStartPomodoro}>Start Pomodoro</button>
+      <button onClick={handlerStartPomodoro}>Start Pomodoro </button>
     </main>
   );
 };
