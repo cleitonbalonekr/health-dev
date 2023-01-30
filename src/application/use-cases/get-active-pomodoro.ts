@@ -1,10 +1,10 @@
 import { Pomodoro } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { PomodoroException } from '../entities/errors/pomodoro-exception';
-
+import { Replace } from '@/helpers/Replace';
 type Input = void;
 
-type Output = null | Pomodoro;
+type Output = Replace<Pomodoro, { endsAt: Date; startsAt: Date }>;
 
 export type GetActivePomodoro = (input: Input) => Promise<Output>;
 
@@ -23,5 +23,5 @@ export const setupGetActivePomodoro: Setup =
     if (pomodoro.endsAt <= actualDate) {
       throw new PomodoroException('Pomodoro is already finished');
     }
-    return pomodoro;
+    return pomodoro as Output;
   };
