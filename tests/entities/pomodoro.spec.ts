@@ -1,9 +1,5 @@
 import { makePomodoro } from '../application/factories/pomodoro-factory';
-
-const addMinutes = (date: Date, minutes: number) => {
-  date.setMinutes(date.getMinutes() + minutes);
-  return date;
-};
+import { addMinutes } from '../helpers';
 
 describe('Pomodoro', () => {
   it('should create a new pomodoro with correct values', () => {
