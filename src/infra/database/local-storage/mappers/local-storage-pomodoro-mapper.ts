@@ -15,8 +15,8 @@ export class LocalStoragePomodoroMapper {
     const jsonRaw = JSON.parse(raw);
     return new Pomodoro({
       ...jsonRaw,
-      startsAt: jsonRaw ? new Date(jsonRaw.startsAt) : undefined,
-      endsAt: jsonRaw ? new Date(jsonRaw.endsAt) : undefined,
+      startsAt: jsonRaw.startsAt && new Date(jsonRaw.endsAt),
+      endsAt: jsonRaw.endsAt && new Date(jsonRaw.endsAt),
     });
   }
 }

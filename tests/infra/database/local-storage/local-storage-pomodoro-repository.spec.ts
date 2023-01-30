@@ -30,9 +30,7 @@ describe('LocalStoragePomodoroRepository', () => {
       const pomodoro = makePomodoro();
       const value = LocalStoragePomodoroMapper.toLocalStorage(pomodoro);
       localStorage.setItem(KEY, value);
-      console.log(localStorage.__STORE__[KEY]);
       const openPomodoro = await sut.findOpenPomodoro();
-
       expect(localStorage.getItem).toBeCalledTimes(1);
       expect(localStorage.getItem).toHaveBeenLastCalledWith(KEY);
       expect(openPomodoro).toEqual(pomodoro);
