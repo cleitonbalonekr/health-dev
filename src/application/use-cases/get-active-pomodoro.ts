@@ -1,0 +1,27 @@
+import { Pomodoro } from '@/application/entities/pomodoro';
+import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
+import { PomodoroException } from '../entities/errors/pomodoro-exception';
+
+type Input = void;
+
+type Output = null | Pomodoro;
+
+export type GetActivePomodoro = (input: Input) => Promise<Output>;
+
+type Setup = (pomodoroRepository: PomodoroRepository) => GetActivePomodoro;
+
+export const setupGetActivePomodoro: Setup =
+  (pomodoroRepository) => async () => {
+    const actualDate = new Date();
+    const pomodoro = await pomodoroRepository.findOpenPomodoro();
+    if (!pomodoro) {
+      throw new PomodoroException('Pomodoro does not exists');
+    }
+    if (!pomodoro.endsAt) {
+      throw new PomodoroException('Pomodoro was not started');
+    }
+    if (pomodoro.endsAt <= actualDate) {
+      throw new PomodoroException('Pomodoro is already finished');
+    }
+    return pomodoro;
+  };
