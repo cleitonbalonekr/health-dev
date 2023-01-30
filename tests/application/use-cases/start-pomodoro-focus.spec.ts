@@ -4,7 +4,7 @@ import { PomodoroRepository } from '@/application/repositories/pomodoro-reposito
 import {
   setupStartPomodoroFocus,
   StartPomodoroFocus,
-} from '@/application/use-cases/start-pomodoro-focus';
+} from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
 import { makePomodoro } from '../factories/pomodoro-factory';
 vitest.useFakeTimers().setSystemTime(new Date());

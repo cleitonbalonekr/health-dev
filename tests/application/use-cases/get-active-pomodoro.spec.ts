@@ -4,7 +4,7 @@ import { PomodoroRepository } from '@/application/repositories/pomodoro-reposito
 import {
   setupGetActivePomodoro,
   GetActivePomodoro,
-} from '@/application/use-cases/get-active-pomodoro';
+} from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
 import { subMinutes } from '../../helpers';
 import { makePomodoro } from '../factories/pomodoro-factory';
