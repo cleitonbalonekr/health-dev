@@ -2,22 +2,10 @@ import { makePomodoro } from '@/tests/application/factories/pomodoro-factory';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { ChromeStoragePomodoroRepository } from '@/infra/database/chrome-storage/repositories/chrome-storage-pomodoro-repository';
 import { ChromeStoragePomodoroMapper } from '@/infra/database/chrome-storage/mappers/chrome-storage-pomodoro-mapper';
-const fakeStorage: any = {};
-const chromeMock = {
-  storage: {
-    session: {
-      get: vi.fn().mockImplementation((key) => fakeStorage),
-      set: vi.fn().mockImplementation((input) => {
-        console.log('input', input);
-        Object.entries(input).map((value, key) => {
-          fakeStorage[key] = value;
-        });
-      }),
-    },
-  },
-};
+import { chromeStub } from '../stubs/chrome-storage';
 
-vi.stubGlobal('chrome', chromeMock);
+vi.stubGlobal('chrome', chromeStub);
+
 describe('ChromeStoragePomodoroRepository', () => {
   let sut: PomodoroRepository;
   const KEY = '@HelthDev:Pomodoro';
