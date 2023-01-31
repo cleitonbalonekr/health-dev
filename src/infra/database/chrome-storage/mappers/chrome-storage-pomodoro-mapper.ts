@@ -1,7 +1,7 @@
 import { Pomodoro } from '@/application/entities/pomodoro';
 
-export class LocalStoragePomodoroMapper {
-  static toLocalStorage(pomodoro: Pomodoro) {
+export class ChromeStoragePomodoroMapper {
+  static toChromeStorage(pomodoro: Pomodoro) {
     return JSON.stringify({
       timeToFocusInMinutes: pomodoro.timeToFocusInMinutes,
       breakTimeInMinutes: pomodoro.breakTimeInMinutes,
