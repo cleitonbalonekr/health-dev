@@ -1,11 +1,11 @@
 import { setupStartPomodoroFocus,setupGetActivePomodoro } from '@/application/use-cases';
-import { LocalStoragePomodoroRepository } from '@/infra/database/local-storage/repositories/local-storage-pomodoro-repository';
+import { ChromeStoragePomodoroRepository } from '@/infra/database/chrome-storage/repositories/chrome-storage-pomodoro-repository';
 import Home from './index';
 
-const localStoragePomodoroRepository = new LocalStoragePomodoroRepository();
+const chromeStoragePomodoroRepository = new ChromeStoragePomodoroRepository();
 
-const startPomodoroFocus = setupStartPomodoroFocus(localStoragePomodoroRepository)
-const getActivePomodoro = setupGetActivePomodoro(localStoragePomodoroRepository)
+const startPomodoroFocus = setupStartPomodoroFocus(chromeStoragePomodoroRepository)
+const getActivePomodoro = setupGetActivePomodoro(chromeStoragePomodoroRepository)
 
 export const MakeHome: React.FC = () => {
   return (
