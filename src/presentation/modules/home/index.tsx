@@ -1,17 +1,27 @@
-import { StartPomodoroFocus } from '@/application/use-cases/start-pomodoro-focus';
+import { StartPomodoroFocus,GetActivePomodoro } from '@/application/use-cases';
 import React, { useEffect, useRef, useState } from 'react';
 
 export type Props = {
   startPomodoroFocus: StartPomodoroFocus;
+  getActivePomodoro: GetActivePomodoro;
 };
 const ONE_SECOND = 1000;
-const Home: React.FC<Props> = ({ startPomodoroFocus }: Props) => {
+const Home: React.FC<Props> = ({ startPomodoroFocus,getActivePomodoro }: Props) => {
   const [pomodotoSeconds, setPomodoroSeconds] = useState(0);
   const intervalRef = useRef<number | NodeJS.Timer>(0);
 
   useEffect(() => {
-    localStorage.clear();
+    verifyActivePomodoro()
   }, []);
+
+  const verifyActivePomodoro = async ()=>{
+    try {
+      const pomodoro = await getActivePomodoro();
+      if(pomodoro?.endsAt) updatePomodoroSeconds(pomodoro.endsAt)
+    } catch (error:any) {
+      alert('Error verify pomodoro' +error.message)
+    }
+  }
 
   const handlerStartPomodoro = async () => {
     try {
