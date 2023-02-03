@@ -27,8 +27,14 @@ export class Pomodoro {
     return this.bookEndsAt();
   }
 
-  public wasStarted() {
-    return !!this.startsAt && !!this.endsAt;
+  private bookEndsAt() {
+    if (!this.startsAt) {
+      throw new PomodoroException('the starts at is not defined');
+    }
+    const endsAt = new Date(this.startsAt);
+    endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
+    this.props.endsAt = endsAt;
+    return endsAt;
   }
 
   public isExpired() {
@@ -38,14 +44,8 @@ export class Pomodoro {
     return (this.endsAt as Date) <= new Date() ? true : false;
   }
 
-  private bookEndsAt() {
-    if (!this.startsAt) {
-      throw new PomodoroException('the starts at is not defined');
-    }
-    const endsAt = new Date(this.startsAt);
-    endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
-    this.props.endsAt = endsAt;
-    return endsAt;
+  public wasStarted() {
+    return !!this.startsAt && !!this.endsAt;
   }
 
   public get timeToFocusInMinutes() {
