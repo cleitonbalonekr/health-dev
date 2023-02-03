@@ -1,6 +1,5 @@
 chrome.alarms.onAlarm.addListener(() => {
   chrome.notifications.create(
-    // "drink_water",
     {
       type: 'basic',
       iconUrl: 'alarm.jpg',
@@ -13,16 +12,17 @@ chrome.alarms.onAlarm.addListener(() => {
 });
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log(request);
-  if (request.time) createAlarm();
+  if (request.delayInMinutes) createAlarm(request);
 
   // sendResponse(() => {
   //   return false;
   // });
 });
 
-function createAlarm() {
+function createAlarm({ delayInMinutes }: { delayInMinutes: number }) {
+  console.log('delayInMinutes', delayInMinutes);
   chrome.alarms.create('drink_water', {
-    delayInMinutes: 1,
-    periodInMinutes: 1,
+    delayInMinutes,
+    // periodInMinutes: 1,
   });
 }

@@ -47,9 +47,9 @@ const Home: React.FC<Props> = ({
       clearInterval(intervalRef.current);
       const { endsAt } = await startPomodoroFocus({
         breakTimeInMinutes: 5,
-        timeToFocusInMinutes: 25,
+        timeToFocusInMinutes: 1,
       });
-      chrome.runtime.sendMessage({ time: '1' }, function (response) {
+      chrome.runtime.sendMessage({ delayInMinutes: 1 }, function (response) {
         console.log(response);
       });
       setHasActivePomodoro(true);
@@ -74,7 +74,11 @@ const Home: React.FC<Props> = ({
         Math.abs(milliseconds) / ONE_SECOND
       );
       setPomodoroSeconds(diferenceInSeconds);
+      if (diferenceInSeconds === 0) {
+        handlerStopPomodoro();
+      }
     }, ONE_SECOND);
+    // clearInterval(intervalRef.current);
   };
 
   const getFormattedMinutes = () => {
