@@ -17,10 +17,10 @@ export const setupGetActivePomodoro: Setup =
     if (!pomodoro) {
       throw new PomodoroException('Pomodoro does not exists');
     }
-    if (!pomodoro.endsAt) {
+    if (!pomodoro.wasStarted()) {
       throw new PomodoroException('Pomodoro was not started');
     }
-    if (pomodoro.endsAt <= actualDate) {
+    if (pomodoro.isExpired()) {
       throw new PomodoroException('Pomodoro is already finished');
     }
     return pomodoro as Output;
