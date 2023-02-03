@@ -1,4 +1,4 @@
-import { StartPomodoroFocus,GetActivePomodoro } from '@/application/use-cases';
+import { StartPomodoroFocus, GetActivePomodoro } from '@/application/use-cases';
 import React, { useEffect, useRef, useState } from 'react';
 
 export type Props = {
@@ -6,22 +6,25 @@ export type Props = {
   getActivePomodoro: GetActivePomodoro;
 };
 const ONE_SECOND = 1000;
-const Home: React.FC<Props> = ({ startPomodoroFocus,getActivePomodoro }: Props) => {
+const Home: React.FC<Props> = ({
+  startPomodoroFocus,
+  getActivePomodoro,
+}: Props) => {
   const [pomodotoSeconds, setPomodoroSeconds] = useState(0);
   const intervalRef = useRef<number | NodeJS.Timer>(0);
 
   useEffect(() => {
-    verifyActivePomodoro()
+    verifyActivePomodoro();
   }, []);
 
-  const verifyActivePomodoro = async ()=>{
+  const verifyActivePomodoro = async () => {
     try {
       const pomodoro = await getActivePomodoro();
-      if(pomodoro?.endsAt) updatePomodoroSeconds(pomodoro.endsAt)
-    } catch (error:any) {
-      alert('Error verify pomodoro' +error.message)
+      if (pomodoro?.endsAt) updatePomodoroSeconds(pomodoro.endsAt);
+    } catch (error: any) {
+      // alert('Error verify pomodoro' + error.message);
     }
-  }
+  };
 
   const handlerStartPomodoro = async () => {
     try {
@@ -38,6 +41,8 @@ const Home: React.FC<Props> = ({ startPomodoroFocus,getActivePomodoro }: Props) 
       alert('Falha ao iniciar pomodoro' + error.message);
     }
   };
+
+  const handlerStopPomodoro = async () => {};
 
   const updatePomodoroSeconds = (endsAt: Date) => {
     intervalRef.current = setInterval(() => {
@@ -69,6 +74,7 @@ const Home: React.FC<Props> = ({ startPomodoroFocus,getActivePomodoro }: Props) 
         {getFormattedMinutes()}:{getFormattedSeconds()}
       </h1>
       <button onClick={handlerStartPomodoro}>Start Pomodoro </button>
+      <button onClick={handlerStopPomodoro}>Stop Pomodoro </button>
     </main>
   );
 };
