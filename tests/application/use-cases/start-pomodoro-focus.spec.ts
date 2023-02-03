@@ -21,7 +21,7 @@ describe('StartPomodoroFocus', () => {
   });
   beforeEach(() => {
     pomodoroRepository.save.mockResolvedValue();
-    pomodoroRepository.findOpenPomodoro.mockResolvedValue(null);
+    pomodoroRepository.findPomodoro.mockResolvedValue(null);
     sut = setupStartPomodoroFocus(pomodoroRepository);
   });
   it('Should start a pomodoro and return the endsAt', async () => {
@@ -36,11 +36,9 @@ describe('StartPomodoroFocus', () => {
     expect(pomodoroRepository.save).toBeCalledWith(pomodoro);
   });
   it('should trhows an PomodoroException if already exists a pomodoro in execution', async () => {
-    pomodoroRepository.findOpenPomodoro.mockResolvedValueOnce(
-      new Pomodoro(params)
-    );
+    pomodoroRepository.findPomodoro.mockResolvedValueOnce(new Pomodoro(params));
     const promise = sut(params);
-    expect(pomodoroRepository.findOpenPomodoro).toBeCalledTimes(1);
+    expect(pomodoroRepository.findPomodoro).toBeCalledTimes(1);
     await expect(promise).rejects.toThrow(
       new PomodoroException('Already exists a pomodoro in execution')
     );

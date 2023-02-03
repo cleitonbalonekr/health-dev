@@ -17,7 +17,7 @@ describe('GetActivePomodoro', () => {
   });
   beforeEach(() => {
     pomodoroRepository.save.mockResolvedValue();
-    pomodoroRepository.findOpenPomodoro.mockResolvedValue(null);
+    pomodoroRepository.findPomodoro.mockResolvedValue(null);
     sut = setupGetActivePomodoro(pomodoroRepository);
   });
   it('Should return null if a open pomodoro does not exist', async () => {
@@ -27,7 +27,7 @@ describe('GetActivePomodoro', () => {
     );
   });
   it('Should return null if endsAt not set', async () => {
-    pomodoroRepository.findOpenPomodoro.mockResolvedValueOnce(makePomodoro());
+    pomodoroRepository.findPomodoro.mockResolvedValueOnce(makePomodoro());
     const promise = sut(params);
     await expect(promise).rejects.toThrow(
       new PomodoroException('Pomodoro was not started')
@@ -38,7 +38,7 @@ describe('GetActivePomodoro', () => {
     vitest.useFakeTimers().setSystemTime(subMinutes(new Date(), 25));
     pomodoro.start();
     vitest.clearAllTimers();
-    pomodoroRepository.findOpenPomodoro.mockResolvedValueOnce(pomodoro);
+    pomodoroRepository.findPomodoro.mockResolvedValueOnce(pomodoro);
 
     const promise = sut(params);
 
@@ -49,7 +49,7 @@ describe('GetActivePomodoro', () => {
   it('Should return a pomodoro if ends at is not finished', async () => {
     const pomodoro = makePomodoro();
     pomodoro.start();
-    pomodoroRepository.findOpenPomodoro.mockResolvedValueOnce(pomodoro);
+    pomodoroRepository.findPomodoro.mockResolvedValueOnce(pomodoro);
     const response = await sut(params);
     expect(response).toBeInstanceOf(Pomodoro);
   });

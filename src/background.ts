@@ -23,6 +23,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 function createAlarm() {
   chrome.alarms.create('drink_water', {
     delayInMinutes: 1,
-    // periodInMinutes: 1,
+    periodInMinutes: 1,
   });
 }

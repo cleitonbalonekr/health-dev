@@ -13,7 +13,7 @@ type Setup = (pomodoroRepository: PomodoroRepository) => GetActivePomodoro;
 export const setupGetActivePomodoro: Setup =
   (pomodoroRepository) => async () => {
     const actualDate = new Date();
-    const pomodoro = await pomodoroRepository.findOpenPomodoro();
+    const pomodoro = await pomodoroRepository.findPomodoro();
     if (!pomodoro) {
       throw new PomodoroException('Pomodoro does not exists');
     }

@@ -8,10 +8,9 @@ export class ChromeStoragePomodoroRepository implements PomodoroRepository {
     const raw = ChromeStoragePomodoroMapper.toChromeStorage(pomodoro);
     await chrome.storage.session.set({ [this.key]: raw });
   }
-  async findOpenPomodoro(): Promise<Pomodoro | null> {
+  async findPomodoro(): Promise<Pomodoro | null> {
     const raw = await chrome.storage.session.get(this.key);
     if (!raw[this.key]) return null;
-
     return ChromeStoragePomodoroMapper.toPomodoro(raw[this.key]);
   }
 }

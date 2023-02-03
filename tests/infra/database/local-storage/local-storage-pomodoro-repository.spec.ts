@@ -30,18 +30,19 @@ describe('ChromeStoragePomodoroRepository', () => {
   describe('findOpenPomodoro', () => {
     it('should find a open pomodoro and return it', async () => {
       const pomodoro = makePomodoro();
+
       const value = ChromeStoragePomodoroMapper.toChromeStorage(pomodoro);
       vi.mocked(chrome.storage.session.get).mockImplementationOnce(() => ({
         [KEY]: value,
       }));
 
-      const openPomodoro = await sut.findOpenPomodoro();
+      const openPomodoro = await sut.findPomodoro();
       expect(chrome.storage.session.get).toBeCalledTimes(1);
       expect(chrome.storage.session.get).toHaveBeenLastCalledWith(KEY);
       expect(openPomodoro).toEqual(pomodoro);
     });
     it('should return null when does not exist a open pomodoro', async () => {
-      const openPomodoro = await sut.findOpenPomodoro();
+      const openPomodoro = await sut.findPomodoro();
 
       expect(openPomodoro).toBeNull();
     });
