@@ -19,7 +19,8 @@ export const setupGetPomodoro: Setup = (pomodoroRepository) => async () => {
     throw new PomodoroException('Pomodoro was not started');
   }
   if (pomodoro.isExpired()) {
-    throw new PomodoroException('Pomodoro is already finished');
+    pomodoro.endFocus();
+    return pomodoro as Output;
   }
   return pomodoro as Output;
 };

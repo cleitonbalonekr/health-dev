@@ -30,18 +30,17 @@ describe('GetPomodoro', () => {
       new PomodoroException('Pomodoro was not started')
     );
   });
-  it('Should return PomodoroException if endsAt is finished', async () => {
+  it('Should return a finished Pomodoro if endsAt is finished', async () => {
     const pomodoro = makePomodoro();
     vitest.useFakeTimers().setSystemTime(subMinutes(new Date(), 25));
     pomodoro.start();
     vitest.clearAllTimers();
     pomodoroRepository.findPomodoro.mockResolvedValueOnce(pomodoro);
 
-    const promise = sut(params);
+    const foundedPomodoro = await sut(params);
 
-    await expect(promise).rejects.toThrow(
-      new PomodoroException('Pomodoro is already finished')
-    );
+    expect(foundedPomodoro).toBeInstanceOf(Pomodoro);
+    expect(foundedPomodoro.isBreakTime).toBeTruthy();
   });
   it('Should return a pomodoro if ends at is not finished', async () => {
     const pomodoro = makePomodoro();
