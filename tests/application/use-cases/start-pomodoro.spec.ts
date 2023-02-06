@@ -3,9 +3,12 @@ import { Pomodoro } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { setupStartPomodoro, StartPomodoro } from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
+import { subMinutes } from '../../helpers';
 import { makePomodoro } from '../factories/pomodoro-factory';
 vitest.useFakeTimers().setSystemTime(new Date());
 describe('StartPomodoro', () => {
+  const actualDate = new Date();
+
   let sut: StartPomodoro;
   let pomodoroRepository: MockProxy<PomodoroRepository>;
   let params: any;
@@ -25,6 +28,16 @@ describe('StartPomodoro', () => {
     const { endsAt } = await sut(params);
     expect(endsAt).toEqual(expect.any(Date));
   });
+  it('Should start a pomodoro in breakTime if isBreakTime ios true and return the endsAt', async () => {
+    const pomodoro = makePomodoro({
+      startsAt: subMinutes(actualDate, 26),
+      endsAt: subMinutes(actualDate, 1),
+    });
+    pomodoro.endFocus();
+    const { endsAt } = await sut(params);
+    expect(pomodoro.isBreakTime).toBeTruthy();
+    expect(endsAt).toEqual(expect.any(Date));
+  });
   it('should call PomodoroRepository.save with correct values', async () => {
     await sut(params);
     const pomodoro = makePomodoro(params);
@@ -32,14 +45,17 @@ describe('StartPomodoro', () => {
     expect(pomodoroRepository.save).toBeCalledTimes(1);
     expect(pomodoroRepository.save).toBeCalledWith(pomodoro);
   });
-  it('should trhows an PomodoroException if already exists a pomodoro in execution', async () => {
-    const pomodoro = makePomodoro(params);
-    pomodoro.start();
+  it('should starts a pomodoro break time when has a finish pomodoro', async () => {
+    const pomodoro = makePomodoro({
+      startsAt: subMinutes(actualDate, 26),
+      endsAt: subMinutes(actualDate, 1),
+    });
     pomodoroRepository.findPomodoro.mockResolvedValueOnce(pomodoro);
-    const promise = sut(params);
+
+    const response = await sut(params);
+
     expect(pomodoroRepository.findPomodoro).toBeCalledTimes(1);
-    await expect(promise).rejects.toThrow(
-      new PomodoroException('Already exists a pomodoro in execution')
-    );
+    expect(pomodoro.isBreakTime).toBeTruthy();
+    expect(response.endsAt).toEqual(expect.any(Date));
   });
 });

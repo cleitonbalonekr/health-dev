@@ -19,18 +19,23 @@ export const setupStartPomodoro: Setup =
   (pomodoroRepository) =>
   async ({ timeToFocusInMinutes, breakTimeInMinutes }: Input) => {
     const storedPomodoro = await pomodoroRepository.findPomodoro();
-    const hasPomodoroInExecution =
-      storedPomodoro &&
-      storedPomodoro.wasStarted() &&
-      !storedPomodoro.isExpired();
-    if (hasPomodoroInExecution) {
+
+    if (!storedPomodoro || !storedPomodoro.wasStarted()) {
+      const pomodoro = new Pomodoro({
+        timeToFocusInMinutes,
+        breakTimeInMinutes,
+      });
+      const endsAt = pomodoro.start();
+      await pomodoroRepository.save(pomodoro);
+      return { endsAt };
+    }
+
+    if (!storedPomodoro.isExpired()) {
       throw new PomodoroException('Already exists a pomodoro in execution');
     }
-    const pomodoro = new Pomodoro({
-      timeToFocusInMinutes,
-      breakTimeInMinutes,
-    });
-    const endsAt = pomodoro.start();
-    await pomodoroRepository.save(pomodoro);
+
+    storedPomodoro.endFocus();
+    const endsAt = storedPomodoro.start();
+    await pomodoroRepository.save(storedPomodoro);
     return { endsAt };
   };
