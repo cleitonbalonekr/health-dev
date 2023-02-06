@@ -1,15 +1,12 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 import { Pomodoro } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
-import {
-  setupStartPomodoroFocus,
-  StartPomodoroFocus,
-} from '@/application/use-cases';
+import { setupStartPomodoro, StartPomodoro } from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
 import { makePomodoro } from '../factories/pomodoro-factory';
 vitest.useFakeTimers().setSystemTime(new Date());
-describe('StartPomodoroFocus', () => {
-  let sut: StartPomodoroFocus;
+describe('StartPomodoro', () => {
+  let sut: StartPomodoro;
   let pomodoroRepository: MockProxy<PomodoroRepository>;
   let params: any;
   beforeAll(() => {
@@ -22,7 +19,7 @@ describe('StartPomodoroFocus', () => {
   beforeEach(() => {
     pomodoroRepository.save.mockResolvedValue();
     pomodoroRepository.findPomodoro.mockResolvedValue(null);
-    sut = setupStartPomodoroFocus(pomodoroRepository);
+    sut = setupStartPomodoro(pomodoroRepository);
   });
   it('Should start a pomodoro and return the endsAt', async () => {
     const { endsAt } = await sut(params);

@@ -1,20 +1,21 @@
+import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 import {
-  StartPomodoroFocus,
-  GetActivePomodoro,
+  StartPomodoro,
+  GetPomodoro,
   StopPomodoro,
 } from '@/application/use-cases';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import React, { useEffect, useRef, useState } from 'react';
 
 export type Props = {
-  startPomodoroFocus: StartPomodoroFocus;
-  getActivePomodoro: GetActivePomodoro;
+  StartPomodoro: StartPomodoro;
+  GetPomodoro: GetPomodoro;
   stopPomodoro: StopPomodoro;
 };
 const ONE_SECOND = 1000;
 const Home: React.FC<Props> = ({
-  startPomodoroFocus,
-  getActivePomodoro,
+  StartPomodoro,
+  GetPomodoro,
   stopPomodoro,
 }: Props) => {
   const [pomodotoSeconds, setPomodoroSeconds] = useState(0);
@@ -29,12 +30,13 @@ const Home: React.FC<Props> = ({
   const verifyActivePomodoro = async () => {
     try {
       setloading(true);
-      const pomodoro = await getActivePomodoro();
-      if (pomodoro?.endsAt) updatePomodoroSeconds(pomodoro.endsAt);
+      const pomodoro = await GetPomodoro();
+      if (pomodoro.isBreakTime) {
+        updatePomodoroSeconds(pomodoro.endsAt);
+      }
       setHasActivePomodoro(true);
     } catch (error: any) {
       setHasActivePomodoro(false);
-      // alert('Error verify pomodoro' + error.message);
     } finally {
       setTimeout(() => {
         setloading(false);
@@ -45,7 +47,7 @@ const Home: React.FC<Props> = ({
   const handlerStartPomodoro = async () => {
     try {
       clearInterval(intervalRef.current);
-      const { endsAt } = await startPomodoroFocus({
+      const { endsAt } = await StartPomodoro({
         breakTimeInMinutes: 5,
         timeToFocusInMinutes: 1,
       });
@@ -78,7 +80,6 @@ const Home: React.FC<Props> = ({
         handlerStopPomodoro();
       }
     }, ONE_SECOND);
-    // clearInterval(intervalRef.current);
   };
 
   const getFormattedMinutes = () => {

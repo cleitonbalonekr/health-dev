@@ -11,11 +11,11 @@ type Output = {
   endsAt: Date;
 };
 
-export type StartPomodoroFocus = (input: Input) => Promise<Output>;
+export type StartPomodoro = (input: Input) => Promise<Output>;
 
-type Setup = (pomodoroRepository: PomodoroRepository) => StartPomodoroFocus;
+type Setup = (pomodoroRepository: PomodoroRepository) => StartPomodoro;
 
-export const setupStartPomodoroFocus: Setup =
+export const setupStartPomodoro: Setup =
   (pomodoroRepository) =>
   async ({ timeToFocusInMinutes, breakTimeInMinutes }: Input) => {
     const storedPomodoro = await pomodoroRepository.findPomodoro();
