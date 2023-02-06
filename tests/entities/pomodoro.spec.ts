@@ -16,6 +16,20 @@ describe('Pomodoro', () => {
     expect(pomodoro.startsAt).toBeUndefined();
   });
 
+  it('should starts a pomodoro in break time mode', () => {
+    const pomodoro = makePomodoro({
+      startsAt: subMinutes(actualDate, 26),
+      endsAt: subMinutes(actualDate, 1),
+    });
+
+    pomodoro.endFocus();
+    const endsAt = pomodoro.start();
+    expect(pomodoro.startsAt).toEqual(expect.any(Date));
+    const pomodoroStartsAt = pomodoro.startsAt as Date;
+    expect(endsAt).toEqual(
+      addMinutes(pomodoroStartsAt, pomodoro.breakTimeInMinutes)
+    );
+  });
   it('should starts a pomodoro', () => {
     const pomodoro = makePomodoro();
 

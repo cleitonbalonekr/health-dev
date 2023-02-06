@@ -24,21 +24,25 @@ export class Pomodoro {
     this.props.startsAt = new Date();
     return this.bookEndsAt();
   }
-  public endFocus() {
-    if (!this.isExpired()) {
-      throw new PomodoroException('Pomodoro focus is not finished');
-    }
-    this.props.isBreakTime = true;
-  }
 
   private bookEndsAt() {
     if (!this.startsAt) {
       throw new PomodoroException('the starts at is not defined');
     }
     const endsAt = new Date(this.startsAt);
-    endsAt.setMinutes(endsAt.getMinutes() + this.timeToFocusInMinutes);
+    const minutesToSet = this.isBreakTime
+      ? this.breakTimeInMinutes
+      : this.timeToFocusInMinutes;
+    endsAt.setMinutes(endsAt.getMinutes() + minutesToSet);
     this.props.endsAt = endsAt;
     return endsAt;
+  }
+
+  public endFocus() {
+    if (!this.isExpired()) {
+      throw new PomodoroException('Pomodoro focus is not finished');
+    }
+    this.props.isBreakTime = true;
   }
 
   public isExpired() {
