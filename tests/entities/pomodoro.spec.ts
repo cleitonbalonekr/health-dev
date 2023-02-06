@@ -10,7 +10,6 @@ describe('Pomodoro', () => {
       breakTimeInMinutes: 5,
       timeToFocusInMinutes: 25,
       isBreakTime: false,
-      finished: false,
     });
     expect(pomodoro.startsAt).toBeUndefined();
   });
