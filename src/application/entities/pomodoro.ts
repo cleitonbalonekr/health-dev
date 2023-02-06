@@ -24,6 +24,12 @@ export class Pomodoro {
     this.props.startsAt = new Date();
     return this.bookEndsAt();
   }
+  public endFocus() {
+    if (!this.isExpired()) {
+      throw new PomodoroException('Pomodoro focus is not finished');
+    }
+    this.props.isBreakTime = true;
+  }
 
   private bookEndsAt() {
     if (!this.startsAt) {

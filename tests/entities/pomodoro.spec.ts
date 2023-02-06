@@ -3,6 +3,8 @@ import { makePomodoro } from '../application/factories/pomodoro-factory';
 import { addMinutes, subMinutes } from '../helpers';
 
 describe('Pomodoro', () => {
+  const actualDate = new Date();
+
   it('should create a new pomodoro with correct values', () => {
     const pomodoro = makePomodoro();
 
@@ -50,7 +52,6 @@ describe('Pomodoro', () => {
       );
     });
     it('should return true when pomodoro expired', () => {
-      const actualDate = new Date();
       const pomodoro = makePomodoro({
         startsAt: subMinutes(actualDate, 26),
         endsAt: subMinutes(actualDate, 1),
@@ -61,6 +62,27 @@ describe('Pomodoro', () => {
       const pomodoro = makePomodoro();
       pomodoro.start();
       expect(pomodoro.isExpired()).toBeFalsy();
+    });
+  });
+
+  describe('endFocus', () => {
+    it('should thows a PomodoroException when try to end when focus is not finished', () => {
+      const pomodoro = makePomodoro();
+      pomodoro.start();
+
+      expect(pomodoro.endFocus.bind(pomodoro)).toThrow(
+        new PomodoroException('Pomodoro focus is not finished')
+      );
+    });
+    it('should set isBreakTime to true', () => {
+      const pomodoro = makePomodoro({
+        startsAt: subMinutes(actualDate, 26),
+        endsAt: subMinutes(actualDate, 1),
+      });
+
+      pomodoro.endFocus();
+
+      expect(pomodoro.isBreakTime).toBeTruthy();
     });
   });
 });
