@@ -1,15 +1,12 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 import { Pomodoro } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
-import {
-  setupGetActivePomodoro,
-  GetActivePomodoro,
-} from '@/application/use-cases';
+import { setupGetPomodoro, GetPomodoro } from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
 import { subMinutes } from '../../helpers';
 import { makePomodoro } from '../factories/pomodoro-factory';
-describe('GetActivePomodoro', () => {
-  let sut: GetActivePomodoro;
+describe('GetPomodoro', () => {
+  let sut: GetPomodoro;
   let pomodoroRepository: MockProxy<PomodoroRepository>;
   let params: any;
   beforeAll(() => {
@@ -18,7 +15,7 @@ describe('GetActivePomodoro', () => {
   beforeEach(() => {
     pomodoroRepository.save.mockResolvedValue();
     pomodoroRepository.findPomodoro.mockResolvedValue(null);
-    sut = setupGetActivePomodoro(pomodoroRepository);
+    sut = setupGetPomodoro(pomodoroRepository);
   });
   it('Should return PomodoroException if a open pomodoro does not exist', async () => {
     const promise = sut(params);
