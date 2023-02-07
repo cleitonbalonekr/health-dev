@@ -28,14 +28,7 @@ export class Pomodoro {
 
   public start() {
     this.props.startsAt = new Date();
-    return this.bookEndsAt();
-  }
-
-  private bookEndsAt() {
-    if (!this.startsAt) {
-      throw new PomodoroException('the starts at is not defined');
-    }
-    const endsAt = new Date(this.startsAt);
+    const endsAt = new Date(this.props.startsAt);
     const minutesToSet = this.getModeMinutes();
     endsAt.setMinutes(endsAt.getMinutes() + minutesToSet);
     this.props.endsAt = endsAt;
