@@ -1,29 +1,27 @@
 import { Replace } from '@/helpers/Replace';
 import { PomodoroException } from './errors/pomodoro-exception';
 
-export interface PomodoroProps {
-  timeToFocusInMinutes: number;
-  breakTimeInMinutes: number;
-  isBreakTime: boolean;
-  startsAt?: Date | null;
-  endsAt?: Date | null;
-}
-
-enum POMODORO_STATUS {
+export enum POMODORO_MODE {
   FOCUS = 1,
   BREAK_TIME = 2,
 }
 
+export interface PomodoroProps {
+  timeToFocusInMinutes: number;
+  breakTimeInMinutes: number;
+  mode: POMODORO_MODE;
+  startsAt?: Date | null;
+  endsAt?: Date | null;
+}
+
 export class Pomodoro {
   private props: PomodoroProps;
-  // private status: POMODORO_STATUS;
   constructor(
-    props: Replace<PomodoroProps, { finished?: boolean; isBreakTime?: boolean }>
+    props: Replace<PomodoroProps, { finished?: boolean; mode?: POMODORO_MODE }>
   ) {
-    // this.status = POMODORO_STATUS.FOCUS;
     this.props = {
       ...props,
-      isBreakTime: props.isBreakTime ?? false,
+      mode: props.mode ?? POMODORO_MODE.FOCUS,
     };
   }
   public start() {
@@ -36,9 +34,11 @@ export class Pomodoro {
       throw new PomodoroException('the starts at is not defined');
     }
     const endsAt = new Date(this.startsAt);
-    const minutesToSet = this.isBreakTime
-      ? this.breakTimeInMinutes
-      : this.timeToFocusInMinutes;
+    const minutesToSet =
+      this.mode === POMODORO_MODE.BREAK_TIME
+        ? this.breakTimeInMinutes
+        : this.timeToFocusInMinutes;
+
     endsAt.setMinutes(endsAt.getMinutes() + minutesToSet);
     this.props.endsAt = endsAt;
     return endsAt;
@@ -48,9 +48,15 @@ export class Pomodoro {
     if (!this.isExpired()) {
       throw new PomodoroException('Pomodoro is not finished');
     }
-    this.props.isBreakTime = !this.props.isBreakTime;
+    this.props.mode = this.toggleMode();
     this.props.startsAt = null;
     this.props.endsAt = null;
+  }
+
+  public toggleMode() {
+    return this.mode === POMODORO_MODE.BREAK_TIME
+      ? POMODORO_MODE.FOCUS
+      : POMODORO_MODE.BREAK_TIME;
   }
 
   public isExpired() {
@@ -70,8 +76,8 @@ export class Pomodoro {
   public get breakTimeInMinutes() {
     return this.props.breakTimeInMinutes;
   }
-  public get isBreakTime() {
-    return this.props.isBreakTime;
+  public get mode() {
+    return this.props.mode;
   }
   public get startsAt() {
     return this.props.startsAt;

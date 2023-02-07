@@ -5,7 +5,7 @@ export class ChromeStoragePomodoroMapper {
     return JSON.stringify({
       timeToFocusInMinutes: pomodoro.timeToFocusInMinutes,
       breakTimeInMinutes: pomodoro.breakTimeInMinutes,
-      isBreakTime: pomodoro.isBreakTime,
+      mode: pomodoro.mode,
       finished: pomodoro.finished,
       startsAt: pomodoro.startsAt,
       endsAt: pomodoro.endsAt,

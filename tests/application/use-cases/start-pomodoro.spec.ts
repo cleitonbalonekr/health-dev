@@ -1,5 +1,5 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
-import { Pomodoro } from '@/application/entities/pomodoro';
+import { Pomodoro, POMODORO_MODE } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { setupStartPomodoro, StartPomodoro } from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
@@ -28,14 +28,14 @@ describe('StartPomodoro', () => {
     const { endsAt } = await sut(params);
     expect(endsAt).toEqual(expect.any(Date));
   });
-  it('Should start a pomodoro in breakTime if isBreakTime ios true and return the endsAt', async () => {
+  it('Should start a pomodoro in breakTime if mode ios true and return the endsAt', async () => {
     const pomodoro = makePomodoro({
       startsAt: subMinutes(actualDate, 26),
       endsAt: subMinutes(actualDate, 1),
     });
     pomodoro.finishCicle();
     const { endsAt } = await sut(params);
-    expect(pomodoro.isBreakTime).toBeTruthy();
+    expect(pomodoro.mode).toEqual(POMODORO_MODE.BREAK_TIME);
     expect(endsAt).toEqual(expect.any(Date));
   });
   it('should call PomodoroRepository.save with correct values', async () => {
@@ -55,7 +55,7 @@ describe('StartPomodoro', () => {
     const response = await sut(params);
 
     expect(pomodoroRepository.findPomodoro).toBeCalledTimes(1);
-    expect(pomodoro.isBreakTime).toBeTruthy();
+    expect(pomodoro.mode).toBeTruthy();
     expect(response.endsAt).toEqual(expect.any(Date));
   });
 });

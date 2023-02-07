@@ -40,7 +40,7 @@ describe('GetPomodoro', () => {
     const foundedPomodoro = await sut(params);
 
     expect(foundedPomodoro).toBeInstanceOf(Pomodoro);
-    expect(foundedPomodoro.isBreakTime).toBeTruthy();
+    expect(foundedPomodoro.mode).toBeTruthy();
   });
   it('Should return a pomodoro if ends at is not finished', async () => {
     const pomodoro = makePomodoro();

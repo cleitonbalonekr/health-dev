@@ -1,4 +1,5 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
+import { POMODORO_MODE } from '@/application/entities/pomodoro';
 import { makePomodoro } from '../application/factories/pomodoro-factory';
 import { addMinutes, subMinutes } from '../helpers';
 
@@ -11,7 +12,7 @@ describe('Pomodoro', () => {
     expect(pomodoro).toMatchObject({
       breakTimeInMinutes: 5,
       timeToFocusInMinutes: 25,
-      isBreakTime: false,
+      mode: POMODORO_MODE.FOCUS,
     });
     expect(pomodoro.startsAt).toBeUndefined();
   });
@@ -88,7 +89,7 @@ describe('Pomodoro', () => {
         new PomodoroException('Pomodoro is not finished')
       );
     });
-    it('should set isBreakTime to true and reset time when pomodo is in focus mode', () => {
+    it('should set mode to BREAK_TIME and reset time when pomodo is in focus mode', () => {
       const pomodoro = makePomodoro({
         startsAt: subMinutes(actualDate, 26),
         endsAt: subMinutes(actualDate, 1),
@@ -96,20 +97,20 @@ describe('Pomodoro', () => {
 
       pomodoro.finishCicle();
 
-      expect(pomodoro.isBreakTime).toBeTruthy();
+      expect(pomodoro.mode).toEqual(POMODORO_MODE.BREAK_TIME);
       expect(pomodoro.startsAt).toBeNull();
       expect(pomodoro.endsAt).toBeNull();
     });
-    it('should set isBreakTime to false and reset time when pomodo is in break time mode', () => {
+    it('should set mode to FOCUS and reset time when pomodo is in break time mode', () => {
       const pomodoro = makePomodoro({
         startsAt: subMinutes(actualDate, 26),
         endsAt: subMinutes(actualDate, 1),
-        isBreakTime: true,
+        mode: POMODORO_MODE.BREAK_TIME,
       });
 
       pomodoro.finishCicle();
 
-      expect(pomodoro.isBreakTime).toBeFalsy();
+      expect(pomodoro.mode).toEqual(POMODORO_MODE.FOCUS);
       expect(pomodoro.startsAt).toBeNull();
       expect(pomodoro.endsAt).toBeNull();
     });
