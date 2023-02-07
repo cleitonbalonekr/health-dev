@@ -16,6 +16,7 @@ export interface PomodoroProps {
 
 export class Pomodoro {
   private props: PomodoroProps;
+
   constructor(
     props: Replace<PomodoroProps, { finished?: boolean; mode?: POMODORO_MODE }>
   ) {
@@ -24,6 +25,7 @@ export class Pomodoro {
       mode: props.mode ?? POMODORO_MODE.FOCUS,
     };
   }
+
   public start() {
     this.props.startsAt = new Date();
     return this.bookEndsAt();
@@ -34,14 +36,16 @@ export class Pomodoro {
       throw new PomodoroException('the starts at is not defined');
     }
     const endsAt = new Date(this.startsAt);
-    const minutesToSet =
-      this.mode === POMODORO_MODE.BREAK_TIME
-        ? this.breakTimeInMinutes
-        : this.timeToFocusInMinutes;
-
+    const minutesToSet = this.getModeMinutes();
     endsAt.setMinutes(endsAt.getMinutes() + minutesToSet);
     this.props.endsAt = endsAt;
     return endsAt;
+  }
+
+  private getModeMinutes() {
+    return this.mode === POMODORO_MODE.BREAK_TIME
+      ? this.breakTimeInMinutes
+      : this.timeToFocusInMinutes;
   }
 
   public finishCicle() {
@@ -53,7 +57,7 @@ export class Pomodoro {
     this.props.endsAt = null;
   }
 
-  public toggleMode() {
+  private toggleMode() {
     return this.mode === POMODORO_MODE.BREAK_TIME
       ? POMODORO_MODE.FOCUS
       : POMODORO_MODE.BREAK_TIME;
