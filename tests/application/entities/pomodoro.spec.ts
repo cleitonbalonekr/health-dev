@@ -1,7 +1,7 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 import { POMODORO_MODE } from '@/application/entities/pomodoro';
-import { makePomodoro } from '../application/factories/pomodoro-factory';
-import { addMinutes, subMinutes } from '../helpers';
+import { makePomodoro } from '../factories/pomodoro-factory';
+import { addMinutes, subMinutes } from '../../helpers';
 
 describe('Pomodoro', () => {
   const actualDate = new Date();
