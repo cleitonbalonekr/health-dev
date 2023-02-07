@@ -16,11 +16,11 @@ enum POMODORO_STATUS {
 
 export class Pomodoro {
   private props: PomodoroProps;
-  private status: POMODORO_STATUS;
+  // private status: POMODORO_STATUS;
   constructor(
     props: Replace<PomodoroProps, { finished?: boolean; isBreakTime?: boolean }>
   ) {
-    this.status = POMODORO_STATUS.FOCUS;
+    // this.status = POMODORO_STATUS.FOCUS;
     this.props = {
       ...props,
       isBreakTime: props.isBreakTime ?? false,
@@ -46,9 +46,9 @@ export class Pomodoro {
 
   public finishCicle() {
     if (!this.isExpired()) {
-      throw new PomodoroException('Pomodoro focus is not finished');
+      throw new PomodoroException('Pomodoro is not finished');
     }
-    this.props.isBreakTime = true;
+    this.props.isBreakTime = !this.props.isBreakTime;
     this.props.startsAt = null;
     this.props.endsAt = null;
   }

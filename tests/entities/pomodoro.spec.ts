@@ -80,15 +80,15 @@ describe('Pomodoro', () => {
   });
 
   describe('finishCicle', () => {
-    it('should thows a PomodoroException when try to end when focus is not finished', () => {
+    it('should thows a PomodoroException when try to end when  is not finished', () => {
       const pomodoro = makePomodoro();
       pomodoro.start();
 
       expect(pomodoro.finishCicle.bind(pomodoro)).toThrow(
-        new PomodoroException('Pomodoro focus is not finished')
+        new PomodoroException('Pomodoro is not finished')
       );
     });
-    it('should set isBreakTime to true and reset time', () => {
+    it('should set isBreakTime to true and reset time when pomodo is in focus mode', () => {
       const pomodoro = makePomodoro({
         startsAt: subMinutes(actualDate, 26),
         endsAt: subMinutes(actualDate, 1),
@@ -97,6 +97,19 @@ describe('Pomodoro', () => {
       pomodoro.finishCicle();
 
       expect(pomodoro.isBreakTime).toBeTruthy();
+      expect(pomodoro.startsAt).toBeNull();
+      expect(pomodoro.endsAt).toBeNull();
+    });
+    it('should set isBreakTime to false and reset time when pomodo is in break time mode', () => {
+      const pomodoro = makePomodoro({
+        startsAt: subMinutes(actualDate, 26),
+        endsAt: subMinutes(actualDate, 1),
+        isBreakTime: true,
+      });
+
+      pomodoro.finishCicle();
+
+      expect(pomodoro.isBreakTime).toBeFalsy();
       expect(pomodoro.startsAt).toBeNull();
       expect(pomodoro.endsAt).toBeNull();
     });
