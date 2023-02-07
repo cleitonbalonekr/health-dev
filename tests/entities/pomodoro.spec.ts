@@ -88,7 +88,7 @@ describe('Pomodoro', () => {
         new PomodoroException('Pomodoro focus is not finished')
       );
     });
-    it('should set isBreakTime to true', () => {
+    it('should set isBreakTime to true and reset time', () => {
       const pomodoro = makePomodoro({
         startsAt: subMinutes(actualDate, 26),
         endsAt: subMinutes(actualDate, 1),
@@ -97,6 +97,8 @@ describe('Pomodoro', () => {
       pomodoro.endFocus();
 
       expect(pomodoro.isBreakTime).toBeTruthy();
+      expect(pomodoro.startsAt).toBeNull();
+      expect(pomodoro.endsAt).toBeNull();
     });
   });
 });

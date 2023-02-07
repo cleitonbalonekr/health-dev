@@ -5,8 +5,8 @@ export interface PomodoroProps {
   timeToFocusInMinutes: number;
   breakTimeInMinutes: number;
   isBreakTime: boolean;
-  startsAt?: Date;
-  endsAt?: Date;
+  startsAt?: Date | null;
+  endsAt?: Date | null;
 }
 
 export class Pomodoro {
@@ -43,6 +43,8 @@ export class Pomodoro {
       throw new PomodoroException('Pomodoro focus is not finished');
     }
     this.props.isBreakTime = true;
+    this.props.startsAt = null;
+    this.props.endsAt = null;
   }
 
   public isExpired() {
