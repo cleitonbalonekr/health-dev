@@ -4,7 +4,8 @@ import { PomodoroException } from '../entities/errors/pomodoro-exception';
 import { Replace } from '@/helpers/Replace';
 type Input = void;
 
-type Output = Replace<Pomodoro, { endsAt: Date; startsAt: Date }>;
+// type Output = Replace<Pomodoro, { endsAt: Date; startsAt: Date }>;
+type Output = Pomodoro;
 
 export type GetPomodoro = (input: Input) => Promise<Output>;
 
@@ -19,8 +20,8 @@ export const setupGetPomodoro: Setup = (pomodoroRepository) => async () => {
     throw new PomodoroException('Pomodoro was not started');
   }
   if (pomodoro.isExpired()) {
-    pomodoro.endFocus();
-    return pomodoro as Output;
+    pomodoro.finishCicle();
+    return pomodoro;
   }
-  return pomodoro as Output;
+  return pomodoro;
 };

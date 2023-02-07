@@ -22,7 +22,7 @@ describe('Pomodoro', () => {
       endsAt: subMinutes(actualDate, 1),
     });
 
-    pomodoro.endFocus();
+    pomodoro.finishCicle();
     const endsAt = pomodoro.start();
     expect(pomodoro.startsAt).toEqual(expect.any(Date));
     const pomodoroStartsAt = pomodoro.startsAt as Date;
@@ -79,12 +79,12 @@ describe('Pomodoro', () => {
     });
   });
 
-  describe('endFocus', () => {
+  describe('finishCicle', () => {
     it('should thows a PomodoroException when try to end when focus is not finished', () => {
       const pomodoro = makePomodoro();
       pomodoro.start();
 
-      expect(pomodoro.endFocus.bind(pomodoro)).toThrow(
+      expect(pomodoro.finishCicle.bind(pomodoro)).toThrow(
         new PomodoroException('Pomodoro focus is not finished')
       );
     });
@@ -94,7 +94,7 @@ describe('Pomodoro', () => {
         endsAt: subMinutes(actualDate, 1),
       });
 
-      pomodoro.endFocus();
+      pomodoro.finishCicle();
 
       expect(pomodoro.isBreakTime).toBeTruthy();
       expect(pomodoro.startsAt).toBeNull();

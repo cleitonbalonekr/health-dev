@@ -33,7 +33,7 @@ describe('StartPomodoro', () => {
       startsAt: subMinutes(actualDate, 26),
       endsAt: subMinutes(actualDate, 1),
     });
-    pomodoro.endFocus();
+    pomodoro.finishCicle();
     const { endsAt } = await sut(params);
     expect(pomodoro.isBreakTime).toBeTruthy();
     expect(endsAt).toEqual(expect.any(Date));

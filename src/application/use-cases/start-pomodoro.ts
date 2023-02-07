@@ -34,7 +34,7 @@ export const setupStartPomodoro: Setup =
       throw new PomodoroException('Already exists a pomodoro in execution');
     }
 
-    storedPomodoro.endFocus();
+    storedPomodoro.finishCicle();
     const endsAt = storedPomodoro.start();
     await pomodoroRepository.save(storedPomodoro);
     return { endsAt };

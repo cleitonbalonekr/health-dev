@@ -9,12 +9,18 @@ export interface PomodoroProps {
   endsAt?: Date | null;
 }
 
+enum POMODORO_STATUS {
+  FOCUS = 1,
+  BREAK_TIME = 2,
+}
+
 export class Pomodoro {
   private props: PomodoroProps;
-
+  private status: POMODORO_STATUS;
   constructor(
     props: Replace<PomodoroProps, { finished?: boolean; isBreakTime?: boolean }>
   ) {
+    this.status = POMODORO_STATUS.FOCUS;
     this.props = {
       ...props,
       isBreakTime: props.isBreakTime ?? false,
@@ -38,7 +44,7 @@ export class Pomodoro {
     return endsAt;
   }
 
-  public endFocus() {
+  public finishCicle() {
     if (!this.isExpired()) {
       throw new PomodoroException('Pomodoro focus is not finished');
     }
