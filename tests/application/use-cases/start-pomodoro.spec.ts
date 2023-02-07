@@ -24,18 +24,20 @@ describe('StartPomodoro', () => {
     pomodoroRepository.findPomodoro.mockResolvedValue(null);
     sut = setupStartPomodoro(pomodoroRepository);
   });
-  it('Should start a pomodoro and return the endsAt', async () => {
-    const { endsAt } = await sut(params);
+  it('Should start a pomodoro and return the endsAt and pomodoro mode', async () => {
+    const { endsAt, mode } = await sut(params);
     expect(endsAt).toEqual(expect.any(Date));
+    expect(mode).toEqual(POMODORO_MODE.FOCUS);
   });
-  it('Should start a pomodoro in breakTime if mode ios true and return the endsAt', async () => {
+  it('Should start a pomodoro in BREAK_TIME mode is FOCUS mode was expired', async () => {
     const pomodoro = makePomodoro({
       startsAt: subMinutes(actualDate, 26),
       endsAt: subMinutes(actualDate, 1),
     });
-    pomodoro.finishCicle();
-    const { endsAt } = await sut(params);
-    expect(pomodoro.mode).toEqual(POMODORO_MODE.BREAK_TIME);
+    pomodoroRepository.findPomodoro.mockResolvedValue(pomodoro);
+
+    const { endsAt, mode } = await sut(params);
+    expect(mode).toEqual(POMODORO_MODE.BREAK_TIME);
     expect(endsAt).toEqual(expect.any(Date));
   });
   it('should call PomodoroRepository.save with correct values', async () => {

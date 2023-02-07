@@ -1,4 +1,4 @@
-import { Pomodoro } from '@/application/entities/pomodoro';
+import { Pomodoro, POMODORO_MODE } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { PomodoroException } from '../entities/errors/pomodoro-exception';
 
@@ -9,6 +9,7 @@ type Input = {
 
 type Output = {
   endsAt: Date;
+  mode: POMODORO_MODE;
 };
 
 export type StartPomodoro = (input: Input) => Promise<Output>;
@@ -19,7 +20,6 @@ export const setupStartPomodoro: Setup =
   (pomodoroRepository) =>
   async ({ timeToFocusInMinutes, breakTimeInMinutes }: Input) => {
     const storedPomodoro = await pomodoroRepository.findPomodoro();
-
     if (!storedPomodoro || !storedPomodoro.wasStarted()) {
       const pomodoro = new Pomodoro({
         timeToFocusInMinutes,
@@ -27,7 +27,7 @@ export const setupStartPomodoro: Setup =
       });
       const endsAt = pomodoro.start();
       await pomodoroRepository.save(pomodoro);
-      return { endsAt };
+      return { endsAt, mode: pomodoro.mode };
     }
 
     if (!storedPomodoro.isExpired()) {
@@ -37,5 +37,5 @@ export const setupStartPomodoro: Setup =
     storedPomodoro.finishCicle();
     const endsAt = storedPomodoro.start();
     await pomodoroRepository.save(storedPomodoro);
-    return { endsAt };
+    return { endsAt, mode: storedPomodoro.mode };
   };
