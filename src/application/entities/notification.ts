@@ -1,12 +1,12 @@
-type Props = {
+export type NotificationProps = {
   title: string;
   description: string;
   iconUrl: string;
 };
 
 export class Notification {
-  private props: Props;
-  constructor(props: Props) {
+  private props: NotificationProps;
+  constructor(props: NotificationProps) {
     this.props = props;
   }
 
