@@ -1,5 +1,5 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
-import { Pomodoro } from '@/application/entities/pomodoro';
+import { Pomodoro, POMODORO_MODE } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { setupGetPomodoro, GetPomodoro } from '@/application/use-cases';
 import { mock, MockProxy } from 'vitest-mock-extended';
@@ -37,16 +37,16 @@ describe('GetPomodoro', () => {
     vitest.clearAllTimers();
     pomodoroRepository.findPomodoro.mockResolvedValueOnce(pomodoro);
 
-    const foundedPomodoro = await sut(params);
+    const { endsAt, mode } = await sut(params);
 
-    expect(foundedPomodoro).toBeInstanceOf(Pomodoro);
-    expect(foundedPomodoro.mode).toBeTruthy();
+    expect(endsAt).toBeNull();
+    expect(mode).toBe(POMODORO_MODE.BREAK_TIME);
   });
   it('Should return a pomodoro if ends at is not finished', async () => {
     const pomodoro = makePomodoro();
     pomodoro.start();
     pomodoroRepository.findPomodoro.mockResolvedValueOnce(pomodoro);
-    const response = await sut(params);
-    expect(response).toBeInstanceOf(Pomodoro);
+    const { endsAt } = await sut(params);
+    expect(endsAt).toEqual(pomodoro.endsAt);
   });
 });

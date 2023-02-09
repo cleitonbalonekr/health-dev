@@ -34,12 +34,12 @@ const Home: React.FC<Props> = ({
   const verifyPomodoroClocks = async () => {
     try {
       setloading(true);
-      const pomodoro = await GetPomodoro();
-      if (pomodoro.endsAt) {
-        updatePomodoroSeconds(pomodoro.endsAt);
+      const { endsAt, mode } = await GetPomodoro();
+      if (endsAt) {
+        updatePomodoroSeconds(endsAt);
         setHasActivePomodoro(true);
       }
-      setPomodoroMode(pomodoro.mode);
+      setPomodoroMode(mode);
     } catch (error: any) {
       setHasActivePomodoro(false);
     } finally {

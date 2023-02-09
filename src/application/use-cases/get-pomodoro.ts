@@ -1,11 +1,12 @@
-import { Pomodoro } from '@/application/entities/pomodoro';
+import { POMODORO_MODE } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
 import { PomodoroException } from '../entities/errors/pomodoro-exception';
-import { Replace } from '@/helpers/Replace';
-type Input = void;
 
-// type Output = Replace<Pomodoro, { endsAt: Date; startsAt: Date }>;
-type Output = Pomodoro;
+type Input = void;
+type Output = {
+  endsAt?: Date | null;
+  mode: POMODORO_MODE;
+};
 
 export type GetPomodoro = (input: Input) => Promise<Output>;
 
@@ -21,7 +22,13 @@ export const setupGetPomodoro: Setup = (pomodoroRepository) => async () => {
   }
   if (pomodoro.isExpired()) {
     pomodoro.finishCicle();
-    return pomodoro;
+    return {
+      endsAt: pomodoro.endsAt,
+      mode: pomodoro.mode,
+    };
   }
-  return pomodoro;
+  return {
+    endsAt: pomodoro.endsAt,
+    mode: pomodoro.mode,
+  };
 };
