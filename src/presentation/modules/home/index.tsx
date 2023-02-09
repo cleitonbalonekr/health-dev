@@ -1,4 +1,3 @@
-import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 import { POMODORO_MODE } from '@/application/entities/pomodoro';
 import {
   StartPomodoro,
@@ -7,20 +6,22 @@ import {
 } from '@/application/use-cases';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import React, { useEffect, useRef, useState } from 'react';
+import usePomodoroTimer from './hooks/usePomodoroTimer';
 
 export type Props = {
   StartPomodoro: StartPomodoro;
   GetPomodoro: GetPomodoro;
   stopPomodoro: StopPomodoro;
 };
-const ONE_SECOND = 1000;
 const Home: React.FC<Props> = ({
   StartPomodoro,
   GetPomodoro,
   stopPomodoro,
 }: Props) => {
-  const [pomodotoSeconds, setPomodoroSeconds] = useState(0);
-  const intervalRef = useRef<number | NodeJS.Timer>(0);
+  const { getFormattedTimer, initPomodoroTimer, stopPomodoroTimer } =
+    usePomodoroTimer({
+      stopPomodoroCallback: () => setHasActivePomodoro(false),
+    });
   const [hasActivePomodoro, setHasActivePomodoro] = useState(false);
   const [pomodoroMode, setPomodoroMode] = useState<POMODORO_MODE>(
     POMODORO_MODE.FOCUS
@@ -36,7 +37,7 @@ const Home: React.FC<Props> = ({
       setloading(true);
       const { endsAt, mode } = await GetPomodoro();
       if (endsAt) {
-        updatePomodoroSeconds(endsAt);
+        initPomodoroTimer(endsAt);
         setHasActivePomodoro(true);
       }
       setPomodoroMode(mode);
@@ -53,7 +54,6 @@ const Home: React.FC<Props> = ({
         breakTimeInMinutes: 2,
         timeToFocusInMinutes: 1,
       };
-      clearInterval(intervalRef.current);
       const { endsAt, mode } = await StartPomodoro(pomodoroParams);
       if (mode === POMODORO_MODE.FOCUS) {
         chrome.runtime.sendMessage(
@@ -69,53 +69,15 @@ const Home: React.FC<Props> = ({
       }
       setPomodoroMode(mode);
       setHasActivePomodoro(true);
-      updatePomodoroSeconds(endsAt);
+      initPomodoroTimer(endsAt);
     } catch (error: any) {
       alert('Falha ao iniciar pomodoro' + error.message);
     }
   };
 
-  const stopPomodoroClock = () => {
-    clearInterval(intervalRef.current);
-    setPomodoroSeconds(0);
-    setHasActivePomodoro(false);
-  };
-
   const handlerStopPomodoro = async () => {
-    stopPomodoroClock();
+    stopPomodoroTimer();
     await stopPomodoro();
-  };
-
-  const updatePomodoroSeconds = (endsAt: Date) => {
-    setPomodoroSeconds(getMiliseconds(endsAt));
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      const diferenceInSeconds = getMiliseconds(endsAt);
-      setPomodoroSeconds(diferenceInSeconds);
-      if (diferenceInSeconds === 0) {
-        stopPomodoroClock();
-      }
-    }, ONE_SECOND);
-  };
-
-  const getMiliseconds = (endsAt: Date) => {
-    const milliseconds = endsAt.getTime() - new Date().getTime();
-    const diferenceInSeconds = Math.floor(Math.abs(milliseconds) / ONE_SECOND);
-    return diferenceInSeconds;
-  };
-
-  const getFormattedMinutes = () => {
-    return (Math.floor(pomodotoSeconds / 60) % 60).toLocaleString('pt-BR', {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    });
-  };
-
-  const getFormattedSeconds = () => {
-    return (pomodotoSeconds % 60).toLocaleString('pt-BR', {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    });
   };
 
   return (
@@ -125,9 +87,7 @@ const Home: React.FC<Props> = ({
       </ConditionalView>
       <ConditionalView visible={!loading}>
         {pomodoroMode === POMODORO_MODE.BREAK_TIME ? 'DESCANSO' : 'FOCO'}
-        <h1>
-          {getFormattedMinutes()}:{getFormattedSeconds()}
-        </h1>
+        <h1>{getFormattedTimer()}</h1>
         {hasActivePomodoro ? (
           <button onClick={handlerStopPomodoro}>Stop Pomodoro </button>
         ) : (
