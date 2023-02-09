@@ -4,8 +4,9 @@ import {
   GetPomodoro,
   StopPomodoro,
 } from '@/application/use-cases';
+import { PomodoroViewModel } from '@/presentation/view-models/pomodoro-view-model';
 import ConditionalView from '@/presentation/components/ConditionalView';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import usePomodoroTimer from './hooks/usePomodoroTimer';
 
 export type Props = {
@@ -55,7 +56,7 @@ const Home: React.FC<Props> = ({
         timeToFocusInMinutes: 1,
       };
       const { endsAt, mode } = await StartPomodoro(pomodoroParams);
-      if (mode === POMODORO_MODE.FOCUS) {
+      if (PomodoroViewModel.isFocusMode(mode)) {
         chrome.runtime.sendMessage(
           { delayInMinutes: pomodoroParams.timeToFocusInMinutes },
           function (response) {
@@ -79,14 +80,13 @@ const Home: React.FC<Props> = ({
     stopPomodoroTimer();
     await stopPomodoro();
   };
-
   return (
     <main>
       <ConditionalView visible={loading}>
         <span>Loading...</span>
       </ConditionalView>
       <ConditionalView visible={!loading}>
-        {pomodoroMode === POMODORO_MODE.BREAK_TIME ? 'DESCANSO' : 'FOCO'}
+        {PomodoroViewModel.isBreakTimeMode(pomodoroMode) ? 'DESCANSO' : 'FOCO'}
         <h1>{getFormattedTimer()}</h1>
         {hasActivePomodoro ? (
           <button onClick={handlerStopPomodoro}>Stop Pomodoro </button>
