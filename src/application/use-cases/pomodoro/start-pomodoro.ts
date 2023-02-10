@@ -1,6 +1,6 @@
 import { Pomodoro, POMODORO_MODE } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
-import { PomodoroException } from '../entities/errors/pomodoro-exception';
+import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 
 type Input = {
   timeToFocusInMinutes: number;

@@ -3,7 +3,7 @@ import {
   StartPomodoro,
   GetPomodoro,
   StopPomodoro,
-} from '@/application/use-cases';
+} from '@/application/use-cases/pomodoro';
 import { PomodoroViewModel } from '@/presentation/view-models/pomodoro-view-model';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import React, { useEffect, useState } from 'react';

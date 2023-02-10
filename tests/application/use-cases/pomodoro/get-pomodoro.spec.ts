@@ -1,10 +1,13 @@
 import { PomodoroException } from '@/application/entities/errors/pomodoro-exception';
 import { Pomodoro, POMODORO_MODE } from '@/application/entities/pomodoro';
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
-import { setupGetPomodoro, GetPomodoro } from '@/application/use-cases';
+import {
+  setupGetPomodoro,
+  GetPomodoro,
+} from '@/application/use-cases/pomodoro';
 import { mock, MockProxy } from 'vitest-mock-extended';
-import { subMinutes } from '../../helpers';
-import { makePomodoro } from '../factories/pomodoro-factory';
+import { subMinutes } from '@/tests/helpers';
+import { makePomodoro } from '@/tests/application/factories/pomodoro-factory';
 describe('GetPomodoro', () => {
   let sut: GetPomodoro;
   let pomodoroRepository: MockProxy<PomodoroRepository>;

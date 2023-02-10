@@ -2,7 +2,7 @@ import {
   setupStartPomodoro,
   setupGetPomodoro,
   setupStopPomodoro,
-} from '@/application/use-cases';
+} from '@/application/use-cases/pomodoro';
 import { ChromeStoragePomodoroRepository } from '@/infra/database/chrome-storage/repositories/chrome-storage-pomodoro-repository';
 import Home from './index';
 

@@ -1,5 +1,8 @@
 import { PomodoroRepository } from '@/application/repositories/pomodoro-repository';
-import { setupStopPomodoro, StopPomodoro } from '@/application/use-cases';
+import {
+  setupStopPomodoro,
+  StopPomodoro,
+} from '@/application/use-cases/pomodoro';
 import { mock, MockProxy } from 'vitest-mock-extended';
 describe('StopPomodoro', () => {
   let sut: StopPomodoro;
