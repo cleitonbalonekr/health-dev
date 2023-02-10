@@ -12,6 +12,14 @@ export class Alarm {
     this.props = props;
   }
 
+  public getMinutesRemaing() {
+    const actualDate = new Date();
+    const diferenceInMilisseconds =
+      (this.booksAt.getTime() - actualDate.getTime()) / 1000;
+    const diferenceInMinutes = diferenceInMilisseconds / 60;
+    return Math.abs(Math.round(diferenceInMinutes));
+  }
+
   public get booksAt() {
     return this.props.booksAt;
   }
