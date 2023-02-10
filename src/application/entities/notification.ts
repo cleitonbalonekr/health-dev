@@ -20,8 +20,3 @@ export class Notification {
     return this.props.iconUrl;
   }
 }
-
-// class Alarm{
-//   private booketAt:Date;
-//   private repeatBetweenMinutes:number| null;
-// }
