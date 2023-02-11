@@ -1,4 +1,4 @@
-import { Alarm } from '@/application/entities/alarm';
+import { Alarm, AlarmType } from '@/application/entities/alarm';
 import { Notification } from '@/application/entities/notification';
 import { ChromeAlarm } from '@/application/gateways/chrome-alarm';
 import { AlarmRepository } from '@/application/repositories/alarm-repository';
@@ -29,6 +29,7 @@ export const setupBookPomodoroAlarm: Setup =
     const alarm = new Alarm({
       booksAt,
       notification,
+      type: AlarmType.POMODORO,
     });
     await alarmRepository.save(alarm);
     chromeAlarm.bookAlarm(alarm);

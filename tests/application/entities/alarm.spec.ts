@@ -10,6 +10,7 @@ describe('Alarm', () => {
       booksAt: alarm.booksAt,
       notification: alarm.notification,
       repeatEveryMinutes: alarm.repeatEveryMinutes,
+      type: alarm.type,
     });
   });
 
@@ -19,7 +20,6 @@ describe('Alarm', () => {
     });
 
     const minutes = alarm.getMinutesRemaing();
-    console.log(minutes);
     expect(minutes).toEqual(5);
   });
 });
