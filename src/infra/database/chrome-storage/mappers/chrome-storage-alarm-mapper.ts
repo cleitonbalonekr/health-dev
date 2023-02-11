@@ -1,4 +1,5 @@
 import { Alarm } from '@/application/entities/alarm';
+import { Notification } from '@/application/entities/notification';
 
 export class ChromeStorageAlarmMapper {
   static toChromeStorage(alarm: Alarm) {
@@ -6,6 +7,7 @@ export class ChromeStorageAlarmMapper {
       notification: alarm.notification,
       type: alarm.type,
       booksAt: alarm.booksAt,
+      repeatEveryMinutes: alarm.repeatEveryMinutes,
     });
   }
   static toAlarm(raw: any) {

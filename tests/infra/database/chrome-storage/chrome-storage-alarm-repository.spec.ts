@@ -1,4 +1,5 @@
 import { makeAlarm } from '@/../tests/application/factories/alarm-factory';
+import { AlarmType } from '@/application/entities/alarm';
 import { AlarmRepository } from '@/application/repositories/alarm-repository';
 import { ChromeStorageAlarmMapper } from '@/infra/database/chrome-storage/mappers/chrome-storage-alarm-mapper';
 import { ChromeStorageAlarmRepository } from '@/infra/database/chrome-storage/repositories/chrome-storage-alarm-repository';
@@ -7,9 +8,9 @@ import { chromeStub } from '../stubs/chrome-storage';
 vi.stubGlobal('chrome', chromeStub);
 
 const makeAlarmToChromeStorage = () => {
-  const Alarm = makeAlarm();
-  const value = ChromeStorageAlarmMapper.toChromeStorage(Alarm);
-  return { Alarm, value };
+  const alarm = makeAlarm();
+  const value = ChromeStorageAlarmMapper.toChromeStorage(alarm);
+  return { alarm, value };
 };
 
 describe('ChromeStorageAlarmRepository', () => {
@@ -22,14 +23,32 @@ describe('ChromeStorageAlarmRepository', () => {
   });
   describe('save', () => {
     it('should save a Alarm', async () => {
-      const { Alarm, value } = makeAlarmToChromeStorage();
+      const { alarm, value } = makeAlarmToChromeStorage();
 
-      await sut.save(Alarm);
+      await sut.save(alarm);
 
       expect(chrome.storage.session.set).toBeCalledTimes(1);
       expect(chrome.storage.session.set).toHaveBeenLastCalledWith({
-        [Alarm.type]: value,
+        [alarm.type]: value,
       });
+    });
+  });
+  describe('getByType', () => {
+    it('should get an alarm by type and return it', async () => {
+      const { alarm, value } = makeAlarmToChromeStorage();
+      vi.mocked(chrome.storage.session.get).mockImplementationOnce(() => ({
+        [alarm.type]: value,
+      }));
+
+      const openAlarm = await sut.getByType(alarm.type);
+      expect(chrome.storage.session.get).toBeCalledTimes(1);
+      expect(chrome.storage.session.get).toHaveBeenLastCalledWith(alarm.type);
+      expect(openAlarm).toEqual(alarm);
+    });
+    it('should return null when does not exist a open pomodoro', async () => {
+      const openAlarm = await sut.getByType(AlarmType.POMODORO);
+
+      expect(openAlarm).toBeNull();
     });
   });
 });
