@@ -6,7 +6,6 @@ export class ChromeStoragePomodoroMapper {
       timeToFocusInMinutes: pomodoro.timeToFocusInMinutes,
       breakTimeInMinutes: pomodoro.breakTimeInMinutes,
       mode: pomodoro.mode,
-      finished: pomodoro.finished,
       startsAt: pomodoro.startsAt,
       endsAt: pomodoro.endsAt,
     });
