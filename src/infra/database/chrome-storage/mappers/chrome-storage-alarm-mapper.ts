@@ -14,6 +14,7 @@ export class ChromeStorageAlarmMapper {
     const jsonRaw = JSON.parse(raw);
     return new Alarm({
       ...jsonRaw,
+      notification: new Notification(jsonRaw.notification.props),
       booksAt: new Date(jsonRaw.booksAt),
     });
   }
