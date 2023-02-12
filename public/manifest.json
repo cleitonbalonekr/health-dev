@@ -8,7 +8,8 @@
     "default_title": "Open the popup"
   },
   "background": {
-    "service_worker": "src/infra/gateways/chrome-alarm-service.ts"
+    "service_worker": "src/infra/gateways/chrome-alarm-service.ts",
+    "type": "module"
   },
   "icons": {
     "16": "logo192.png",

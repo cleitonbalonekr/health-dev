@@ -1,40 +1,40 @@
-import { Alarm } from '@/application/entities/alarm';
+import { Alarm, AlarmType } from '@/application/entities/alarm';
 import { ChromeAlarm } from '@/application/gateways/chrome-alarm';
+import { AlarmRepository } from '@/application/repositories/alarm-repository';
+import { ChromeStorageAlarmRepository } from '../database/chrome-storage/repositories/chrome-storage-alarm-repository';
 
 export class ChromeAlarmService implements ChromeAlarm {
-  private alarm: Alarm | null = null;
+  private chromeStorageAlarmRepository: AlarmRepository;
   constructor() {
+    this.chromeStorageAlarmRepository = new ChromeStorageAlarmRepository();
     this.onAlarm();
   }
 
   bookAlarm(alarm: Alarm) {
-    this.alarm = alarm;
-    chrome.alarms.create('pomodoro', {
-      delayInMinutes: 1,
-      // periodInMinutes: alarm.repeatEveryMinutes,
+    chrome.alarms.create({
+      delayInMinutes: alarm.getMinutesRemaing(),
+      periodInMinutes: alarm.repeatEveryMinutes,
     });
   }
 
   private onAlarm() {
-    chrome.alarms.onAlarm.addListener((alarm) => {
-      const { iconUrl, title, description } = this.getNotification();
-      console.log('notification', { iconUrl, title, description });
-      chrome.notifications.create(
-        {
-          type: 'basic',
-          iconUrl: iconUrl,
-          title: title,
-          message: description,
-          silent: false,
-        },
-        () => {}
+    chrome.alarms.onAlarm.addListener(async () => {
+      const storedAlarm = await this.chromeStorageAlarmRepository.getByType(
+        AlarmType.POMODORO
       );
+      if (storedAlarm) {
+        const notification = storedAlarm.notification;
+        chrome.notifications.create(
+          {
+            type: 'basic',
+            iconUrl: notification.iconUrl,
+            title: notification.title,
+            message: notification.description,
+            silent: false,
+          },
+          () => {}
+        );
+      }
     });
-  }
-  private getNotification() {
-    if (!this.alarm) {
-      throw new Error('alarm not defined');
-    }
-    return this.alarm.notification;
   }
 }

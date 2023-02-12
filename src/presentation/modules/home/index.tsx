@@ -8,16 +8,19 @@ import { PomodoroViewModel } from '@/presentation/view-models/pomodoro-view-mode
 import ConditionalView from '@/presentation/components/ConditionalView';
 import React, { useEffect, useState } from 'react';
 import usePomodoroTimer from './hooks/usePomodoroTimer';
+import { BookPomodoroAlarm } from '@/application/use-cases/alarm';
 
 export type Props = {
   StartPomodoro: StartPomodoro;
   GetPomodoro: GetPomodoro;
   stopPomodoro: StopPomodoro;
+  bookPomodoroAlarm: BookPomodoroAlarm;
 };
 const Home: React.FC<Props> = ({
   StartPomodoro,
   GetPomodoro,
   stopPomodoro,
+  bookPomodoroAlarm,
 }: Props) => {
   const { getFormattedTimer, initPomodoroTimer, stopPomodoroTimer } =
     usePomodoroTimer({
@@ -52,21 +55,31 @@ const Home: React.FC<Props> = ({
   const handlerStartPomodoro = async () => {
     try {
       const pomodoroParams = {
-        breakTimeInMinutes: 2,
+        breakTimeInMinutes: 1,
         timeToFocusInMinutes: 1,
       };
       const { endsAt, mode } = await StartPomodoro(pomodoroParams);
       if (PomodoroViewModel.isFocusMode(mode)) {
-        chrome.runtime.sendMessage(
-          { delayInMinutes: pomodoroParams.timeToFocusInMinutes },
-          function (response) {
-            console.log(response);
-          }
-        );
-      } else {
-        chrome.runtime.sendMessage({
-          delayInMinutes: pomodoroParams.breakTimeInMinutes,
+        bookPomodoroAlarm({
+          title: 'Parabéns!! Ciclo de foco concluido!',
+          booksAt: endsAt,
+          description: 'É hora de descansar, levante e tome pegue um ar.',
         });
+        // chrome.runtime.sendMessage(
+        //   { delayInMinutes: pomodoroParams.timeToFocusInMinutes },
+        //   function (response) {
+        //     console.log(response);
+        //   }
+        // );
+      } else {
+        bookPomodoroAlarm({
+          title: 'Descanso finalizado!',
+          booksAt: endsAt,
+          description: 'É hora de voltar ao trabalho',
+        });
+        // chrome.runtime.sendMessage({
+        //   delayInMinutes: pomodoroParams.breakTimeInMinutes,
+        // });
       }
       setPomodoroMode(mode);
       setHasActivePomodoro(true);
