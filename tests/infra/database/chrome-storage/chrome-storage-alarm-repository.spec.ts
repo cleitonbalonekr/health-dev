@@ -17,7 +17,6 @@ describe('ChromeStorageAlarmRepository', () => {
   let sut: AlarmRepository;
 
   beforeEach(() => {
-    vitest.restoreAllMocks();
     sut = new ChromeStorageAlarmRepository();
     vi.mocked(chrome.storage.session.get).mockImplementation(() => ({}));
   });

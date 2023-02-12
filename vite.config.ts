@@ -5,7 +5,6 @@ import manifest from './public/manifest.json';
 export default defineConfig({
   test: {
     globals: true,
-    setupFiles: ['vitest-localstorage-mock'],
     mockReset: true,
     passWithNoTests: true,
     environment: 'jsdom',

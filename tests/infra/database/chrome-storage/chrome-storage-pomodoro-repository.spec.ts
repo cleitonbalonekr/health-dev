@@ -17,7 +17,6 @@ describe('ChromeStoragePomodoroRepository', () => {
   const KEY = '@HelthDev:Pomodoro';
 
   beforeEach(() => {
-    vitest.restoreAllMocks();
     sut = new ChromeStoragePomodoroRepository();
     vi.mocked(chrome.storage.session.get).mockImplementation(() => ({}));
   });
