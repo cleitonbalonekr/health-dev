@@ -55,32 +55,17 @@ const Home: React.FC<Props> = ({
   const handlerStartPomodoro = async () => {
     try {
       const pomodoroParams = {
-        breakTimeInMinutes: 1,
-        timeToFocusInMinutes: 1,
+        breakTimeInMinutes: 2,
+        timeToFocusInMinutes: 3,
       };
       const { endsAt, mode } = await StartPomodoro(pomodoroParams);
-      if (PomodoroViewModel.isFocusMode(mode)) {
-        bookPomodoroAlarm({
-          title: 'Parabéns!! Ciclo de foco concluido!',
-          booksAt: endsAt,
-          description: 'É hora de descansar, levante e tome pegue um ar.',
-        });
-        // chrome.runtime.sendMessage(
-        //   { delayInMinutes: pomodoroParams.timeToFocusInMinutes },
-        //   function (response) {
-        //     console.log(response);
-        //   }
-        // );
-      } else {
-        bookPomodoroAlarm({
-          title: 'Descanso finalizado!',
-          booksAt: endsAt,
-          description: 'É hora de voltar ao trabalho',
-        });
-        // chrome.runtime.sendMessage({
-        //   delayInMinutes: pomodoroParams.breakTimeInMinutes,
-        // });
-      }
+      const { title, description } =
+        getPomodoroNotificationTitleAndDescription(mode);
+      bookPomodoroAlarm({
+        title,
+        booksAt: endsAt,
+        description,
+      });
       setPomodoroMode(mode);
       setHasActivePomodoro(true);
       initPomodoroTimer(endsAt);
@@ -89,10 +74,23 @@ const Home: React.FC<Props> = ({
     }
   };
 
+  const getPomodoroNotificationTitleAndDescription = (mode: POMODORO_MODE) => {
+    return PomodoroViewModel.isFocusMode(mode)
+      ? {
+          title: 'Parabéns!! Ciclo de foco concluido!',
+          description: 'É hora de descansar, levante e pegue um ar.',
+        }
+      : {
+          title: 'Descanso finalizado!',
+          description: 'É hora de voltar ao trabalho',
+        };
+  };
+
   const handlerStopPomodoro = async () => {
     stopPomodoroTimer();
     await stopPomodoro();
   };
+
   return (
     <main>
       <ConditionalView visible={loading}>
