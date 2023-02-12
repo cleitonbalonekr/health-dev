@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "vitest-mock-extended": "^1.0.8"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^1.0.14",
@@ -25,6 +24,6 @@
     "vite": "^4.0.0",
     "vite-tsconfig-paths": "^4.0.3",
     "vitest": "^0.27.2",
-    "vitest-localstorage-mock": "^0.0.1"
+    "vitest-mock-extended": "^1.0.8"
   }
 }
