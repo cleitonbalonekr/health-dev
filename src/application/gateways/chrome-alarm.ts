@@ -1,5 +1,8 @@
-import { Alarm } from '../entities/alarm';
-
+type Props = {
+  minutesRemaining: number;
+  repeatEveryMinutes?: number;
+  id?: string;
+};
 export interface ChromeAlarm {
-  bookAlarm(alarm: Alarm): any;
+  bookAlarm(alarm: Props): void;
 }

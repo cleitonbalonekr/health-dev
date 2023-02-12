@@ -5,7 +5,6 @@ import {
   BookPomodoroAlarm,
 } from '@/application/use-cases/alarm';
 import { mock, MockProxy } from 'vitest-mock-extended';
-import { makeAlarm } from '../../factories/alarm-factory';
 describe('BookPomodoroAlarm', () => {
   const actualDate = new Date();
   let sut: BookPomodoroAlarm;
@@ -27,6 +26,11 @@ describe('BookPomodoroAlarm', () => {
   it('should create a alarm and call alarmAdpter', async () => {
     await sut(params);
     expect(chromeAlarm.bookAlarm).toBeCalledTimes(1);
+    expect(chromeAlarm.bookAlarm).toBeCalledWith({
+      minutesRemaining: 0,
+      id: 'pomodoro',
+      repeatEveryMinutes: undefined,
+    });
   });
   it('should create a alarmRepository.save with correct values', async () => {
     const alarm = await sut(params);

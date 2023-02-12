@@ -32,6 +32,10 @@ export const setupBookPomodoroAlarm: Setup =
       type: AlarmType.POMODORO,
     });
     await alarmRepository.save(alarm);
-    chromeAlarm.bookAlarm(alarm);
+    chromeAlarm.bookAlarm({
+      minutesRemaining: alarm.getMinutesRemaing(),
+      id: alarm.type,
+      repeatEveryMinutes: alarm.repeatEveryMinutes,
+    });
     return alarm;
   };
