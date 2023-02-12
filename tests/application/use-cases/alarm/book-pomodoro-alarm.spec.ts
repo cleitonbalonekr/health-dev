@@ -1,4 +1,4 @@
-import { ChromeAlarm } from '@/application/gateways/chrome-alarm';
+import { AlarmService } from '@/application/gateways/alarm-service';
 import { AlarmRepository } from '@/application/repositories/alarm-repository';
 import {
   setupBookPomodoroAlarm,
@@ -8,7 +8,7 @@ import { mock, MockProxy } from 'vitest-mock-extended';
 describe('BookPomodoroAlarm', () => {
   const actualDate = new Date();
   let sut: BookPomodoroAlarm;
-  let chromeAlarm: MockProxy<ChromeAlarm>;
+  let alarmService: MockProxy<AlarmService>;
   let alarmRepository: MockProxy<AlarmRepository>;
   let params = {
     title: 'fake_title',
@@ -16,17 +16,17 @@ describe('BookPomodoroAlarm', () => {
     booksAt: actualDate,
   };
   beforeAll(() => {
-    chromeAlarm = mock();
+    alarmService = mock();
     alarmRepository = mock();
   });
   beforeEach(() => {
-    sut = setupBookPomodoroAlarm(chromeAlarm, alarmRepository);
+    sut = setupBookPomodoroAlarm(alarmService, alarmRepository);
   });
 
   it('should create a alarm and call alarmAdpter', async () => {
     await sut(params);
-    expect(chromeAlarm.bookAlarm).toBeCalledTimes(1);
-    expect(chromeAlarm.bookAlarm).toBeCalledWith({
+    expect(alarmService.bookAlarm).toBeCalledTimes(1);
+    expect(alarmService.bookAlarm).toBeCalledWith({
       minutesRemaining: 0,
       id: 'pomodoro',
       repeatEveryMinutes: undefined,

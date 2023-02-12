@@ -1,6 +1,6 @@
 import { Alarm, AlarmType } from '@/application/entities/alarm';
 import { Notification } from '@/application/entities/notification';
-import { ChromeAlarm } from '@/application/gateways/chrome-alarm';
+import { AlarmService } from '@/application/gateways/alarm-service';
 import { AlarmRepository } from '@/application/repositories/alarm-repository';
 
 type Input = {
@@ -14,12 +14,12 @@ type Output = Alarm;
 export type BookPomodoroAlarm = (input: Input) => Promise<Output>;
 
 type Setup = (
-  chromeAlarm: ChromeAlarm,
+  alarmService: AlarmService,
   alarmRepository: AlarmRepository
 ) => BookPomodoroAlarm;
 
 export const setupBookPomodoroAlarm: Setup =
-  (chromeAlarm, alarmRepository) =>
+  (alarmService, alarmRepository) =>
   async ({ booksAt, title, description }) => {
     const notification = new Notification({
       iconUrl: 'alarm.jpg',
@@ -32,7 +32,7 @@ export const setupBookPomodoroAlarm: Setup =
       type: AlarmType.POMODORO,
     });
     await alarmRepository.save(alarm);
-    chromeAlarm.bookAlarm({
+    alarmService.bookAlarm({
       minutesRemaining: alarm.getMinutesRemaing(),
       id: alarm.type,
       repeatEveryMinutes: alarm.repeatEveryMinutes,
