@@ -16,12 +16,12 @@
     "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]
     },
   },
-  "include": ["src","tests","public"],
+  "include": ["src","tests","public", "tsconfig.node.json", "vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
