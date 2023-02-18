@@ -3,6 +3,7 @@
   "description": "Focus on yous tasks, we'll help you be health",
   "version": "1.0",
   "manifest_version": 3,
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "index.html",
     "default_title": "Open the popup"
