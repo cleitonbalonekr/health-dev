@@ -1,5 +1,14 @@
+import { useEffect, useState } from 'react';
+import { registerToken, foregroundMessage } from 'firebase';
+
 function App() {
-  return <h1>Hello</h1>;
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    registerToken(setToken);
+    foregroundMessage();
+  }, []);
+
+  return <h1>Hello - {token}</h1>;
 }
 
 export default App;
