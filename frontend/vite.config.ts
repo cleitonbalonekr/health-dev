@@ -1,6 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { VitePWA } from 'vite-plugin-pwa';
 
 import react from '@vitejs/plugin-react';
 
@@ -8,13 +7,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
-    plugins: [
-      react(),
-      tsconfigPaths(),
-      VitePWA({
-        injectRegister: 'auto',
-      }),
-    ],
+    plugins: [react(), tsconfigPaths()],
     define: {
       FIREBASE_CONFIG: {
         FIREBASE_API_KEY: env.VITE_FIREBASE_API_KEY,

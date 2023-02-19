@@ -8,7 +8,7 @@ function App() {
     foregroundMessage();
   }, []);
 
-  return <h1>Hello - {token}</h1>;
+  return <h1 className="text-red-600">Hello - {token}</h1>;
 }
 
 export default App;
