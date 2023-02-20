@@ -1,4 +1,5 @@
-import { defineConfig, loadEnv } from 'vite';
+/// <reference types="vitest/config" />
+import { loadEnv, defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 import react from '@vitejs/plugin-react';
@@ -7,6 +8,13 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
+    test: {
+      globals: true,
+      mockReset: true,
+      passWithNoTests: true,
+      environment: 'jsdom',
+      exclude: ['**/node_modules/**', '**/dist/**', '**/*.test.ts', 'src'],
+    },
     plugins: [react(), tsconfigPaths()],
     define: {
       FIREBASE_CONFIG: {
