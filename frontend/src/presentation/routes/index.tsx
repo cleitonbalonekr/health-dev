@@ -1,15 +1,19 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import {
+  createRoutesFromElements,
+  createBrowserRouter,
+  Route,
+} from 'react-router-dom';
 
 import Home from '@/presentation/modules/home';
-const AppRoutes: React.FC = () => {
-  return (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </HashRouter>
-  );
-};
+import Registration from '@/presentation/modules/registration';
+import ErrorPage from '../modules/error';
 
-export default AppRoutes;
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route errorElement={<ErrorPage />}>
+      <Route index element={<Home />} />
+      <Route path="subscribe/:extensionId" element={<Registration />} />
+    </Route>
+  )
+);

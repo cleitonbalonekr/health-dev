@@ -1,6 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleConfirm = () => {
+    navigate('/subscribe/12345');
+  };
+
   return (
     <main
       className="bg-white flex flex-1 flex-col h-screen w-full items-center
@@ -19,6 +26,7 @@ const Home: React.FC = () => {
         />
 
         <button
+          onClick={handleConfirm}
           type="button"
           className="rounded-md bg-green-700 hover:bg-green-800 py-3 w-full mt-4 text-white font-bold"
         >
