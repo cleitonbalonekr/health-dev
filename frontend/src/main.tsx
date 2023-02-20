@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './presentation/styles/index.css'; // make sure the path.
-import App from './presentation/App';
+import '@/presentation/styles/index.css'; // make sure the path.
+import Routes from '@/presentation/routes';
 import { firebaseConfig } from 'firebase/config';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <Routes />
   </React.StrictMode>
 );
 if ('serviceWorker' in navigator) {
