@@ -59,6 +59,7 @@ importers:
       vite: ^4.1.0
       vite-tsconfig-paths: ^4.0.3
       vitest: ^0.27.2
+      vitest-mock-extended: ^1.0.8
     dependencies:
       firebase: link:../packages/firebase
       localforage: 1.10.0
@@ -78,6 +79,7 @@ importers:
       vite: 4.1.1
       vite-tsconfig-paths: 4.0.3_alkqtss2g4kbh2fmzjy2yq5cai
       vitest: 0.27.2
+      vitest-mock-extended: 1.0.8_3i2qp55ga4xfilvwqded4yzdru
 
   packages/firebase:
     specifiers:
@@ -3154,7 +3156,7 @@ packages:
     dependencies:
       ts-essentials: 9.3.0_typescript@4.9.4
       typescript: 4.9.4
-      vitest: 0.27.2_jsdom@21.0.0
+      vitest: 0.27.2
     dev: true
 
   /vitest/0.27.2:
