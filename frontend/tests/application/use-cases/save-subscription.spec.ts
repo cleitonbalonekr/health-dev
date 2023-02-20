@@ -1,3 +1,4 @@
+import { ExternalTokenError } from '@/application/entities/errors/external-token-error';
 import { ExternalToken } from '@/application/entities/external-token';
 import { SubscriptionRepository } from '@/application/respositories/subscription-repository';
 import {
@@ -21,6 +22,7 @@ describe('SaveSubscription', () => {
     subscriptionRepository.save.mockResolvedValue(true);
     sut = setupSaveSubscription(subscriptionRepository);
   });
+
   it('Should call SubscriptionRepository.save with correct values', async () => {
     await sut(params);
     expect(subscriptionRepository.save).toHaveBeenCalledTimes(1);
@@ -30,5 +32,15 @@ describe('SaveSubscription', () => {
         externalToken: new ExternalToken(params.externalToken),
       })
     );
+  });
+
+  it('should throw an error when a invalid external token is provided', async () => {
+    const promise = sut({ ...params, externalToken: 'abcd' });
+    expect(promise).rejects.toThrow(ExternalTokenError);
+  });
+
+  it('should return true on success', async () => {
+    const response = await sut(params);
+    expect(response).toBeTruthy();
   });
 });

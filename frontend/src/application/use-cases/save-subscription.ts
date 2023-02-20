@@ -7,7 +7,7 @@ type Input = {
   notificationToken: string;
 };
 
-type Output = void;
+type Output = boolean;
 
 export type SaveSubscription = (input: Input) => Promise<Output>;
 
@@ -22,5 +22,6 @@ export const setupSaveSubscription: Setup =
       notificationToken,
       externalToken: new ExternalToken(externalToken),
     });
-    await subscriptionRepository.save(subscription);
+    const response = await subscriptionRepository.save(subscription);
+    return response;
   };
