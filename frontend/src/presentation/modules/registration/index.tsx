@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { registerToken } from 'firebase';
+import { registerToken } from '@/../../packages/firebase-commun-settings';
 
 const Registration: React.FC = () => {
   const { extensionId } = useParams();
