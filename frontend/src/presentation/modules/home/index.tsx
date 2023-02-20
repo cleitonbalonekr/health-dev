@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  const [extensionId, setExtensionId] = useState('');
   const navigate = useNavigate();
 
   const handleConfirm = () => {
-    navigate('/subscribe/12345');
+    if (!extensionId) return;
+    navigate(`/subscribe/${extensionId}`);
   };
 
   return (
@@ -20,6 +22,8 @@ const Home: React.FC = () => {
       </h2>
       <form>
         <input
+          value={extensionId}
+          onChange={({ target }) => setExtensionId(target.value)}
           className="rounded-md bg-slate-200 text-black py-3 px-4 w-full mt-4 "
           type="text"
           placeholder="xxyyzz"
