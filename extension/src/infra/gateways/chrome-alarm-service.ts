@@ -12,13 +12,13 @@ export class ChromeAlarmService implements AlarmService {
 }
 
 let chromeStorageAlarmRepository: AlarmRepository | null = null;
-const getAlarmRepositorySinglethon = () => {
+const getAlarmRepositorySingleton = () => {
   if (chromeStorageAlarmRepository) return chromeStorageAlarmRepository;
   return (chromeStorageAlarmRepository = new ChromeStorageAlarmRepository());
 };
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
-  const storedAlarm = await getAlarmRepositorySinglethon().getByType(
+  const storedAlarm = await getAlarmRepositorySingleton().getByType(
     alarm.name as AlarmType.POMODORO
   );
   if (storedAlarm) {
