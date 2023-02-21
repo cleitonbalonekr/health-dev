@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm --stream -r dev",
-    "test": "pnpm --stream -r test"
+    "test": "pnpm --stream -r test",
+    "start-firebase-emulator": "docker-compose up"
   },
   "keywords": [],
   "author": "",

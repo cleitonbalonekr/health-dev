@@ -12,7 +12,7 @@ export default defineConfig(({ command, mode }) => {
       globals: true,
       mockReset: true,
       passWithNoTests: true,
-      environment: 'jsdom',
+      environment: 'node',
       exclude: ['**/node_modules/**', '**/dist/**', '**/*.test.ts', 'src'],
     },
     plugins: [react(), tsconfigPaths()],

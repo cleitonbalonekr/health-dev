@@ -15,5 +15,6 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const FirestoreInstance = firestore.getFirestore(app);
-export const messaging = getMessaging(app);
+export const firestoreDB = firestore;
+// export const messaging = getMessaging(app);
 export default app;
