@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@/presentation/styles/index.css'; // make sure the path.
-import { router } from '@/presentation/routes';
+import { router } from '@/main/routes';
 import { firebaseConfig } from 'firebase-common-settings';
 import { RouterProvider } from 'react-router-dom';
 
