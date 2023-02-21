@@ -4,7 +4,7 @@ import {
   setupStartPomodoro,
   StartPomodoro,
 } from '@/application/use-cases/pomodoro';
-import { mock, MockProxy } from 'vitest-mock-extended';
+import { mock, MockProxy, mockReset } from 'vitest-mock-extended';
 import { subMinutes } from '@/tests/helpers';
 import { makePomodoro } from '@/tests/application/factories/pomodoro-factory';
 vitest.useFakeTimers().setSystemTime(new Date());
@@ -22,6 +22,7 @@ describe('StartPomodoro', () => {
     };
   });
   beforeEach(() => {
+    mockReset(pomodoroRepository);
     pomodoroRepository.save.mockResolvedValue();
     pomodoroRepository.findPomodoro.mockResolvedValue(null);
     sut = setupStartPomodoro(pomodoroRepository);

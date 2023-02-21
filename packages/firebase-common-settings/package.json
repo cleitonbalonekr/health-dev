@@ -4,7 +4,6 @@
   "description": "",
   "main": "src/config",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start-firebase-emulator": "docker-compose up -d"
   },
   "keywords": [],

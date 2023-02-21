@@ -4,7 +4,7 @@ import {
   setupBookPomodoroAlarm,
   BookPomodoroAlarm,
 } from '@/application/use-cases/alarm';
-import { mock, MockProxy } from 'vitest-mock-extended';
+import { mock, MockProxy, mockReset } from 'vitest-mock-extended';
 describe('BookPomodoroAlarm', () => {
   const actualDate = new Date();
   let sut: BookPomodoroAlarm;
@@ -20,6 +20,8 @@ describe('BookPomodoroAlarm', () => {
     alarmRepository = mock();
   });
   beforeEach(() => {
+    mockReset(alarmRepository);
+    mockReset(alarmService);
     sut = setupBookPomodoroAlarm(alarmService, alarmRepository);
   });
 
@@ -32,7 +34,7 @@ describe('BookPomodoroAlarm', () => {
       repeatEveryMinutes: undefined,
     });
   });
-  it('should create a alarmRepository.save with correct values', async () => {
+  it('should call alarmRepository.save with correct values', async () => {
     const alarm = await sut(params);
     expect(alarmRepository.save).toBeCalledTimes(1);
     expect(alarmRepository.save).toBeCalledWith(alarm);

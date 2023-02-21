@@ -1,6 +1,6 @@
+/// <reference types="vitest/config" />
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { defineConfig } from 'vitest/config';
-import { loadEnv } from 'vite';
+import { loadEnv, defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
 import manifest from './public/manifest.json';
 export default defineConfig(({ command, mode }) => {
