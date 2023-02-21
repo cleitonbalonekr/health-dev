@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { deleteApp } from 'firebase/app';
 import { connectFirestoreEmulator } from 'firebase/firestore';
-import app, { FirestoreInstance } from '../../config';
+import app, { FirestoreInstance } from '../../src/config';
 
 export function setupEmulators() {
   connectFirestoreEmulator(FirestoreInstance, 'localhost', 8080);

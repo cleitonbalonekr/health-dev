@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "firebase": "^9.17.1",
-    "firebase-commun-settings": "workspace:*",
+    "firebase-common-settings": "workspace:*",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",

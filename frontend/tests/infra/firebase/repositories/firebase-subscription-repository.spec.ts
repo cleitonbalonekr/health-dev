@@ -2,7 +2,7 @@ import {
   setupEmulators,
   closeFirebase,
   cleanEmulators,
-} from 'firebase-commun-settings/tests/utils/firebase-emulator';
+} from 'firebase-common-settings/tests/utils/firebase-emulator';
 import { makeSubscription } from '@/tests/application/factories/subscription-factory';
 import { SubscriptionRepository } from '@/application/respositories/subscription-repository';
 import { FirebaseSubscriptionRepository } from '@/infra/database/firebase/repositories/firebase-subscription-repository';

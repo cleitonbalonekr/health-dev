@@ -1,4 +1,4 @@
-import { FirestoreInstance } from '@/../../packages/firebase-commun-settings/config';
+import { FirestoreInstance } from 'firebase-common-settings';
 import {
   collection,
   CollectionReference,

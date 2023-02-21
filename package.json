@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm --stream -r dev",
     "test": "pnpm --stream -r test",
-    "start-firebase-emulator": "docker-compose up"
+    "start-firebase-emulator": "pnpm --stream -r start-firebase-emulator"
   },
   "keywords": [],
   "author": "",

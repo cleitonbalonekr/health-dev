@@ -1,10 +1,11 @@
 {
-  "name": "firebase-commun-settings",
+  "name": "firebase-common-settings",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/config",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-firebase-emulator": "docker-compose up -d"
   },
   "keywords": [],
   "author": "",

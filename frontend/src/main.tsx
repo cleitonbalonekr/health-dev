@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@/presentation/styles/index.css'; // make sure the path.
 import { router } from '@/presentation/routes';
-import { firebaseConfig } from 'firebase-commun-settings/config';
+import { firebaseConfig } from 'firebase-common-settings';
 import { RouterProvider } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
