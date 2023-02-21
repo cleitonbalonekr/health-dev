@@ -8,7 +8,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { Subscription } from '@/application/entities/subscription';
-import { SubscriptionRepository } from '@/application/respositories/subscription-repository';
+import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import { FirebaseSubscriptionMapper } from '../mappers/firebase-subscription-mapper';
 
 export class FirebaseSubscriptionRepository implements SubscriptionRepository {

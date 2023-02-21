@@ -1,6 +1,6 @@
 import { ExternalToken } from '@/application/entities/external-token';
 import { Subscription } from '@/application/entities/subscription';
-import { SubscriptionRepository } from '@/application/respositories/subscription-repository';
+import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 
 type Input = {
   externalToken: string;

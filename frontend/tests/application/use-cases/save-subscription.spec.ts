@@ -1,6 +1,6 @@
 import { ExternalTokenError } from '@/application/entities/errors/external-token-error';
 import { ExternalToken } from '@/application/entities/external-token';
-import { SubscriptionRepository } from '@/application/respositories/subscription-repository';
+import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import {
   SaveSubscription,
   setupSaveSubscription,

@@ -6,7 +6,7 @@ import {
 import { FirestoreInstance } from 'firebase-common-settings';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { makeSubscription } from '@/tests/application/factories/subscription-factory';
-import { SubscriptionRepository } from '@/application/respositories/subscription-repository';
+import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import { FirebaseSubscriptionRepository } from '@/infra/database/firebase/repositories/firebase-subscription-repository';
 
 const makeSubscriptionCollection = () => {
