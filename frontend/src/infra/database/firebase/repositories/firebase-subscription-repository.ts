@@ -25,10 +25,7 @@ export class FirebaseSubscriptionRepository implements SubscriptionRepository {
       FirebaseSubscriptionMapper.toFirebase(subscription);
 
     const subscriptionRef = doc(this.subscriptionCollection, externalToken);
-    const fireabseSubscriptionEntity = await getDoc(subscriptionRef);
-    if (!fireabseSubscriptionEntity.exists()) {
-      // return false;
-    }
+
     await setDoc(subscriptionRef, {
       notificationToken,
       externalToken,
