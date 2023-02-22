@@ -1,7 +1,10 @@
 import { AlarmType } from '@/application/entities/alarm';
 import { AlarmService } from '@/application/gateways/alarm-service';
 import { AlarmRepository } from '@/application/repositories/alarm-repository';
+import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import { ChromeStorageAlarmRepository } from '../database/chrome-storage/repositories/chrome-storage-alarm-repository';
+import { FirebaseSubscriptionRepository } from '../database/firebase/firebase-subscription-repository';
+
 export class ChromeAlarmService implements AlarmService {
   bookAlarm({ id, minutesRemaining, repeatEveryMinutes }: AlarmService.Input) {
     chrome.alarms.create(id, {
@@ -15,6 +18,12 @@ let chromeStorageAlarmRepository: AlarmRepository | null = null;
 const getAlarmRepositorySingleton = () => {
   if (chromeStorageAlarmRepository) return chromeStorageAlarmRepository;
   return (chromeStorageAlarmRepository = new ChromeStorageAlarmRepository());
+};
+let firebaseSubscriptionRepository: SubscriptionRepository | null = null;
+const getFirebaseSubscriptionRepositorySingleton = () => {
+  if (firebaseSubscriptionRepository) return firebaseSubscriptionRepository;
+  return (firebaseSubscriptionRepository =
+    new FirebaseSubscriptionRepository());
 };
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
@@ -40,14 +49,16 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
 const sendNotification = async (to?: string) => {
   try {
+    const notificationToken =
+      await getFirebaseSubscriptionRepositorySingleton().load('cleiton');
+    console.log('notificationToken', notificationToken);
+    if (!notificationToken) return;
     const body = {
-      to:
-        to ||
-        'c9j_yio-8rlgUW6-Wpi0Es:APA91bGJ0hyVFr_sGArPWoJJB0Gdeo7N0We0pitfSJvMPvVfGL5a_jzYeMtDYaxc-cYdAKKcOGLgbUG9wK4t4Vq9TzoUWDewlQuk_XdsZZVXrBMNCPWGNatSZxAEkNTJHCUZDTh-N9q4',
+      to: notificationToken,
       notification: {
         title: 'FCM Message',
         body: 'This is a message from FCM',
-        badge: '/badge-icon.png',
+        // badge: '/badge-icon.png',
       },
     };
     const response = await self.fetch('https://fcm.googleapis.com/fcm/send', {

@@ -55,8 +55,8 @@ const Home: React.FC<Props> = ({
   const handlerStartPomodoro = async () => {
     try {
       const pomodoroParams = {
-        breakTimeInMinutes: 2,
-        timeToFocusInMinutes: 3,
+        breakTimeInMinutes: 1,
+        timeToFocusInMinutes: 1,
       };
       const { endsAt, mode } = await StartPomodoro(pomodoroParams);
       const { title, description } =
