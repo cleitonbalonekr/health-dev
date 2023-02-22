@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { MakeHome } from './presentation/modules/home/home-factory';
-import './presentation/styles/index.css';
+import { RouterProvider } from 'react-router-dom';
+import { router } from '@/main/routes';
 import 'firebase-common-settings';
+import '@/presentation/styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <MakeHome />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
