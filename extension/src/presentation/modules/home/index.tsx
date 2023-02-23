@@ -9,6 +9,10 @@ import ConditionalView from '@/presentation/components/ConditionalView';
 import React, { useEffect, useState } from 'react';
 import usePomodoroTimer from './hooks/usePomodoroTimer';
 import { BookPomodoroAlarm } from '@/application/use-cases/alarm';
+import { useNavigate } from 'react-router-dom';
+import Container from '@/presentation/components/container';
+import NavigationHeader from '@/presentation/components/navigation-header';
+import { FaCog } from 'react-icons/fa';
 
 export type Props = {
   StartPomodoro: StartPomodoro;
@@ -26,11 +30,13 @@ const Home: React.FC<Props> = ({
     usePomodoroTimer({
       stopPomodoroCallback: () => setHasActivePomodoro(false),
     });
+  const navigate = useNavigate();
+
   const [hasActivePomodoro, setHasActivePomodoro] = useState(false);
   const [pomodoroMode, setPomodoroMode] = useState<POMODORO_MODE>(
     POMODORO_MODE.FOCUS
   );
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     verifyPomodoroClocks();
@@ -38,7 +44,7 @@ const Home: React.FC<Props> = ({
 
   const verifyPomodoroClocks = async () => {
     try {
-      setloading(true);
+      setLoading(true);
       const { endsAt, mode } = await GetPomodoro();
       if (endsAt) {
         initPomodoroTimer(endsAt);
@@ -48,7 +54,7 @@ const Home: React.FC<Props> = ({
     } catch (error: any) {
       setHasActivePomodoro(false);
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
@@ -92,7 +98,10 @@ const Home: React.FC<Props> = ({
   };
 
   return (
-    <main>
+    <Container>
+      <NavigationHeader hideBackButton>
+        <FaCog size={18} color="white" onClick={() => navigate('settings')} />
+      </NavigationHeader>
       <ConditionalView visible={loading}>
         <span>Loading...</span>
       </ConditionalView>
@@ -105,7 +114,7 @@ const Home: React.FC<Props> = ({
           <button onClick={handlerStartPomodoro}>Start Pomodoro </button>
         )}
       </ConditionalView>
-    </main>
+    </Container>
   );
 };
 

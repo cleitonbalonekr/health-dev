@@ -26,26 +26,26 @@ const getFirebaseSubscriptionRepositorySingleton = () => {
     new FirebaseSubscriptionRepository());
 };
 
-chrome.alarms.onAlarm.addListener(async (alarm) => {
-  const storedAlarm = await getAlarmRepositorySingleton().getByType(
-    alarm.name as AlarmType.POMODORO
-  );
-  if (storedAlarm) {
-    const notification = storedAlarm.notification;
-    chrome.notifications.create(
-      {
-        type: 'basic',
-        iconUrl: notification.iconUrl,
-        title: notification.title,
-        message: notification.description,
-        silent: false,
-      },
-      () => {}
-    );
-    const response = await sendNotification();
-    console.log('response', response);
-  }
-});
+// chrome.alarms.onAlarm.addListener(async (alarm) => {
+//   const storedAlarm = await getAlarmRepositorySingleton().getByType(
+//     alarm.name as AlarmType.POMODORO
+//   );
+//   if (storedAlarm) {
+//     const notification = storedAlarm.notification;
+//     chrome.notifications.create(
+//       {
+//         type: 'basic',
+//         iconUrl: notification.iconUrl,
+//         title: notification.title,
+//         message: notification.description,
+//         silent: false,
+//       },
+//       () => {}
+//     );
+//     const response = await sendNotification();
+//     console.log('response', response);
+//   }
+// });
 
 const sendNotification = async (to?: string) => {
   try {
