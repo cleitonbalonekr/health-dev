@@ -7,7 +7,7 @@ interface Props {
 
 const Container: React.FC<Props> = ({ children, showHeader, ...rest }) => {
   return (
-    <main className=" flex flex-1 flex-col h-48 w-48 " {...rest}>
+    <main className=" flex flex-1 flex-col h-64 w-48 " {...rest}>
       {children}
     </main>
   );

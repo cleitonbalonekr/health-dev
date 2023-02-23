@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import Container from '@/presentation/components/container';
 import NavigationHeader from '@/presentation/components/navigation-header';
 import { FaCog } from 'react-icons/fa';
+import BaseButton from '@/presentation/components/base-button';
 
 export type Props = {
   StartPomodoro: StartPomodoro;
@@ -102,18 +103,28 @@ const Home: React.FC<Props> = ({
       <NavigationHeader hideBackButton>
         <FaCog size={18} color="white" onClick={() => navigate('settings')} />
       </NavigationHeader>
-      <ConditionalView visible={loading}>
-        <span>Loading...</span>
-      </ConditionalView>
-      <ConditionalView visible={!loading}>
-        {PomodoroViewModel.isBreakTimeMode(pomodoroMode) ? 'DESCANSO' : 'FOCO'}
-        <h1>{getFormattedTimer()}</h1>
-        {hasActivePomodoro ? (
-          <button onClick={handlerStopPomodoro}>Stop Pomodoro </button>
-        ) : (
-          <button onClick={handlerStartPomodoro}>Start Pomodoro </button>
-        )}
-      </ConditionalView>
+      <main className="flex flex-1 flex-col items-center justify-center">
+        <ConditionalView visible={loading}>
+          <span>Loading...</span>
+        </ConditionalView>
+        <ConditionalView visible={!loading}>
+          <h2 className="font-bold text-lg text-rose-400">
+            {PomodoroViewModel.isBreakTimeMode(pomodoroMode)
+              ? 'DESCANSO'
+              : 'FOCO'}
+          </h2>
+          <h1 className="my-2 font-bold text-3xl">{getFormattedTimer()}</h1>
+          {hasActivePomodoro ? (
+            <BaseButton onClick={handlerStopPomodoro}>
+              Stop Pomodoro{' '}
+            </BaseButton>
+          ) : (
+            <BaseButton onClick={handlerStartPomodoro}>
+              Start Pomodoro{' '}
+            </BaseButton>
+          )}
+        </ConditionalView>
+      </main>
     </Container>
   );
 };
