@@ -40,4 +40,10 @@ describe('GetInternalToken', () => {
       internalToken: fakeToken,
     });
   });
+
+  it('should call TokenRepository.load', async () => {
+    await sut();
+    expect(tokenRepository.load).toBeCalledTimes(1);
+    expect(tokenRepository.load).toBeCalledWith();
+  });
 });
