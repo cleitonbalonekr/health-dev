@@ -46,4 +46,12 @@ describe('GetInternalToken', () => {
     expect(tokenRepository.load).toBeCalledTimes(1);
     expect(tokenRepository.load).toBeCalledWith();
   });
+  it('should return an existent token when found', async () => {
+    const foundedToken = 'founded_token';
+    tokenRepository.load.mockResolvedValueOnce(new InternalToken(foundedToken));
+    const response = await sut();
+    expect(response).toEqual({
+      internalToken: foundedToken,
+    });
+  });
 });

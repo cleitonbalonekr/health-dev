@@ -15,7 +15,12 @@ type Setup = (
 
 export const setupGetInternalToken: Setup =
   (tokenGenerator, tokenRepository) => async () => {
-    await tokenRepository.load();
+    const existentToken = await tokenRepository.load();
+    if (existentToken) {
+      return {
+        internalToken: existentToken.value,
+      };
+    }
     const generatedToken = await tokenGenerator.generate();
     const internalToken = new InternalToken(generatedToken);
     await tokenRepository.save(internalToken);
