@@ -14,7 +14,7 @@ const makePomodoroToChromeStorage = () => {
 
 describe('ChromeStoragePomodoroRepository', () => {
   let sut: PomodoroRepository;
-  const KEY = '@HelthDev:Pomodoro';
+  const KEY = '@HeathDev:Pomodoro';
 
   beforeEach(() => {
     sut = new ChromeStoragePomodoroRepository();

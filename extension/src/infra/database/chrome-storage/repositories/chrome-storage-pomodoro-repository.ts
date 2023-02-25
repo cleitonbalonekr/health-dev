@@ -3,7 +3,7 @@ import { PomodoroRepository } from '@/application/repositories/pomodoro-reposito
 import { ChromeStoragePomodoroMapper } from '../mappers/chrome-storage-pomodoro-mapper';
 
 export class ChromeStoragePomodoroRepository implements PomodoroRepository {
-  private key: string = '@HelthDev:Pomodoro';
+  private key: string = '@HeathDev:Pomodoro';
 
   async findPomodoro(): Promise<Pomodoro | null> {
     const raw = await chrome.storage.session.get(this.key);
