@@ -1,13 +1,11 @@
 import { InternalToken } from '@/application/entities/internal-token';
 import { TokenGenerator } from '@/application/gateways/token-generator';
 
-type Input = {};
-
 type Output = {
   internalToken: string;
 };
 
-export type GetInternalToken = (input: Input) => Promise<Output>;
+export type GetInternalToken = () => Promise<Output>;
 
 type Setup = (tokenGenerator: TokenGenerator) => GetInternalToken;
 
