@@ -17,7 +17,7 @@ describe('ChromeStorageTokenRepository', () => {
   const KEY = '@HeathDev:InternalToken';
   beforeEach(() => {
     sut = new ChromeStorageTokenRepository();
-    // vi.mocked(chrome.storage.local.get).mockImplementation(() => ({}));
+    vi.mocked(chrome.storage.local.get).mockImplementation(() => ({}));
   });
   describe('save', () => {
     it('should save a InternalToken', async () => {
@@ -29,6 +29,27 @@ describe('ChromeStorageTokenRepository', () => {
       expect(chrome.storage.local.set).toHaveBeenCalledWith({
         [KEY]: value,
       });
+    });
+  });
+  describe('load', () => {
+    it('should return a token', async () => {
+      const { value } = makeInternalTokenToChromeStorage();
+      vi.mocked(chrome.storage.local.get).mockImplementationOnce(() => ({
+        [KEY]: value,
+      }));
+
+      const internalToken = await sut.load();
+
+      expect(internalToken).toBeTruthy();
+      expect(internalToken).toBeInstanceOf(InternalToken);
+      expect(internalToken?.value).toEqual(value);
+      expect(chrome.storage.local.get).toBeCalledTimes(1);
+      expect(chrome.storage.local.get).toHaveBeenCalledWith(KEY);
+    });
+    it('should return a null', async () => {
+      const internalToken = await sut.load();
+
+      expect(internalToken).toBeNull();
     });
   });
 });
