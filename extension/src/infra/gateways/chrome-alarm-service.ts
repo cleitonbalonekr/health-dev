@@ -47,7 +47,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
-const sendNotification = async (to?: string) => {
+const sendNotification = async () => {
   try {
     const notificationToken =
       await getFirebaseSubscriptionRepositorySingleton().load(
