@@ -35,7 +35,7 @@ export const setupNotifyIntegratedDevice: Setup =
       notification: {
         title,
         body: description,
-        badge: 'alarm.jpg',
+        // badge: 'alarm.jpg',
       },
     };
     const response = await httpClient.request({

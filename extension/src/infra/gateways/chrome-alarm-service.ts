@@ -35,11 +35,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       },
       () => {}
     );
-    const response = await sendNotification(
-      notification.title,
-      notification.description
-    );
-    console.log('response', response);
+    await sendNotification(notification.title, notification.description);
   }
 });
 
@@ -50,7 +46,7 @@ const sendNotification = async (title: string, description: string) => {
       title,
       description,
     });
-    console.log('response', response);
+    console.log('response notification', response);
   } catch (error) {
     console.log(error);
   }
