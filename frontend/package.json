@@ -15,14 +15,17 @@
     "firebase-common-settings": "workspace:*",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-lottie": "^1.2.3",
     "react-router-dom": "^6.8.1",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/react-lottie": "^1.2.6",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "firestore-vitest-mock": "^0.3.2",
