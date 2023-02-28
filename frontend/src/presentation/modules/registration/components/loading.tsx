@@ -11,7 +11,7 @@ const LoadingRegistration: React.FC = () => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center">
       <h4 className="text-center text-black font-bold text-xl">
-        Conectando Dispositivo!
+        Conectando Dispositivo...
       </h4>
       <h5 className="text-center mt-1 text-black font-medium text-md">
         Não feche essa página.
