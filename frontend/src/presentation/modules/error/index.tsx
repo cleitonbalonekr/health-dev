@@ -9,7 +9,7 @@ import pageNotFoundAnimation from './animations/error-404.json';
 
 const ErrorPage: React.FC = () => {
   return (
-    <div className="h-screen p-2 flex flex-1 flex-col items-center justify-center bg-slate-100">
+    <div className="min-h-screen p-2 flex flex-1 flex-col items-center justify-center bg-slate-100">
       <h4 className="text-center text-black font-bold text-xl">
         Ops! Parece que não tem nada por aqui.
       </h4>

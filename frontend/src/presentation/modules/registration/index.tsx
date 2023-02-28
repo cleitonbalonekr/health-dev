@@ -65,7 +65,7 @@ const Registration: React.FC<Props> = ({ saveSubscription }) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col justify-center items-center h-screen bg-slate-50">
+    <div className="min-h-screen flex flex-1 flex-col justify-center items-center h-screen bg-slate-50">
       {loading ? (
         <LoadingRegistration />
       ) : error === RegistrationError.NO_ERROR ? (
