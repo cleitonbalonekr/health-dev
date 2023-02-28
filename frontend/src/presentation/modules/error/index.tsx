@@ -5,11 +5,11 @@ import {
 } from '@/presentation/resources/base-settings';
 import React from 'react';
 import Lottie from 'react-lottie';
-import pageNotFoundAnimation from './animations/search-not-found.json';
+import pageNotFoundAnimation from './animations/error-404.json';
 
 const ErrorPage: React.FC = () => {
   return (
-    <div className="h-screen p-2 flex flex-1 flex-col items-center justify-center">
+    <div className="h-screen p-2 flex flex-1 flex-col items-center justify-center bg-slate-100">
       <h4 className="text-center text-black font-bold text-xl">
         Ops! Parece que não tem nada por aqui.
       </h4>
