@@ -4,6 +4,8 @@ import { registerToken } from 'firebase-common-settings/src/messaging';
 import { SaveSubscription } from '@/application/use-cases/save-subscription';
 import RegistrationSucceed from './components/success';
 import LoadingRegistration from './components/loading';
+import RegistrationInternalError from './components/error';
+import PermissionDenied from './components/permission-denied';
 
 type Props = {
   saveSubscription: SaveSubscription;
@@ -63,13 +65,15 @@ const Registration: React.FC<Props> = ({ saveSubscription }) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col  justify-center h-screen">
+    <div className="flex flex-1 flex-col  justify-center items-center h-screen">
       {loading ? (
         <LoadingRegistration />
       ) : error === RegistrationError.NO_ERROR ? (
         <RegistrationSucceed />
+      ) : error === RegistrationError.PERMISSION_DENIED ? (
+        <RegistrationInternalError />
       ) : (
-        <RegistrationSucceed />
+        <PermissionDenied />
       )}
     </div>
   );

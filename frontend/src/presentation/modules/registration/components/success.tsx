@@ -9,11 +9,11 @@ import {
 
 const RegistrationSucceed: React.FC = () => {
   return (
-    <div className="flex flex-1 flex-col bg-emerald-500 items-center justify-center">
-      <h4 className="text-center text-white font-bold text-xl">
+    <div className="flex flex-1 flex-col  items-center justify-center">
+      <h4 className="text-center text-emerald-500 font-bold text-xl">
         Dispositivo conectado!
       </h4>
-      <h5 className="text-center mt-1 text-white font-medium text-md">
+      <h5 className="text-center mt-1 text-emerald-500 font-medium text-md">
         Você já pode fechar essa página.
       </h5>
 
