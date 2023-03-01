@@ -10,6 +10,7 @@ import {
 import { Subscription } from '@/application/entities/subscription';
 import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import { FirebaseSubscriptionMapper } from '../mappers/firebase-subscription-mapper';
+import { ExternalToken } from '@/application/entities/external-token';
 
 export class FirebaseSubscriptionRepository implements SubscriptionRepository {
   private subscriptionCollection: CollectionReference;
@@ -33,5 +34,13 @@ export class FirebaseSubscriptionRepository implements SubscriptionRepository {
     });
 
     return true;
+  }
+  async load(externalToken: ExternalToken): Promise<string | null> {
+    const subscriptionDoc = doc(
+      this.subscriptionCollection,
+      externalToken.value
+    );
+    const subscription = await getDoc(subscriptionDoc);
+    return subscription.exists() ? subscription.data().notificationToken : null;
   }
 }

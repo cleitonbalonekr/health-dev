@@ -4,7 +4,7 @@ import {
   cleanEmulators,
 } from 'firebase-common-settings/tests/utils/firebase-emulator';
 import { FirestoreInstance } from 'firebase-common-settings';
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { makeSubscription } from '@/tests/application/factories/subscription-factory';
 import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import { FirebaseSubscriptionRepository } from '@/infra/database/firebase/repositories/firebase-subscription-repository';
@@ -44,6 +44,22 @@ describe('FirebaseSubscriptionRepository', () => {
       });
       expect(storageData.id).toEqual(subscription.externalToken.value);
       expect(response).toBeTruthy();
+    });
+  });
+  describe('load', () => {
+    it('should return notificationToken when find a token', async () => {
+      const subscription = makeSubscription();
+      await setDoc(getSubscriptionRef(subscription.externalToken.value), {
+        notificationToken: subscription.notificationToken,
+      });
+      const response = await sut.load(subscription.externalToken);
+      expect(response).toEqual(subscription.notificationToken);
+    });
+    it('should return null when do not find a token', async () => {
+      const subscription = makeSubscription();
+
+      const response = await sut.load(subscription.externalToken);
+      expect(response).toBeNull();
     });
   });
 });
