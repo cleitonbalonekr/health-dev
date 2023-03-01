@@ -1,6 +1,9 @@
 import Registration from '@/presentation/modules/registration';
-import { makeSaveSubscription } from '../use-cases';
+import { makeSaveSubscription, makeVerifyExternalToken } from '../use-cases';
 
 export const makeRegistration = () => (
-  <Registration saveSubscription={makeSaveSubscription()} />
+  <Registration
+    saveSubscription={makeSaveSubscription()}
+    verifyExternalToken={makeVerifyExternalToken()}
+  />
 );

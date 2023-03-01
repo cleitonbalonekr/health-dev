@@ -6,9 +6,11 @@ import RegistrationSucceed from './components/success';
 import LoadingRegistration from './components/loading';
 import RegistrationInternalError from './components/error';
 import PermissionDenied from './components/permission-denied';
+import { VerifyExternalToken } from '@/application/use-cases/verify-external-token';
 
 type Props = {
   saveSubscription: SaveSubscription;
+  verifyExternalToken: VerifyExternalToken;
 };
 
 /* <a href="https://iconscout.com/lotties/reveal-loading" target="_blank">Reveal Loading Animated Icon</a> by <a href="https://iconscout.com/contributors/rgb4media">RGB4Media</a> on <a href="https://iconscout.com">IconScout</a> */
@@ -16,10 +18,14 @@ type Props = {
 enum RegistrationError {
   PERMISSION_DENIED,
   SUBSCRIPTION,
+  INVALID_TOKEN,
   NO_ERROR,
 }
 
-const Registration: React.FC<Props> = ({ saveSubscription }) => {
+const Registration: React.FC<Props> = ({
+  saveSubscription,
+  verifyExternalToken,
+}) => {
   const { extensionId } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<RegistrationError>(
@@ -32,9 +38,14 @@ const Registration: React.FC<Props> = ({ saveSubscription }) => {
   const subscribeToNotifications = async () => {
     try {
       setLoading(true);
-      if (!extensionId) {
+      const isValidToken = await verifyExternalToken({
+        externalToken: String(extensionId),
+      });
+      if (!isValidToken) {
+        setError(RegistrationError.INVALID_TOKEN);
         return;
       }
+
       const permission = await askNotificationPermission();
       if (isPermissionDenied(permission)) {
         setError(RegistrationError.PERMISSION_DENIED);
@@ -43,7 +54,7 @@ const Registration: React.FC<Props> = ({ saveSubscription }) => {
       const notificationToken = await registerToken();
       const response = await saveSubscription({
         notificationToken,
-        externalToken: extensionId,
+        externalToken: String(extensionId),
       });
       console.log('response', response);
     } catch (error) {
