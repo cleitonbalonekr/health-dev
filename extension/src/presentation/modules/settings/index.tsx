@@ -5,7 +5,7 @@ import { GetInternalToken } from '@/application/use-cases/get-internal-token';
 import { useEffect, useState } from 'react';
 import ConditionalView from '@/presentation/components/ConditionalView';
 
-const REGISTRATION_URL = 'https://b15c-201-33-169-181.sa.ngrok.io/';
+const REGISTRATION_URL = 'https://0dbd-201-33-169-181.sa.ngrok.io/';
 
 interface Props {
   getInternalToken: GetInternalToken;

@@ -7,6 +7,7 @@ import LoadingRegistration from './components/loading';
 import RegistrationInternalError from './components/error';
 import PermissionDenied from './components/permission-denied';
 import { VerifyExternalToken } from '@/application/use-cases/verify-external-token';
+import SearchNotFound from './components/not-found';
 
 type Props = {
   saveSubscription: SaveSubscription;
@@ -45,13 +46,14 @@ const Registration: React.FC<Props> = ({
         setError(RegistrationError.INVALID_TOKEN);
         return;
       }
-
       const permission = await askNotificationPermission();
       if (isPermissionDenied(permission)) {
         setError(RegistrationError.PERMISSION_DENIED);
         return;
       }
       const notificationToken = await registerToken();
+      console.log('notificationToken', notificationToken);
+
       const response = await saveSubscription({
         notificationToken,
         externalToken: String(extensionId),
@@ -75,17 +77,22 @@ const Registration: React.FC<Props> = ({
     return false;
   };
 
+  const FeedbackComponent = () => {
+    switch (error) {
+      case RegistrationError.PERMISSION_DENIED:
+        return React.createElement(PermissionDenied);
+      case RegistrationError.INVALID_TOKEN:
+        return React.createElement(SearchNotFound);
+      case RegistrationError.SUBSCRIPTION:
+        return React.createElement(RegistrationInternalError);
+      default:
+        return React.createElement(RegistrationSucceed);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-1 flex-col justify-center items-center h-screen bg-slate-50">
-      {loading ? (
-        <LoadingRegistration />
-      ) : error === RegistrationError.NO_ERROR ? (
-        <RegistrationSucceed />
-      ) : error === RegistrationError.PERMISSION_DENIED ? (
-        <RegistrationInternalError />
-      ) : (
-        <PermissionDenied />
-      )}
+      {loading ? <LoadingRegistration /> : <FeedbackComponent />}
     </div>
   );
 };
