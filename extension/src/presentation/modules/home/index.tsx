@@ -113,7 +113,7 @@ const Home: React.FC<Props> = ({
               ? 'DESCANSO'
               : 'FOCO'}
           </h2>
-          <h1 className="my-2 font-bold text-3xl">{getFormattedTimer()}</h1>
+          <h1 className="my-2 font-bold text-5xl">{getFormattedTimer()}</h1>
           {hasActivePomodoro ? (
             <BaseButton onClick={handlerStopPomodoro}>
               Stop Pomodoro{' '}
