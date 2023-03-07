@@ -1,54 +1,51 @@
-import { QRCodeCanvas } from 'qrcode.react';
+import { useNavigate } from 'react-router-dom';
 import Container from '@/presentation/components/container';
 import NavigationHeader from '@/presentation/components/navigation-header';
-import { GetInternalToken } from '@/application/use-cases/get-internal-token';
-import { useEffect, useState } from 'react';
-import ConditionalView from '@/presentation/components/ConditionalView';
+import { FaChevronRight } from 'react-icons/fa';
 
-const REGISTRATION_URL = 'https://0dbd-201-33-169-181.sa.ngrok.io/';
+const PAGES = [
+  {
+    title: 'Integrar Notificações',
+    route: 'integration',
+  },
+  {
+    title: 'Lembrete de Água',
+    route: 'integration',
+  },
+  {
+    title: 'Notas',
+    route: 'integration',
+  },
+  {
+    title: 'Alarme',
+    route: 'integration',
+  },
+];
 
-interface Props {
-  getInternalToken: GetInternalToken;
-}
+const Settings: React.FC = () => {
+  const navigate = useNavigate();
 
-const Settings: React.FC<Props> = ({ getInternalToken }) => {
-  const [token, setToken] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getToken();
-  }, []);
-
-  const getToken = async () => {
-    try {
-      setLoading(true);
-      const { internalToken } = await getInternalToken();
-      setToken(internalToken);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+  const handleNavigationTo = (route: string) => {
+    navigate(route);
   };
-
   return (
     <Container>
       <NavigationHeader />
-      {/* <h1 className="text-center font-medium">Settings Page</h1> */}
-      <ConditionalView visible={!!token}>
-        <main className="flex flex-1 flex-col items-center justify-center">
-          <p className="text-center text-sm">
-            Para receber notificações em seu celular, leia o QRCode abaixo e
-            siga as instruções
-          </p>
-          <QRCodeCanvas value={`${REGISTRATION_URL}subscribe/${token}`} />,
-        </main>
-      </ConditionalView>
-      <ConditionalView visible={!token}>
-        {loading
-          ? 'Carregando Token para integração'
-          : 'Falha ao obter token para integração'}
-      </ConditionalView>
+      <main className="flex flex-1 flex-col px-2 items-center justify-center">
+        {PAGES.map((page, index) => (
+          <div
+            key={index}
+            onClick={() => handleNavigationTo(page.route)}
+            className="flex  items-center justify-between w-full bg-rose-300 p-2 my-2 rounded"
+          >
+            <p className="text-black font-medium">{page.title}</p>
+            <FaChevronRight size={18} color="black" />
+          </div>
+        ))}
+        <footer className="mt-4">
+          <p className="text-sm font-semibold">v1.0-beta</p>
+        </footer>
+      </main>
     </Container>
   );
 };

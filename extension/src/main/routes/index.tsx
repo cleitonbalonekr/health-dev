@@ -3,7 +3,11 @@ import {
   Route,
   createMemoryRouter,
 } from 'react-router-dom';
-import { makeHome, makeSettings } from '@/main/factories/pages';
+import {
+  makeHome,
+  makeSettings,
+  makeIntegration,
+} from '@/main/factories/pages';
 import ErrorPage from '@/presentation/modules/error';
 
 export const router = createMemoryRouter(
@@ -11,6 +15,7 @@ export const router = createMemoryRouter(
     <Route errorElement={<ErrorPage />}>
       <Route index element={makeHome()} />
       <Route path="settings" element={makeSettings()} />
+      <Route path="settings/integration" element={makeIntegration()} />
     </Route>
   )
 );
