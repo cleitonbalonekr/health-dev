@@ -10,7 +10,7 @@ const PAGES = [
   },
   {
     title: 'Lembrete de Água',
-    route: 'integration',
+    route: 'water-reminder',
   },
   {
     title: 'Notas',
