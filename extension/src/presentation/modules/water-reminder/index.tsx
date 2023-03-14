@@ -7,14 +7,11 @@ const WaterReminder: React.FC = () => {
   return (
     <Container>
       <NavigationHeader />
-      <main className="p-2">
+      <main className="p-2 flex flex-1 flex-col">
         <p className="text-xs mb-1">
           Calcule a quantidade de água diária necessária
         </p>
-        <form
-          action=""
-          className="flex flex-1 flex-row justify-between items-center"
-        >
+        <form className="flex flex-row justify-between items-center">
           <input
             className="rounded-md bg-slate-200 text-black py-3 px-4 w-2/5"
             type="number"
@@ -28,6 +25,13 @@ const WaterReminder: React.FC = () => {
             Calcular
           </BaseButton>
         </form>
+        <h1 className="text-center font-bold text-emerald-500 my-4">
+          Você precisa beber 2l de água por dia.
+        </h1>
+        <BaseButton className="bg-emerald-500 hover:bg-e mb-1">
+          Lembrar de beber água
+        </BaseButton>
+        {/* <BaseButton>Remover lembrete</BaseButton> */}
       </main>
     </Container>
   );
