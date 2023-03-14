@@ -49,7 +49,7 @@ describe('FetchHttpClient', () => {
     });
   });
 
-  it.only('Should return correct error', async () => {
+  it('Should return correct error', async () => {
     vi.mocked(fetch).mockRejectedValueOnce({
       response,
     });

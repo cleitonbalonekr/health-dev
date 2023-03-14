@@ -39,9 +39,9 @@ export const setupNotifyIntegratedDevice: Setup =
       },
     };
     const response = await httpClient.request({
+      body,
       method: 'post',
       url: 'https://fcm.googleapis.com/fcm/send',
-      body,
       headers: {
         Authorization: `key=${FIREBASE_CONFIG.API_CLOUD_MESSAGE_KEY}`,
         'Content-Type': 'application/json',

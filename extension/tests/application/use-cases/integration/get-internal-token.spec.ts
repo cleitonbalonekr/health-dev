@@ -4,7 +4,7 @@ import { TokenRepository } from '@/application/repositories/token-repository';
 import {
   setupGetInternalToken,
   GetInternalToken,
-} from '@/application/use-cases/get-internal-token';
+} from '@/application/use-cases/integration';
 import { mock, MockProxy, mockReset } from 'vitest-mock-extended';
 describe('GetInternalToken', () => {
   let sut: GetInternalToken;
@@ -16,6 +16,7 @@ describe('GetInternalToken', () => {
     tokenRepository = mock();
   });
   beforeEach(() => {
+    mockReset(tokenRepository);
     mockReset(tokenGenerator);
     tokenGenerator.generate.mockResolvedValue(fakeToken);
     sut = setupGetInternalToken(tokenGenerator, tokenRepository);

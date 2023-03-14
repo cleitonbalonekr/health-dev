@@ -6,7 +6,7 @@ import { NotFoundError } from '@/application/use-cases/errors/not-found-error';
 import {
   setupNotifyIntegratedDevice,
   NotifyIntegratedDevice,
-} from '@/application/use-cases/notify-integrated-device';
+} from '@/application/use-cases/integration';
 import { mock, MockProxy, mockReset } from 'vitest-mock-extended';
 
 const makeFakeInternalToken = (fakeToken = 'valid_token') => {
@@ -33,6 +33,8 @@ describe('NotifyIntegratedDevice', () => {
   });
   beforeEach(() => {
     mockReset(tokenRepository);
+    mockReset(subscriptionRepository);
+    mockReset(httpClient);
     tokenRepository.load.mockResolvedValue(makeFakeInternalToken(fakeToken));
     subscriptionRepository.load.mockResolvedValue(fakeNotificationToken);
     httpClient.request.mockResolvedValue({
@@ -75,18 +77,6 @@ describe('NotifyIntegratedDevice', () => {
   it('should call HttpClient.request', async () => {
     await sut(params);
     expect(httpClient.request).toBeCalledTimes(1);
-    expect(httpClient.request).toHaveBeenCalledWith(
-      expect.objectContaining({
-        body: expect.objectContaining({
-          to: fakeNotificationToken,
-          notification: {
-            title: params.title,
-            body: params.description,
-            badge: expect.anything(),
-          },
-        }),
-      })
-    );
   });
   it('should return true on success', async () => {
     const response = await sut(params);

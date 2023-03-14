@@ -1,7 +1,7 @@
 import { QRCodeCanvas } from 'qrcode.react';
 import Container from '@/presentation/components/container';
 import NavigationHeader from '@/presentation/components/navigation-header';
-import { GetInternalToken } from '@/application/use-cases/get-internal-token';
+import { GetInternalToken } from '@/application/use-cases/integration/get-internal-token';
 import { useEffect, useState } from 'react';
 import ConditionalView from '@/presentation/components/ConditionalView';
 
