@@ -1,7 +1,7 @@
 import { AlarmType } from '@/application/entities/alarm';
 import { AlarmService } from '@/application/gateways/alarm-service';
 import { AlarmRepository } from '@/application/repositories/alarm-repository';
-import { makeNotifyIntegratedDevice } from '@/main/factories/use-cases/notify-integrated-device-factory';
+import { makeNotifyIntegratedDevice } from '@/main/factories/use-cases/integration';
 import { ChromeStorageAlarmRepository } from '../database/chrome-storage/repositories/chrome-storage-alarm-repository';
 
 export class ChromeAlarmService implements AlarmService {

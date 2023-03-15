@@ -1,5 +1,5 @@
 import Integration from '@/presentation/modules/integration';
-import { makeGetInternalToken } from '@/main/factories/use-cases/get-internal-token-factory';
+import { makeGetInternalToken } from '@/main/factories/use-cases/integration';
 
 export const makeIntegration = () => {
   return <Integration getInternalToken={makeGetInternalToken()} />;
