@@ -1,7 +1,7 @@
 import { WaterGoal } from '@/application/entities/water-goal';
 import { WaterReminderRepository } from '@/application/repositories/water-reminder-repository';
 
-type Output = any;
+type Output = number;
 type Input = {
   weight: number;
 };

@@ -1,9 +1,26 @@
+import { CalculeWaterQuantityDay } from '@/application/use-cases/water-reminder';
 import BaseButton from '@/presentation/components/base-button';
+import ConditionalView from '@/presentation/components/ConditionalView';
 import Container from '@/presentation/components/container';
 import NavigationHeader from '@/presentation/components/navigation-header';
-import React from 'react';
+import React, { useState } from 'react';
 
-const WaterReminder: React.FC = () => {
+interface Props {
+  calculeWaterQuantityDay: CalculeWaterQuantityDay;
+}
+
+const WaterReminder: React.FC<Props> = ({ calculeWaterQuantityDay }) => {
+  const [weight, setWeight] = useState('');
+  const [waterGoal, setWaterGoal] = useState<number>();
+
+  const calculateWater = async () => {
+    if (!weight) return;
+    const response = await calculeWaterQuantityDay({
+      weight: Number(weight),
+    });
+    setWaterGoal(response);
+  };
+
   return (
     <Container>
       <NavigationHeader />
@@ -17,21 +34,26 @@ const WaterReminder: React.FC = () => {
             type="number"
             name="wight"
             placeholder="Peso"
+            value={weight}
+            onChange={({ target }) => setWeight(target.value)}
           />
           <BaseButton
             type="button"
             className="flex flex-1 items-center justify-center ml-1"
+            onClick={calculateWater}
           >
             Calcular
           </BaseButton>
         </form>
-        <h1 className="text-center font-bold text-emerald-500 my-4">
-          Você precisa beber 2l de água por dia.
-        </h1>
-        <BaseButton className="bg-emerald-500 hover:bg-e mb-1">
-          Lembrar de beber água
-        </BaseButton>
-        {/* <BaseButton>Remover lembrete</BaseButton> */}
+        <ConditionalView visible={!!waterGoal}>
+          <h1 className="text-center font-bold text-emerald-500 my-4">
+            Você precisa beber {waterGoal}l de água por dia.
+          </h1>
+          <BaseButton className="bg-emerald-500 hover:bg-e my-1">
+            Lembrar de beber água
+          </BaseButton>
+          {/* <BaseButton>Remover lembrete</BaseButton> */}
+        </ConditionalView>
       </main>
     </Container>
   );
