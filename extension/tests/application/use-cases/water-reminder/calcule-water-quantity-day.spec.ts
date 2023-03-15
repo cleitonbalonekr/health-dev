@@ -1,3 +1,4 @@
+import { WaterGoal } from '@/application/entities/water-goal';
 import { WaterReminderRepository } from '@/application/repositories/water-reminder-repository';
 import {
   setupCalculeWaterQuantityDay,
@@ -26,6 +27,8 @@ describe('CalculeWaterQuantityDay', () => {
   it('should call WaterReminderRepository.save with correct values', async () => {
     const response = await sut(params);
     expect(waterReminderRepository.save).toHaveBeenCalledOnce();
-    expect(waterReminderRepository.save).toHaveBeenCalledWith(response);
+    expect(waterReminderRepository.save).toHaveBeenCalledWith(
+      new WaterGoal(response)
+    );
   });
 });

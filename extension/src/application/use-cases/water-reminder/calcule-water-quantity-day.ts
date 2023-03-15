@@ -1,3 +1,4 @@
+import { WaterGoal } from '@/application/entities/water-goal';
 import { WaterReminderRepository } from '@/application/repositories/water-reminder-repository';
 
 type Output = any;
@@ -19,6 +20,7 @@ export const setupCalculeWaterQuantityDay: Setup =
     const waterNecessaryInLiters = Number(
       (waterNecessaryInMl / 1000).toFixed(3)
     );
-    await waterReminderRepository.save(waterNecessaryInLiters);
+    const waterGoal = new WaterGoal(waterNecessaryInLiters);
+    await waterReminderRepository.save(waterGoal);
     return waterNecessaryInLiters;
   };

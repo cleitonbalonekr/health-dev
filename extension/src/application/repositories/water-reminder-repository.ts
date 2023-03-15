@@ -1,4 +1,6 @@
+import { WaterGoal } from '@/application/entities/water-goal';
+
 export interface WaterReminderRepository {
-  save(waterQuantity: number): Promise<void>;
-  load(): Promise<Number | null>;
+  save(waterQuantity: WaterGoal): Promise<void>;
+  load(): Promise<WaterGoal | null>;
 }
