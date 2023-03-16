@@ -1,17 +1,26 @@
 import { CalculeWaterQuantityDay } from '@/application/use-cases/water-reminder';
+import { GetWaterQuantityDay } from '@/application/use-cases/water-reminder/get-water-quantity-day';
 import BaseButton from '@/presentation/components/base-button';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import Container from '@/presentation/components/container';
 import NavigationHeader from '@/presentation/components/navigation-header';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
   calculeWaterQuantityDay: CalculeWaterQuantityDay;
+  getWaterQuantityDay: GetWaterQuantityDay;
 }
 
-const WaterReminder: React.FC<Props> = ({ calculeWaterQuantityDay }) => {
+const WaterReminder: React.FC<Props> = ({
+  calculeWaterQuantityDay,
+  getWaterQuantityDay,
+}) => {
   const [weight, setWeight] = useState('');
   const [waterGoal, setWaterGoal] = useState<number>();
+
+  useEffect(() => {
+    loadWaterQuantity();
+  }, []);
 
   const calculateWater = async () => {
     if (!weight) return;
@@ -19,6 +28,10 @@ const WaterReminder: React.FC<Props> = ({ calculeWaterQuantityDay }) => {
       weight: Number(weight),
     });
     setWaterGoal(response);
+  };
+  const loadWaterQuantity = async () => {
+    const response = await getWaterQuantityDay();
+    if (response) setWaterGoal(response);
   };
 
   return (
