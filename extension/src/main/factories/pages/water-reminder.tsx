@@ -3,12 +3,14 @@ import {
   makeCalculeWaterReminder,
   makeGetWaterReminder,
 } from '@/main/factories/use-cases/water-reminder';
+import { makeStartWaterAlarm } from '@/main/factories/use-cases/alarm';
 
 export const makeWaterReminder = () => {
   return (
     <WaterReminder
       calculeWaterQuantityDay={makeCalculeWaterReminder()}
       getWaterQuantityDay={makeGetWaterReminder()}
+      startWaterAlarm={makeStartWaterAlarm()}
     />
   );
 };

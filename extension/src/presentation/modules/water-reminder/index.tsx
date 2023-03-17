@@ -1,3 +1,4 @@
+import { StartWaterAlarm } from '@/application/use-cases/alarm';
 import { CalculeWaterQuantityDay } from '@/application/use-cases/water-reminder';
 import { GetWaterQuantityDay } from '@/application/use-cases/water-reminder/get-water-quantity-day';
 import BaseButton from '@/presentation/components/base-button';
@@ -9,11 +10,13 @@ import React, { useEffect, useState } from 'react';
 interface Props {
   calculeWaterQuantityDay: CalculeWaterQuantityDay;
   getWaterQuantityDay: GetWaterQuantityDay;
+  startWaterAlarm: StartWaterAlarm;
 }
 
 const WaterReminder: React.FC<Props> = ({
   calculeWaterQuantityDay,
   getWaterQuantityDay,
+  startWaterAlarm,
 }) => {
   const [weight, setWeight] = useState('');
   const [waterGoal, setWaterGoal] = useState<number>();
@@ -32,6 +35,14 @@ const WaterReminder: React.FC<Props> = ({
   const loadWaterQuantity = async () => {
     const response = await getWaterQuantityDay();
     if (response) setWaterGoal(response);
+  };
+
+  const startAlarm = async () => {
+    try {
+      await startWaterAlarm();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -62,7 +73,10 @@ const WaterReminder: React.FC<Props> = ({
           <h1 className="text-center font-bold text-emerald-500 my-4">
             Você precisa beber {waterGoal}l de água por dia.
           </h1>
-          <BaseButton className="bg-emerald-500 hover:bg-e my-1">
+          <BaseButton
+            onClick={startAlarm}
+            className="bg-emerald-500 hover:bg-e my-1"
+          >
             Lembrar de beber água
           </BaseButton>
           {/* <BaseButton>Remover lembrete</BaseButton> */}
