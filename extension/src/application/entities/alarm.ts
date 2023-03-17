@@ -2,6 +2,7 @@ import { Notification } from './notification';
 
 export enum AlarmType {
   POMODORO = 'pomodoro',
+  WATER_REMINDER = 'water_reminder',
 }
 
 export interface AlarmProps {
@@ -17,7 +18,7 @@ export class Alarm {
     this.props = props;
   }
 
-  public getMinutesRemaing() {
+  public getMinutesRemaining() {
     const actualDate = new Date();
     const diferenceInMilisseconds =
       (this.booksAt.getTime() - actualDate.getTime()) / 1000;

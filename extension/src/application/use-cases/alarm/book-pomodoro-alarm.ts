@@ -33,7 +33,7 @@ export const setupBookPomodoroAlarm: Setup =
     });
     await alarmRepository.save(alarm);
     alarmService.bookAlarm({
-      minutesRemaining: alarm.getMinutesRemaing(),
+      minutesRemaining: alarm.getMinutesRemaining(),
       id: alarm.type,
       repeatEveryMinutes: alarm.repeatEveryMinutes,
     });

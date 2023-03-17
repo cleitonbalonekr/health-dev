@@ -19,7 +19,7 @@ describe('Alarm', () => {
       booksAt: addMinutes(new Date(), 5),
     });
 
-    const minutes = alarm.getMinutesRemaing();
+    const minutes = alarm.getMinutesRemaining();
     expect(minutes).toEqual(5);
   });
 });
