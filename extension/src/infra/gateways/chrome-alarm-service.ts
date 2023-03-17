@@ -11,6 +11,10 @@ export class ChromeAlarmService implements AlarmService {
       periodInMinutes: repeatEveryMinutes,
     });
   }
+
+  stopAlarm(name: string): void {
+    chrome.alarms.clear(name);
+  }
 }
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
