@@ -1,8 +1,8 @@
 import { AlarmType } from '@/application/entities/alarm';
+import { Notification } from '@/application/entities/notification';
 import { AlarmService } from '@/application/gateways/alarm-service';
-import { AlarmRepository } from '@/application/repositories/alarm-repository';
 import { makeNotifyIntegratedDevice } from '@/main/factories/use-cases/integration';
-import { ChromeStorageAlarmRepository } from '../database/chrome-storage/repositories/chrome-storage-alarm-repository';
+import { makeChromeStorageAlarmRepository } from '@/main/factories/infra/repositories/chrome-storage';
 
 export class ChromeAlarmService implements AlarmService {
   bookAlarm({ id, minutesRemaining, repeatEveryMinutes }: AlarmService.Input) {
@@ -13,33 +13,40 @@ export class ChromeAlarmService implements AlarmService {
   }
 }
 
-let chromeStorageAlarmRepository: AlarmRepository | null = null;
-const getAlarmRepositorySingleton = () => {
-  if (chromeStorageAlarmRepository) return chromeStorageAlarmRepository;
-  return (chromeStorageAlarmRepository = new ChromeStorageAlarmRepository());
-};
-
 chrome.alarms.onAlarm.addListener(async (alarm) => {
-  const storedAlarm = await getAlarmRepositorySingleton().getByType(
-    alarm.name as AlarmType.POMODORO
+  const storedAlarm = await makeChromeStorageAlarmRepository().getByType(
+    alarm.name as AlarmType
   );
-  if (storedAlarm) {
-    const notification = storedAlarm.notification;
-    chrome.notifications.create(
-      {
-        type: 'basic',
-        iconUrl: notification.iconUrl,
-        title: notification.title,
-        message: notification.description,
-        silent: false,
-      },
-      () => {}
+  if (!storedAlarm) {
+    return;
+  }
+  const notification = storedAlarm.notification;
+  sendLocalNotification(notification);
+  if (alarm.name === AlarmType.POMODORO) {
+    await sendNotificationToIntegratedDevices(
+      notification.title,
+      notification.description
     );
-    await sendNotification(notification.title, notification.description);
   }
 });
 
-const sendNotification = async (title: string, description: string) => {
+const sendLocalNotification = (notification: Notification) => {
+  chrome.notifications.create(
+    {
+      type: 'basic',
+      iconUrl: notification.iconUrl,
+      title: notification.title,
+      message: notification.description,
+      silent: false,
+    },
+    () => {}
+  );
+};
+
+const sendNotificationToIntegratedDevices = async (
+  title: string,
+  description: string
+) => {
   try {
     const notifyIntegratedDevice = makeNotifyIntegratedDevice();
     const response = await notifyIntegratedDevice({
