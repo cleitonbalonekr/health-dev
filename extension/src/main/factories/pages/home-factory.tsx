@@ -1,5 +1,8 @@
 import Home from '@/presentation/modules/home';
-import { makeBookPomodoroAlarm } from '@/main/factories/use-cases/alarm';
+import {
+  makeBookPomodoroAlarm,
+  makeStopAlarm,
+} from '@/main/factories/use-cases/alarm';
 import {
   makeGetPomodoro,
   makeStartPomodoro,
@@ -13,6 +16,7 @@ export const makeHome = () => {
       GetPomodoro={makeGetPomodoro()}
       stopPomodoro={makeStopPomodoro()}
       bookPomodoroAlarm={makeBookPomodoroAlarm()}
+      stopAlarm={makeStopAlarm()}
     />
   );
 };

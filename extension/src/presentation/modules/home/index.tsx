@@ -1,31 +1,34 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaCog } from 'react-icons/fa';
 import { POMODORO_MODE } from '@/application/entities/pomodoro';
+import { BookPomodoroAlarm, StopAlarm } from '@/application/use-cases/alarm';
 import {
   StartPomodoro,
   GetPomodoro,
   StopPomodoro,
 } from '@/application/use-cases/pomodoro';
+import { AlarmType } from '@/application/entities/alarm';
 import { PomodoroViewModel } from '@/presentation/view-models/pomodoro-view-model';
 import ConditionalView from '@/presentation/components/ConditionalView';
-import React, { useEffect, useState } from 'react';
-import usePomodoroTimer from './hooks/usePomodoroTimer';
-import { BookPomodoroAlarm } from '@/application/use-cases/alarm';
-import { useNavigate } from 'react-router-dom';
 import Container from '@/presentation/components/container';
 import NavigationHeader from '@/presentation/components/navigation-header';
-import { FaCog } from 'react-icons/fa';
 import BaseButton from '@/presentation/components/base-button';
+import usePomodoroTimer from './hooks/usePomodoroTimer';
 
 export type Props = {
   StartPomodoro: StartPomodoro;
   GetPomodoro: GetPomodoro;
   stopPomodoro: StopPomodoro;
   bookPomodoroAlarm: BookPomodoroAlarm;
+  stopAlarm: StopAlarm;
 };
 const Home: React.FC<Props> = ({
   StartPomodoro,
   GetPomodoro,
   stopPomodoro,
   bookPomodoroAlarm,
+  stopAlarm,
 }: Props) => {
   const { getFormattedTimer, initPomodoroTimer, stopPomodoroTimer } =
     usePomodoroTimer({
@@ -96,6 +99,9 @@ const Home: React.FC<Props> = ({
   const handlerStopPomodoro = async () => {
     stopPomodoroTimer();
     await stopPomodoro();
+    await stopAlarm({
+      alarmType: AlarmType.POMODORO,
+    });
   };
 
   return (

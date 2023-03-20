@@ -1,4 +1,5 @@
-import { StartWaterAlarm } from '@/application/use-cases/alarm';
+import { AlarmType } from '@/application/entities/alarm';
+import { StartWaterAlarm, StopAlarm } from '@/application/use-cases/alarm';
 import { CalculeWaterQuantityDay } from '@/application/use-cases/water-reminder';
 import { GetWaterQuantityDay } from '@/application/use-cases/water-reminder/get-water-quantity-day';
 import BaseButton from '@/presentation/components/base-button';
@@ -11,12 +12,14 @@ interface Props {
   calculeWaterQuantityDay: CalculeWaterQuantityDay;
   getWaterQuantityDay: GetWaterQuantityDay;
   startWaterAlarm: StartWaterAlarm;
+  stopAlarm: StopAlarm;
 }
 
 const WaterReminder: React.FC<Props> = ({
   calculeWaterQuantityDay,
   getWaterQuantityDay,
   startWaterAlarm,
+  stopAlarm,
 }) => {
   const [weight, setWeight] = useState('');
   const [waterGoal, setWaterGoal] = useState<number>();
@@ -40,6 +43,16 @@ const WaterReminder: React.FC<Props> = ({
   const startAlarm = async () => {
     try {
       await startWaterAlarm();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const stopWaterAlarm = async () => {
+    try {
+      await stopAlarm({
+        alarmType: AlarmType.WATER_REMINDER,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -79,7 +92,7 @@ const WaterReminder: React.FC<Props> = ({
           >
             Lembrar de beber água
           </BaseButton>
-          {/* <BaseButton>Remover lembrete</BaseButton> */}
+          {/* <BaseButton onClick={stopWaterAlarm}>Remover lembrete</BaseButton> */}
         </ConditionalView>
       </main>
     </Container>
