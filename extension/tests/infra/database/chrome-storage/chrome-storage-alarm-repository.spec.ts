@@ -18,7 +18,7 @@ describe('ChromeStorageAlarmRepository', () => {
 
   beforeEach(() => {
     sut = new ChromeStorageAlarmRepository();
-    vi.mocked(chrome.storage.session.get).mockImplementation(() => ({}));
+    vi.mocked(chrome.storage.local.get).mockImplementation(() => ({}));
   });
   describe('save', () => {
     it('should save an Alarm', async () => {
@@ -26,8 +26,8 @@ describe('ChromeStorageAlarmRepository', () => {
 
       await sut.save(alarm);
 
-      expect(chrome.storage.session.set).toBeCalledTimes(1);
-      expect(chrome.storage.session.set).toHaveBeenLastCalledWith({
+      expect(chrome.storage.local.set).toBeCalledTimes(1);
+      expect(chrome.storage.local.set).toHaveBeenLastCalledWith({
         [alarm.type]: value,
       });
     });
@@ -35,13 +35,13 @@ describe('ChromeStorageAlarmRepository', () => {
   describe('getByType', () => {
     it('should get an alarm by type and return it', async () => {
       const { alarm, value } = makeAlarmToChromeStorage();
-      vi.mocked(chrome.storage.session.get).mockImplementationOnce(() => ({
+      vi.mocked(chrome.storage.local.get).mockImplementationOnce(() => ({
         [alarm.type]: value,
       }));
 
       const openAlarm = await sut.getByType(alarm.type);
-      expect(chrome.storage.session.get).toBeCalledTimes(1);
-      expect(chrome.storage.session.get).toHaveBeenLastCalledWith(alarm.type);
+      expect(chrome.storage.local.get).toBeCalledTimes(1);
+      expect(chrome.storage.local.get).toHaveBeenLastCalledWith(alarm.type);
       expect(openAlarm).toEqual(alarm);
     });
     it('should return null when does not exist a open pomodoro', async () => {
@@ -56,10 +56,8 @@ describe('ChromeStorageAlarmRepository', () => {
 
       await sut.remove(alarm.type);
 
-      expect(chrome.storage.session.remove).toBeCalledTimes(1);
-      expect(chrome.storage.session.remove).toHaveBeenLastCalledWith(
-        alarm.type
-      );
+      expect(chrome.storage.local.remove).toBeCalledTimes(1);
+      expect(chrome.storage.local.remove).toHaveBeenLastCalledWith(alarm.type);
     });
   });
 });
