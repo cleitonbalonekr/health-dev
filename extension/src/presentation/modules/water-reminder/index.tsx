@@ -1,5 +1,9 @@
 import { AlarmType } from '@/application/entities/alarm';
-import { StartWaterAlarm, StopAlarm } from '@/application/use-cases/alarm';
+import {
+  StartWaterAlarm,
+  StopAlarm,
+  VerifyExistentAlarm,
+} from '@/application/use-cases/alarm';
 import { CalculeWaterQuantityDay } from '@/application/use-cases/water-reminder';
 import { GetWaterQuantityDay } from '@/application/use-cases/water-reminder/get-water-quantity-day';
 import BaseButton from '@/presentation/components/base-button';
@@ -13,6 +17,7 @@ interface Props {
   getWaterQuantityDay: GetWaterQuantityDay;
   startWaterAlarm: StartWaterAlarm;
   stopAlarm: StopAlarm;
+  verifyExistentAlarm: VerifyExistentAlarm;
 }
 
 const WaterReminder: React.FC<Props> = ({
@@ -20,12 +25,15 @@ const WaterReminder: React.FC<Props> = ({
   getWaterQuantityDay,
   startWaterAlarm,
   stopAlarm,
+  verifyExistentAlarm,
 }) => {
   const [weight, setWeight] = useState('');
   const [waterGoal, setWaterGoal] = useState<number>();
+  const [hasWaterAlarm, setHasWaterAlarm] = useState<boolean>();
 
   useEffect(() => {
     loadWaterQuantity();
+    loadWaterAlarm();
   }, []);
 
   const calculateWater = async () => {
@@ -38,6 +46,14 @@ const WaterReminder: React.FC<Props> = ({
   const loadWaterQuantity = async () => {
     const response = await getWaterQuantityDay();
     if (response) setWaterGoal(response);
+  };
+  const loadWaterAlarm = async () => {
+    const response = await verifyExistentAlarm({
+      alarmType: AlarmType.WATER_REMINDER,
+    });
+    if (response) {
+      setHasWaterAlarm(response);
+    }
   };
 
   const startAlarm = async () => {
@@ -86,13 +102,16 @@ const WaterReminder: React.FC<Props> = ({
           <h1 className="text-center font-bold text-emerald-500 my-4">
             Você precisa beber {waterGoal}l de água por dia.
           </h1>
-          <BaseButton
-            onClick={startAlarm}
-            className="bg-emerald-500 hover:bg-e my-1"
-          >
-            Lembrar de beber água
-          </BaseButton>
-          {/* <BaseButton onClick={stopWaterAlarm}>Remover lembrete</BaseButton> */}
+          {hasWaterAlarm ? (
+            <BaseButton
+              onClick={startAlarm}
+              className="bg-emerald-500 hover:bg-e my-1"
+            >
+              Lembrar de beber água
+            </BaseButton>
+          ) : (
+            <BaseButton onClick={stopWaterAlarm}>Remover lembrete</BaseButton>
+          )}
         </ConditionalView>
       </main>
     </Container>

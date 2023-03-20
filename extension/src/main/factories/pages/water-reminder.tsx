@@ -6,6 +6,7 @@ import {
 import {
   makeStartWaterAlarm,
   makeStopAlarm,
+  makeVerifyExistentAlarm,
 } from '@/main/factories/use-cases/alarm';
 
 export const makeWaterReminder = () => {
@@ -15,6 +16,7 @@ export const makeWaterReminder = () => {
       getWaterQuantityDay={makeGetWaterReminder()}
       startWaterAlarm={makeStartWaterAlarm()}
       stopAlarm={makeStopAlarm()}
+      verifyExistentAlarm={makeVerifyExistentAlarm()}
     />
   );
 };
