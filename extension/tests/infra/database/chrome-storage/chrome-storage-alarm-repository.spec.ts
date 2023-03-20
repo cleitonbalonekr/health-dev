@@ -21,7 +21,7 @@ describe('ChromeStorageAlarmRepository', () => {
     vi.mocked(chrome.storage.session.get).mockImplementation(() => ({}));
   });
   describe('save', () => {
-    it('should save a Alarm', async () => {
+    it('should save an Alarm', async () => {
       const { alarm, value } = makeAlarmToChromeStorage();
 
       await sut.save(alarm);
@@ -48,6 +48,18 @@ describe('ChromeStorageAlarmRepository', () => {
       const openAlarm = await sut.getByType(AlarmType.POMODORO);
 
       expect(openAlarm).toBeNull();
+    });
+  });
+  describe('remove', () => {
+    it('should remove an Alarm', async () => {
+      const { alarm } = makeAlarmToChromeStorage();
+
+      await sut.remove(alarm.type);
+
+      expect(chrome.storage.session.remove).toBeCalledTimes(1);
+      expect(chrome.storage.session.remove).toHaveBeenLastCalledWith(
+        alarm.type
+      );
     });
   });
 });
