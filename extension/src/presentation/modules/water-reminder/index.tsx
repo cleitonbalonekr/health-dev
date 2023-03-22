@@ -48,17 +48,22 @@ const WaterReminder: React.FC<Props> = ({
     if (response) setWaterGoal(response);
   };
   const loadWaterAlarm = async () => {
-    const response = await verifyExistentAlarm({
-      alarmType: AlarmType.WATER_REMINDER,
-    });
-    if (response) {
-      setHasWaterAlarm(response);
+    try {
+      const response = await verifyExistentAlarm({
+        alarmType: AlarmType.WATER_REMINDER,
+      });
+      if (response) {
+        setHasWaterAlarm(response);
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 
   const startAlarm = async () => {
     try {
       await startWaterAlarm();
+      setHasWaterAlarm(true);
     } catch (error) {
       console.log(error);
     }
@@ -69,8 +74,9 @@ const WaterReminder: React.FC<Props> = ({
       await stopAlarm({
         alarmType: AlarmType.WATER_REMINDER,
       });
+      setHasWaterAlarm(false);
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
@@ -102,15 +108,17 @@ const WaterReminder: React.FC<Props> = ({
           <h1 className="text-center font-bold text-emerald-500 my-4">
             Você precisa beber {waterGoal}l de água por dia.
           </h1>
-          {hasWaterAlarm ? (
+          {!hasWaterAlarm ? (
             <BaseButton
               onClick={startAlarm}
-              className="bg-emerald-500 hover:bg-e my-1"
+              className="bg-emerald-500 hover:bg-emerald-600 my-1"
             >
               Lembrar de beber água
             </BaseButton>
           ) : (
-            <BaseButton onClick={stopWaterAlarm}>Remover lembrete</BaseButton>
+            <BaseButton className="my-1" onClick={stopWaterAlarm}>
+              Remover lembrete
+            </BaseButton>
           )}
         </ConditionalView>
       </main>
