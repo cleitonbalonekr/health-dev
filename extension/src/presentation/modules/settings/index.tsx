@@ -14,7 +14,7 @@ const PAGES = [
   },
   {
     title: 'Notas',
-    route: 'integration',
+    route: 'notes',
   },
   {
     title: 'Alarme',

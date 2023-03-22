@@ -111,7 +111,7 @@ const WaterReminder: React.FC<Props> = ({
           {!hasWaterAlarm ? (
             <BaseButton
               onClick={startAlarm}
-              className="bg-emerald-500 hover:bg-emerald-600 my-1"
+              className="hover:bg-emerald-600 my-1 bg-emerald-400"
             >
               Lembrar de beber água
             </BaseButton>
