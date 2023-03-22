@@ -18,7 +18,7 @@ const PAGES = [
   },
   {
     title: 'Alarme',
-    route: 'integration',
+    route: 'alarms',
   },
 ];
 
