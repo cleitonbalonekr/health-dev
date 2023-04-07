@@ -8,11 +8,14 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "predeploy": "pnpm build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "firebase": "^9.17.1",
     "firebase-common-settings": "workspace:*",
+    "gh-pages": "^5.0.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "prop-types": "^15.8.1",
