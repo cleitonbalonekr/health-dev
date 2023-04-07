@@ -12,7 +12,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 );
 if ('serviceWorker' in navigator) {
   const config = encodeURIComponent(JSON.stringify(firebaseConfig));
-  const swUrl = `../public/firebase-messaging-sw.js?${config}`;
+  const isProduction = import.meta.env.PROD;
+  const productionSWUrl = './firebase-messaging-sw.js';
+  const developmentSWUrl = '../public/firebase-messaging-sw.js';
+
+  const swUrl = isProduction
+    ? `${productionSWUrl}?${config}`
+    : `${developmentSWUrl}?${config}`;
   navigator.serviceWorker
     .register(swUrl)
     .then(function (registration) {
