@@ -6,7 +6,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,6 +22,6 @@
       "@/tests/*": ["../tests/*"]
     },
   },
-  "include": ["src", "public","tests"],
+  "include": ["src","tests","public", "tsconfig.node.json", "vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

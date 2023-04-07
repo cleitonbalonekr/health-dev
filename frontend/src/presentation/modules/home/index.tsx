@@ -14,7 +14,7 @@ const Home: React.FC = () => {
 
   const handleConfirm = () => {
     if (!extensionId) return;
-    navigate(`/subscribe/${extensionId}`);
+    navigate(`subscribe/${extensionId}`);
   };
 
   return (

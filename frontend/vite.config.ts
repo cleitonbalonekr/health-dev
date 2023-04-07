@@ -12,9 +12,10 @@ export default defineConfig(({ command, mode }) => {
       globals: true,
       mockReset: true,
       passWithNoTests: true,
-      environment: 'node',
+      environment: 'jsdom',
       exclude: ['**/node_modules/**', '**/dist/**', '**/*.test.ts', 'src'],
     },
+    base: '/health-dev/',
     plugins: [react(), tsconfigPaths()],
     define: {
       FIREBASE_CONFIG: {
