@@ -15,14 +15,12 @@ export const registerToken = async () => {
       console.log('Notification permission denied.');
     }
   });
-  const response = await getToken(messaging, { vapidKey });
+  const registration = await navigator.serviceWorker.getRegistration();
+  const response = await getToken(messaging, {
+    vapidKey,
+    serviceWorkerRegistration: registration,
+  });
   return response;
 };
 
-export const foregroundMessage = () => {
-  const messaging = getMessaging();
-  onMessage(messaging, (payload) => {
-    console.log('Message received. ', payload);
-    // ...
-  });
-};
+export const foregroundMessage = () => {};
