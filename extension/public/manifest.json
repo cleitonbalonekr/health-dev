@@ -1,7 +1,7 @@
 {
-  "name": "Helth Concentration",
-  "description": "Focus on yous tasks, we'll help you be health",
-  "version": "1.0",
+  "name": "Affluens",
+  "description": "Focus on yous tasks",
+  "version": "0.0.0.1",
   "manifest_version": 3,
   "host_permissions": ["<all_urls>"],
   "action": {
@@ -13,9 +13,9 @@
     "type": "module"
   },
   "icons": {
-    "16": "logo192.png",
-    "48": "logo192.png",
-    "128": "logo192.png"
+    "16": "logo48.png",
+    "48": "logo48.png",
+    "128": "logo512.png"
   },
   "permissions": ["storage", "alarms", "notifications"]
 }
