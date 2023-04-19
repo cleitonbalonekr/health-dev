@@ -6,7 +6,6 @@ import {
   setupVerifyExternalToken,
 } from '@/application/use-cases/verify-external-token';
 import { mock, MockProxy } from 'vitest-mock-extended';
-import { makeSubscription } from '../factories/subscription-factory';
 describe('VerifyExternalToken', () => {
   let sut: VerifyExternalToken;
   let subscriptionRepository: MockProxy<SubscriptionRepository>;
@@ -18,14 +17,14 @@ describe('VerifyExternalToken', () => {
     };
   });
   beforeEach(() => {
-    subscriptionRepository.load.mockResolvedValue('any_token');
+    subscriptionRepository.verifyToken.mockResolvedValue(true);
     sut = setupVerifyExternalToken(subscriptionRepository);
   });
 
-  it('Should call SubscriptionRepository.load with correct values', async () => {
+  it('Should call SubscriptionRepository.verifyToken with correct values', async () => {
     await sut(params);
-    expect(subscriptionRepository.load).toHaveBeenCalledTimes(1);
-    expect(subscriptionRepository.load).toHaveBeenCalledWith(
+    expect(subscriptionRepository.verifyToken).toHaveBeenCalledTimes(1);
+    expect(subscriptionRepository.verifyToken).toHaveBeenCalledWith(
       new ExternalToken(params.externalToken)
     );
   });

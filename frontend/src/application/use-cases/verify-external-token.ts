@@ -23,6 +23,6 @@ export const setupVerifyExternalToken: Setup =
     } catch (error) {
       return false;
     }
-    const response = await subscriptionRepository.load(token);
-    return response ? true : false;
+    const response = await subscriptionRepository.verifyToken(token);
+    return response;
   };

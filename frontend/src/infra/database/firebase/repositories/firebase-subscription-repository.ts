@@ -35,12 +35,12 @@ export class FirebaseSubscriptionRepository implements SubscriptionRepository {
 
     return true;
   }
-  async load(externalToken: ExternalToken): Promise<string | null> {
+  async verifyToken(externalToken: ExternalToken): Promise<boolean> {
     const subscriptionDoc = doc(
       this.subscriptionCollection,
       externalToken.value
     );
     const subscription = await getDoc(subscriptionDoc);
-    return subscription.exists() ? subscription.data().notificationToken : null;
+    return subscription.exists();
   }
 }

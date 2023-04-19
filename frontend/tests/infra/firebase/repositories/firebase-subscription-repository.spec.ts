@@ -46,20 +46,20 @@ describe('FirebaseSubscriptionRepository', () => {
       expect(response).toBeTruthy();
     });
   });
-  describe('load', () => {
+  describe('verifyToken', () => {
     it('should return notificationToken when find a token', async () => {
       const subscription = makeSubscription();
       await setDoc(getSubscriptionRef(subscription.externalToken.value), {
         notificationToken: subscription.notificationToken,
       });
-      const response = await sut.load(subscription.externalToken);
-      expect(response).toEqual(subscription.notificationToken);
+      const response = await sut.verifyToken(subscription.externalToken);
+      expect(response).toBeTruthy();
     });
     it('should return null when do not find a token', async () => {
       const subscription = makeSubscription();
 
-      const response = await sut.load(subscription.externalToken);
-      expect(response).toBeNull();
+      const response = await sut.verifyToken(subscription.externalToken);
+      expect(response).toBeFalsy;
     });
   });
 });
