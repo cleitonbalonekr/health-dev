@@ -4,8 +4,10 @@ import {
   CollectionReference,
   doc,
   getDoc,
+  setDoc,
 } from 'firebase/firestore';
 import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
+import { InternalToken } from '@/application/entities/internal-token';
 
 export class FirebaseSubscriptionRepository implements SubscriptionRepository {
   private subscriptionCollection: CollectionReference;
@@ -19,5 +21,13 @@ export class FirebaseSubscriptionRepository implements SubscriptionRepository {
     const subscriptionDoc = doc(this.subscriptionCollection, externalToken);
     const subscription = await getDoc(subscriptionDoc);
     return subscription.exists() ? subscription.data().notificationToken : null;
+  }
+
+  async save(externalToken: InternalToken): Promise<void> {
+    const subscriptionDoc = doc(
+      this.subscriptionCollection,
+      externalToken.value
+    );
+    await setDoc(subscriptionDoc, {});
   }
 }

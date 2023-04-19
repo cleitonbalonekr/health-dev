@@ -1,5 +1,6 @@
 import { InternalToken } from '@/application/entities/internal-token';
 import { TokenGenerator } from '@/application/gateways/token-generator';
+import { SubscriptionRepository } from '@/application/repositories/subscription-repository';
 import { TokenRepository } from '@/application/repositories/token-repository';
 import {
   setupGetInternalToken,
@@ -10,16 +11,23 @@ describe('GetInternalToken', () => {
   let sut: GetInternalToken;
   let tokenGenerator: MockProxy<TokenGenerator>;
   let tokenRepository: MockProxy<TokenRepository>;
+  let subscriptionRepository: MockProxy<SubscriptionRepository>;
   const fakeToken = 'valid_token';
   beforeAll(() => {
     tokenGenerator = mock();
     tokenRepository = mock();
+    subscriptionRepository = mock();
   });
   beforeEach(() => {
     mockReset(tokenRepository);
     mockReset(tokenGenerator);
+    mockReset(subscriptionRepository);
     tokenGenerator.generate.mockResolvedValue(fakeToken);
-    sut = setupGetInternalToken(tokenGenerator, tokenRepository);
+    sut = setupGetInternalToken(
+      tokenGenerator,
+      tokenRepository,
+      subscriptionRepository
+    );
   });
 
   it('should call TokenGenerator.generate', async () => {
@@ -33,6 +41,14 @@ describe('GetInternalToken', () => {
     expect(tokenRepository.save).toBeCalledTimes(1);
 
     expect(tokenRepository.save).toBeCalledWith(new InternalToken(fakeToken));
+  });
+  it('should call SubscriptionRepository.save', async () => {
+    await sut();
+    expect(subscriptionRepository.save).toBeCalledTimes(1);
+
+    expect(subscriptionRepository.save).toBeCalledWith(
+      new InternalToken(fakeToken)
+    );
   });
 
   it('should return a token', async () => {
