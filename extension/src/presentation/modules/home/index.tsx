@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaCog } from 'react-icons/fa';
+import React, { useEffect, useRef, useState } from 'react';
+import Lottie from 'react-lottie';
+
+import { FaPlay as Play, FaStop as Stop } from 'react-icons/fa';
 import { POMODORO_MODE } from '@/application/entities/pomodoro';
 import { BookPomodoroAlarm, StopAlarm } from '@/application/use-cases/alarm';
 import {
@@ -12,9 +13,17 @@ import { AlarmType } from '@/application/entities/alarm';
 import { PomodoroViewModel } from '@/presentation/view-models/pomodoro-view-model';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import Container from '@/presentation/components/container';
-import NavigationHeader from '@/presentation/components/navigation-header';
-import BaseButton from '@/presentation/components/base-button';
 import usePomodoroTimer from './hooks/usePomodoroTimer';
+import time from './animations/time.json';
+export const LOTTIE_BASE_OPTIONS = {
+  loop: true,
+  autoplay: false,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
+};
+export const LOTTIE_HEIGHT = 200;
+export const LOTTIE_WIDTH = 100;
 
 export type Props = {
   StartPomodoro: StartPomodoro;
@@ -34,8 +43,7 @@ const Home: React.FC<Props> = ({
     usePomodoroTimer({
       stopPomodoroCallback: () => setHasActivePomodoro(false),
     });
-  const navigate = useNavigate();
-
+  const animationRef = useRef<any>(null)
   const [hasActivePomodoro, setHasActivePomodoro] = useState(false);
   const [pomodoroMode, setPomodoroMode] = useState<POMODORO_MODE>(
     POMODORO_MODE.FOCUS
@@ -51,12 +59,14 @@ const Home: React.FC<Props> = ({
       setLoading(true);
       const { endsAt, mode } = await GetPomodoro();
       if (endsAt) {
+      animationRef.current?.play()
         initPomodoroTimer(endsAt);
         setHasActivePomodoro(true);
       }
       setPomodoroMode(mode);
     } catch (error: any) {
       setHasActivePomodoro(false);
+      animationRef.current?.pause()
     } finally {
       setLoading(false);
     }
@@ -76,6 +86,8 @@ const Home: React.FC<Props> = ({
         booksAt: endsAt,
         description,
       });
+      animationRef.current?.play()
+      
       setPomodoroMode(mode);
       setHasActivePomodoro(true);
       initPomodoroTimer(endsAt);
@@ -102,32 +114,42 @@ const Home: React.FC<Props> = ({
     await stopAlarm({
       alarmType: AlarmType.POMODORO,
     });
+    animationRef.current?.stop()
   };
 
   return (
     <Container>
-      <NavigationHeader hideBackButton>
-        <FaCog size={18} color="white" onClick={() => navigate('settings')} />
-      </NavigationHeader>
       <main className="flex flex-1 flex-col items-center justify-center">
         <ConditionalView visible={loading}>
           <span>Loading...</span>
         </ConditionalView>
+
         <ConditionalView visible={!loading}>
-          <h2 className="font-bold text-lg text-rose-400">
+        <Lottie
+        ref={animationRef}
+        options={{
+          ...LOTTIE_BASE_OPTIONS,
+          animationData: time,
+        }}
+        height={LOTTIE_HEIGHT - 50}
+        width={LOTTIE_WIDTH + 50}
+      />
+          <h2 className="font-regular text-lg text-zinc-900">
             {PomodoroViewModel.isBreakTimeMode(pomodoroMode)
               ? 'DESCANSO'
-              : 'FOCO'}
+              : 'Mantenha o Foco'}
           </h2>
-          <h1 className="my-2 font-bold text-5xl">{getFormattedTimer()}</h1>
+          <h1 className="my-2 font-bold text-5xl text-zinc-900 mb-4">{getFormattedTimer()}</h1>
           {hasActivePomodoro ? (
-            <BaseButton onClick={handlerStopPomodoro}>
-              Stop Pomodoro{' '}
-            </BaseButton>
+            // <BaseButton onClick={handlerStopPomodoro}>
+            //   Stop Pomodoro{' '}
+            // </BaseButton>
+            <Stop size={54} onClick={handlerStopPomodoro}/>
           ) : (
-            <BaseButton onClick={handlerStartPomodoro}>
-              Start Pomodoro{' '}
-            </BaseButton>
+            <Play size={54} onClick={handlerStartPomodoro}/>
+            // <BaseButton onClick={handlerStartPomodoro}>
+            //   Start Pomodoro{' '}
+            // </BaseButton>
           )}
         </ConditionalView>
       </main>

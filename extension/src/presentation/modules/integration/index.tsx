@@ -1,6 +1,5 @@
 import { QRCodeCanvas } from 'qrcode.react';
 import Container from '@/presentation/components/container';
-import NavigationHeader from '@/presentation/components/navigation-header';
 import { GetInternalToken } from '@/application/use-cases/integration/get-internal-token';
 import { useEffect, useState } from 'react';
 import ConditionalView from '@/presentation/components/ConditionalView';
@@ -33,7 +32,6 @@ const Integration: React.FC<Props> = ({ getInternalToken }) => {
 
   return (
     <Container>
-      <NavigationHeader />
       <ConditionalView visible={!!token}>
         <main className="flex flex-1 flex-col items-center justify-center">
           <p className="text-center text-sm">

@@ -1,7 +1,7 @@
 {
   "name": "Affluens",
   "description": "Focus on yous tasks",
-  "version": "0.0.0.1",
+  "version": "0.0.0.2",
   "manifest_version": 3,
   "host_permissions": ["<all_urls>"],
   "action": {

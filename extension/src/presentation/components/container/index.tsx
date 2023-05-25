@@ -1,5 +1,5 @@
 import React from 'react';
-
+import NavigationBar from '../navigation-bar';
 interface Props {
   children: React.ReactNode;
   showHeader?: boolean;
@@ -7,8 +7,9 @@ interface Props {
 
 const Container: React.FC<Props> = ({ children, showHeader, ...rest }) => {
   return (
-    <main className=" flex flex-1 flex-col h-[320px] w-[240px] " {...rest}>
+    <main className="bg-teste flex flex-1 flex-col h-[440px] w-[280px] " {...rest}>
       {children}
+      <NavigationBar/>
     </main>
   );
 };

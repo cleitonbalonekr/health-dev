@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import Container from '@/presentation/components/container';
-import NavigationHeader from '@/presentation/components/navigation-header';
 import { FaChevronRight } from 'react-icons/fa';
 
 const PAGES = [
@@ -30,7 +29,6 @@ const Settings: React.FC = () => {
   };
   return (
     <Container>
-      <NavigationHeader />
       <main className="flex flex-1 flex-col px-2 items-center justify-center">
         {PAGES.map((page, index) => (
           <div

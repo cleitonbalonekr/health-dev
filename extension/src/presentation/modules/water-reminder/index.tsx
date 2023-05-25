@@ -9,7 +9,6 @@ import { GetWaterQuantityDay } from '@/application/use-cases/water-reminder/get-
 import BaseButton from '@/presentation/components/base-button';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import Container from '@/presentation/components/container';
-import NavigationHeader from '@/presentation/components/navigation-header';
 import React, { useEffect, useState } from 'react';
 
 interface Props {
@@ -82,7 +81,6 @@ const WaterReminder: React.FC<Props> = ({
 
   return (
     <Container>
-      <NavigationHeader />
       <main className="p-2 flex flex-1 flex-col">
         <p className="text-xs mb-1">
           Calcule a quantidade de água diária necessária
