@@ -17,7 +17,7 @@ export class ChromeAlarmService implements AlarmService {
   }
 }
 
-chrome.alarms.onAlarm.addListener(async (alarm) => {
+chrome?.alarms?.onAlarm.addListener(async (alarm) => {
   const storedAlarm = await makeChromeStorageAlarmRepository().getByType(
     alarm.name as AlarmType
   );

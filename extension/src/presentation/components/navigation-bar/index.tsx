@@ -1,37 +1,42 @@
-import React from 'react';
-import {  FaCog, FaClock, FaGlassWhiskey } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback } from 'react'
+import { FaCog, FaClock, FaGlassWhiskey } from 'react-icons/fa'
+import { IoIosAlbums} from 'react-icons/io'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-interface Props {
-  hideBackButton?: boolean;
-  children?: React.ReactNode;
+const BUTTON_COLOR = {
+  active: '#5454C2',
+  inactive: '#545068',
 }
 
-const NavigationHeader: React.FC<Props> = ({  }) => {
-  const navigate = useNavigate();
-
-  const handleNavigateTo= (to:string) => {
-    navigate(to)
-  };
+const NavigationHeader: React.FC = () => {
+  const navigate = useNavigate()
+  const location = useLocation();
+  const handleNavigate = (path:string) => {
+    navigate(path)
+  }
+  const isActive = useCallback((path:string)=> {
+    return location.pathname === path ? BUTTON_COLOR.active : BUTTON_COLOR.inactive
+  },[location.pathname])
+  
   return (
-    <footer className="flex  flex-row justify-evenly pb-4 px-1">
-      <FaGlassWhiskey
-            size={24}
-            color="#545068"
-            onClick={()=>handleNavigateTo('')}
-      />    
+    <footer className="flex flex-row justify-evenly mt-2 py-4 px-1 rounded-lg   border-t">
+      <IoIosAlbums
+        size={24}
+        color={isActive('/settings/notes')}
+        onClick={()=>handleNavigate('/settings/notes')}
+      />
       <FaClock
-            size={24}
-            color="#545068"
-            onClick={()=>handleNavigateTo('/')}
-      />      
+        size={24}
+        color={isActive('/')}
+        onClick={()=>handleNavigate('/')}
+      />
       <FaCog
-            size={24}
-            color="#545068"
-            onClick={()=>handleNavigateTo('settings')}
+        size={24}
+        color={isActive('/settings')}
+        onClick={()=>handleNavigate('/settings')}
       />
     </footer>
-  );
-};
+  )
+}
 
-export default NavigationHeader;
+export default NavigationHeader
