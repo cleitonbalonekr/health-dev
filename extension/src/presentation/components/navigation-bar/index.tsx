@@ -19,11 +19,11 @@ const NavigationHeader: React.FC = () => {
   },[location.pathname])
   
   return (
-    <footer className="flex flex-row justify-evenly mt-2 py-4 px-1 rounded-lg   border-t">
+    <footer className="flex max-h-32 flex-row justify-evenly mt-2 py-4 px-1 rounded-lg border-t">
       <IoIosAlbums
         size={24}
-        color={isActive('/settings/notes')}
-        onClick={()=>handleNavigate('/settings/notes')}
+        color={isActive('/notes')}
+        onClick={()=>handleNavigate('/notes')}
       />
       <FaClock
         size={24}

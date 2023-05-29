@@ -1,5 +1,4 @@
 import { QRCodeCanvas } from 'qrcode.react';
-import Container from '@/presentation/components/container';
 import { GetInternalToken } from '@/application/use-cases/integration/get-internal-token';
 import { useEffect, useState } from 'react';
 import ConditionalView from '@/presentation/components/ConditionalView';
@@ -31,22 +30,25 @@ const Integration: React.FC<Props> = ({ getInternalToken }) => {
   };
 
   return (
-    <Container>
+    <>
       <ConditionalView visible={!!token}>
-        <main className="flex flex-1 flex-col items-center justify-center">
-          <p className="text-center text-sm">
-            Para receber notificações em seu celular, leia o QRCode abaixo e
-            siga as instruções
+        <main className="flex flex-col items-center justify-center ">
+          <p className="text-center text-sm text-white mb-3">
+          Leia o QRCode abaixo para integrar seu dispositivo
           </p>
-          <QRCodeCanvas value={`${REGISTRATION_URL}subscribe/${token}`} />,
+          <div className="flex items-center justify-center bg-slate-50 rounded-lg p-4">
+            <QRCodeCanvas value={`${REGISTRATION_URL}subscribe/${token}`} />
+          </div>
         </main>
       </ConditionalView>
       <ConditionalView visible={!token}>
-        {loading
-          ? 'Carregando Token para integração'
-          : 'Falha ao obter token para integração'}
+        <span className='text-center text-white'>
+          {loading
+            ? 'Carregando Token para integração'
+            : 'Falha ao obter token para integração'}
+        </span>
       </ConditionalView>
-    </Container>
+      </>
   );
 };
 
