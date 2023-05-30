@@ -1,18 +1,18 @@
-import React from 'react';
+import React from 'react'
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const BaseButton: React.FC<Props> = ({ children, ...rest }) => {
   return (
     <button
       {...rest}
-      className={`rounded-md bg-rose-600 hover:bg-rose-700 py-3 px-6 text-white ${rest.className}`}
+      className={`text-white font-medium py-2 px-4 rounded-lg bg-buttonPrimary hover:opacity-70 ${rest.className}`}
     >
       {children}
     </button>
-  );
-};
+  )
+}
 
-export default BaseButton;
+export default BaseButton
