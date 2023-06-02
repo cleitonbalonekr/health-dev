@@ -7,6 +7,7 @@ import {
 import { CalculeWaterQuantityDay } from '@/application/use-cases/water-reminder';
 import { GetWaterQuantityDay } from '@/application/use-cases/water-reminder/get-water-quantity-day';
 import BaseButton from '@/presentation/components/base-button';
+import BaseInput from '@/presentation/components/base-input';
 import ConditionalView from '@/presentation/components/ConditionalView';
 import Container from '@/presentation/components/container';
 import React, { useEffect, useState } from 'react';
@@ -82,12 +83,12 @@ const WaterReminder: React.FC<Props> = ({
   return (
     <Container>
       <main className="p-2 flex flex-1 flex-col">
-        <p className="text-xs mb-1">
+        <p className="text-sm mb-1 text-white">
           Calcule a quantidade de água diária necessária
         </p>
         <form className="flex flex-row justify-between items-center">
-          <input
-            className="rounded-md bg-slate-200 text-black py-3 px-4 w-2/5"
+          <BaseInput
+            className="flex flex-1 rounded-md bg-slate-200 text-black py-3 px-4 w-2/5"
             type="number"
             name="wight"
             placeholder="Peso"
@@ -96,7 +97,7 @@ const WaterReminder: React.FC<Props> = ({
           />
           <BaseButton
             type="button"
-            className="flex flex-1 items-center justify-center ml-1"
+            className="ml-1 py-3"
             onClick={calculateWater}
           >
             Calcular
