@@ -82,7 +82,7 @@ const WaterReminder: React.FC<Props> = ({
 
   return (
     <Container>
-      <main className="p-2 flex flex-1 flex-col">
+      <main className="p-2 flex flex-1 flex-col mt-8">
         <p className="text-sm mb-1 text-white">
           Calcule a quantidade de água diária necessária
         </p>
@@ -104,13 +104,13 @@ const WaterReminder: React.FC<Props> = ({
           </BaseButton>
         </form>
         <ConditionalView visible={!!waterGoal}>
-          <h1 className="text-center font-bold text-emerald-500 my-4">
+          <h1 className="text-center font-bold text-white my-4">
             Você precisa beber {waterGoal}l de água por dia.
           </h1>
           {!hasWaterAlarm ? (
             <BaseButton
               onClick={startAlarm}
-              className="hover:bg-emerald-600 my-1 bg-emerald-400"
+              className="my-1"
             >
               Lembrar de beber água
             </BaseButton>
