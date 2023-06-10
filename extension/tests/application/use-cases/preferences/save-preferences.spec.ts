@@ -1,7 +1,7 @@
 import { Preferences } from '@/application/entities/preferences';
 import { PreferencesRepository } from '@/application/repositories/preferences-repository';
 import {
-  setupCalculeSavePreferences,
+  setupSavePreferences,
   SavePreferences,
 } from '@/application/use-cases/preferences';
 import { mock, MockProxy, mockReset } from 'vitest-mock-extended';
@@ -20,7 +20,7 @@ describe('SavePreferences', () => {
   });
   beforeEach(() => {
     mockReset(preferencesRepository);
-    sut = setupCalculeSavePreferences(preferencesRepository);
+    sut = setupSavePreferences(preferencesRepository);
   });
 
   it('should call PreferencesRepository.save with correct values', async () => {

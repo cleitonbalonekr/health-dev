@@ -15,7 +15,7 @@ type Setup = (
   preferencesRepository: PreferencesRepository
 ) => SavePreferences;
 
-export const setupCalculeSavePreferences: Setup =
+export const setupSavePreferences: Setup =
   (preferencesRepository) =>
   async (preferences) => {
     await preferencesRepository.save(new Preferences(preferences));

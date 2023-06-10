@@ -2,14 +2,16 @@ import React from 'react'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   children?: React.ReactNode
+  label?: string
 }
 
-const BaseInput: React.FC<Props> = ({ children, ...rest }) => {
+const BaseInput: React.FC<Props> = ({ children,label, ...rest }) => {
   return (
-    <div className="m-2 flex flex-row items-center justify-center ">
+    <div className="m-2 flex flex-col">
+      <label className="text-white">{label}</label>
       <input
-        className={`p-2 flex-1 rounded cursor-pointer text-gray-700 border-none ${rest.className}`}
         {...rest}
+        className={`p-2 flex flex-1 rounded cursor-pointer text-gray-700 border-none ${rest.className}`}
       />
       {children}
     </div>

@@ -15,6 +15,7 @@ import ConditionalView from '@/presentation/components/ConditionalView'
 import Container from '@/presentation/components/container'
 import usePomodoroTimer from './hooks/usePomodoroTimer'
 import time from './animations/time.json'
+import { LoadPreferences } from '@/application/use-cases/preferences'
 export const LOTTIE_BASE_OPTIONS = {
   loop: true,
   autoplay: false,
@@ -30,7 +31,8 @@ export type Props = {
   GetPomodoro: GetPomodoro
   stopPomodoro: StopPomodoro
   bookPomodoroAlarm: BookPomodoroAlarm
-  stopAlarm: StopAlarm
+  stopAlarm: StopAlarm,
+  loadPreferences: LoadPreferences
 }
 const Home: React.FC<Props> = ({
   StartPomodoro,
@@ -38,6 +40,7 @@ const Home: React.FC<Props> = ({
   stopPomodoro,
   bookPomodoroAlarm,
   stopAlarm,
+  loadPreferences
 }: Props) => {
   const { getFormattedTimer, initPomodoroTimer, stopPomodoroTimer } =
     usePomodoroTimer({
@@ -74,10 +77,11 @@ const Home: React.FC<Props> = ({
 
   const handlerStartPomodoro = async () => {
     try {
-      const pomodoroParams = {
-        breakTimeInMinutes: 5,
-        timeToFocusInMinutes: 25,
-      }
+      const preferences = await loadPreferences()
+        const pomodoroParams = {
+          breakTimeInMinutes: preferences?.pomodoro?.timeToRest || 5,
+          timeToFocusInMinutes: preferences?.pomodoro?.timeToFocus|| 25,
+        }
       const { endsAt, mode } = await StartPomodoro(pomodoroParams)
       const { title, description } =
         getPomodoroNotificationTitleAndDescription(mode)

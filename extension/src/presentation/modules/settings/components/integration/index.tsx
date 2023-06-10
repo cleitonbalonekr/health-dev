@@ -32,7 +32,7 @@ const Integration: React.FC<Props> = ({ getInternalToken }) => {
   return (
     <>
       <ConditionalView visible={!!token}>
-        <main className="flex flex-col items-center justify-center  ">
+        <main className="flex flex-col items-center justify-center">
           <p className="text-center text-xs text-white my-1 px-2">
             Leia o QRCode abaixo para integrar seu dispositivo
           </p>

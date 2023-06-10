@@ -1,7 +1,7 @@
-import { Preferences } from "@/application/entities/preferences";
+import {  PreferencesProps } from "@/application/entities/preferences";
 import { PreferencesRepository } from "@/application/repositories/preferences-repository";
 
-type Output = Preferences
+type Output = PreferencesProps|null
 
 export type LoadPreferences = () => Promise<Output>;
 
@@ -9,9 +9,9 @@ type Setup = (
   preferencesRepository: PreferencesRepository
 ) => LoadPreferences;
 
-export const setupCalculeLoadPreferences: Setup =
+export const setupLoadPreferences: Setup =
   (preferencesRepository) =>
   async () => {
     const response = await preferencesRepository.load();
-    return response
+    return response?.value ?? null;
   };

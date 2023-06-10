@@ -86,9 +86,9 @@ const WaterReminder: React.FC<Props> = ({
         <p className="text-sm mb-1 text-white">
           Calcule a quantidade de água diária necessária
         </p>
-        <form className="flex flex-row justify-between items-center">
+        <form className="flex flex-row items-center">
           <BaseInput
-            className="flex flex-1 rounded-md bg-slate-200 text-black py-3 px-4 w-2/5"
+            className="flex flex-1 rounded-md bg-slate-200 text-black py-3 px-4 w-4/5"
             type="number"
             name="wight"
             placeholder="Peso"

@@ -8,6 +8,7 @@ import {
   makeStartPomodoro,
   makeStopPomodoro,
 } from '@/main/factories/use-cases/pomodoro';
+import { makeLoadPreferences } from '@/main/factories/use-cases/preferences';
 
 export const makeHome = () => {
   return (
@@ -17,6 +18,7 @@ export const makeHome = () => {
       stopPomodoro={makeStopPomodoro()}
       bookPomodoroAlarm={makeBookPomodoroAlarm()}
       stopAlarm={makeStopAlarm()}
+      loadPreferences={makeLoadPreferences()}
     />
   );
 };
