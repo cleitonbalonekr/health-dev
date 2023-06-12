@@ -63,7 +63,7 @@ const Settings: React.FC<Props> = ({ getInternalToken,savePreferences,loadPrefer
   return (
     <Container>
       <main className="flex flex-1 flex-col mt-3 px-2 ">
-        <header className="flex flex-row justify-center align-center">
+        <header className="flex flex-row  align-center">
         <BaseInput 
           placeholder="Insira o tempo de foco"
           label="Foco (minutos)"

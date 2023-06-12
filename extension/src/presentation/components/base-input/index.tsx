@@ -7,7 +7,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const BaseInput: React.FC<Props> = ({ children,label, ...rest }) => {
   return (
-    <div className="m-2 flex flex-col">
+    <div className="m-2 flex flex-1 flex-col">
       <label className="text-white">{label}</label>
       <input
         {...rest}
